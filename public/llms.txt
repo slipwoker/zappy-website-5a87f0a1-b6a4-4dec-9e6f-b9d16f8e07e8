@@ -7,33 +7,33 @@
 ## Pages
 
 ### בית
-https://-5a87f0a1.zappy5.app
+https://example.com
 Pardes Investigations is a licensed private investigation and business intelligence firm owned by Yair Bloom, a fully licensed private investigator authorized b
 
 ### אודות המשרד
-https://-5a87f0a1.zappy5.app/about
+https://example.com/about
 אודות המשרד | פרד&quot;ס חקירות. חקירות כלכליות
 
 ### שירותים
-https://-5a87f0a1.zappy5.app/services
+https://example.com/services
 שירותים | פרד&quot;ס חקירות. חקירות כלכליות
 
 ### צור קשר
-https://-5a87f0a1.zappy5.app/contact
+https://example.com/contact
 צור קשר | פרד&quot;ס חקירות. חקירות כלכליות
 
 ## Legal & Policy
 
 ### Privacy Policy
-https://-5a87f0a1.zappy5.app/privacy
+https://example.com/privacy
 Information about how user data is collected, stored, and protected.
 
 ### Terms & Conditions
-https://-5a87f0a1.zappy5.app/terms
+https://example.com/terms
 Legal terms describing service usage, rights, and policies.
 
 ### Accessibility Statement
-https://-5a87f0a1.zappy5.app/accessibility
+https://example.com/accessibility
 Information about WCAG compliance and accessibility features.
 
 ---
@@ -43,8 +43,8 @@ Information about WCAG compliance and accessibility features.
 - (No contact details configured yet.)
 
 ### Contact form
-- URL: https://-5a87f0a1.zappy5.app/contact
-- Endpoint: https://-5a87f0a1.zappy5.app/api/email/contact-form
+- URL: https://example.com/contact
+- Endpoint: https://example.com/api/email/contact-form
 - Method: POST
 - Content-Type: application/json
 - Fields:
@@ -90,6 +90,6 @@ Private Investigation & Business Intelligence
 
 # Machine-readable feeds
 
-- Sitemap (XML): https://-5a87f0a1.zappy5.app/sitemap.xml
-- Robots: https://-5a87f0a1.zappy5.app/robots.txt
-- Flattened page text (for LLMs): https://-5a87f0a1.zappy5.app/llms-full.txt
+- Sitemap (XML): https://example.com/sitemap.xml
+- Robots: https://example.com/robots.txt
+- Flattened page text (for LLMs): https://example.com/llms-full.txt
