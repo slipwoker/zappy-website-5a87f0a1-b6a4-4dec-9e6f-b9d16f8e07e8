@@ -90,7 +90,6 @@ Description: Pardes Investigations is a licensed private investigation and busin
 ### יצירת קשר
 - info@prdsbi.com
 - +972-543975210
-- [business_address]
 
 ### שעות פעילות
 - יום ראשון 09:00 - 17:00
@@ -551,7 +550,6 @@ Description: אודות המשרד | פרד&quot;ס חקירות. חקירות �
 ### יצירת קשר
 - info@prdsbi.com
 - +972-543975210
-- [business_address]
 
 ### שעות פעילות
 - יום ראשון 09:00 - 17:00
@@ -752,7 +750,6 @@ OSINT   ניתוח פיננסי   מיפוי רשתות
 ### יצירת קשר
 - info@prdsbi.com
 - +972-543975210
-- [business_address]
 
 ### שעות פעילות
 - יום ראשון 09:00 - 17:00
@@ -1177,7 +1174,6 @@ WhatsApp
 ### יצירת קשר
 - info@prdsbi.com
 - +972-543975210
-- [business_address]
 
 ### שעות פעילות
 - יום ראשון 09:00 - 17:00
@@ -1360,7 +1356,6 @@ Description: מדיניות הפרטיות שלנו - כיצד אנו אוספי
 ### יצירת קשר
 - info@prdsbi.com
 - +972-543975210
-- [business_address]
 
 ### שעות פעילות
 - יום ראשון 09:00 - 17:00
@@ -1552,7 +1547,6 @@ Description: הצהרת הנגישות שלנו - מחויבותנו לנגיש�
 ### יצירת קשר
 - info@prdsbi.com
 - +972-543975210
-- [business_address]
 
 ### שעות פעילות
 - יום ראשון 09:00 - 17:00
@@ -1763,7 +1757,6 @@ Description: תנאי השימוש באתר - הזכויות והחובות של
 ### יצירת קשר
 - info@prdsbi.com
 - +972-543975210
-- [business_address]
 
 ### שעות פעילות
 - יום ראשון 09:00 - 17:00
@@ -2237,7 +2230,6 @@ Description: פרד"ס חקירות - מקרי בוחן לדוגמה
 ### יצירת קשר
 - info@prdsbi.com
 - +972-543975210
-- [business_address]
 
 ### שעות פעילות
 - יום ראשון 09:00 - 17:00
