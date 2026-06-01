@@ -44,7 +44,9 @@ Information about WCAG compliance and accessibility features.
 
 ## How to Contact Us
 
-- (No contact details configured yet.)
+- Email: info@prdsbi.com
+- Phone: +972-543975210
+- Phone (tel): tel:+972543975210
 
 ### Contact form
 - URL: https://example.com/contact
