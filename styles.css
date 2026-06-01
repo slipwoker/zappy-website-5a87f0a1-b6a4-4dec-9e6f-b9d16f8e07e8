@@ -9189,10 +9189,6 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
   background: rgba(200, 169, 107, 0.18);
   margin: 0 32px;
 }
-
-.case-examples-services-section .case-row-title {
-  display: none !important;
-}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
