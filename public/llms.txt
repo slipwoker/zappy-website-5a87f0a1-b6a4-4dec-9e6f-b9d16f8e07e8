@@ -22,6 +22,10 @@ https://example.com/services
 https://example.com/contact
 צור קשר | פרד&quot;ס חקירות. חקירות כלכליות
 
+### מקרי בוחן לדוגמה
+https://example.com/case-examples
+פרד"ס חקירות - מקרי בוחן לדוגמה
+
 ## Legal & Policy
 
 ### Privacy Policy

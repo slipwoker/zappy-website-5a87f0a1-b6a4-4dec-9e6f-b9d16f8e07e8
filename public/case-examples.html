@@ -1,0 +1,2260 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>מקרי בוחן לדוגמה</title>
+    <meta name="description" content="פרד"ס חקירות - מקרי בוחן לדוגמה">
+    <meta name="keywords" content="">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: '5a87f0a1-b6a4-4dec-9e6f-b9d16f8e07e8',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <meta property="og:title" content="מקרי בוחן לדוגמה">
+    <meta property="og:description" content="פרד"ס חקירות - מקרי בוחן לדוגמה">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="מקרי בוחן לדוגמה">
+    <meta name="twitter:description" content="פרד"ס חקירות - מקרי בוחן לדוגמה">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <style> .skip-link { position: absolute; top: 0; left: 0; transform: translateY(-200%); padding: 12px 18px; background: var(--bg-dark, #1a1a1a); color: var(--text-light, #fff); font-weight: 600; border-radius: 0 0 8px 0; z-index: 10000; } .skip-link:focus { transform: none; outline: 2px solid var(--ring, #fff); outline-offset: 2px; } :focus-visible { outline: 2px solid var(--ring, currentColor); outline-offset: 3px; } </style> <!-- Favicons --> <link rel="icon" type="image/x-icon" href="/assets/favicon.ico"> <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png"> <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png"> <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png"> <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png"> <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png"> <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"> <!-- Cookie Consent --> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css"> <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script> <!-- Mickidum Accessibility Toolbar --> <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script> 
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="article">
+    
+    
+    
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:alt" content="מקרי בוחן לדוגמה">
+    <meta property="og:locale" content="en_US">
+    <!-- Twitter Card Meta Tags -->
+    
+    
+    
+    
+    <meta name="twitter:image:alt" content="מקרי בוחן לדוגמה"><style id="zappy-ai-page-styles">.case-examples-hero-section {
+  position: relative;
+  background-color: #162435;
+  background-image:
+    radial-gradient(ellipse at 80% 20%, rgba(200, 169, 107, 0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 10% 80%, rgba(31, 58, 95, 0.4) 0%, transparent 60%),
+    linear-gradient(160deg, #1a2c42 0%, #162435 50%, #111d2e 100%);
+  color: var(--text-light);
+  direction: rtl;
+  overflow: visible;
+  padding: 140px 0 80px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+/* Shield emblem decoration */
+.case-examples-hero-section .ceh-shield-emblem {
+  position: absolute;
+  inset-inline-start: 3%;
+  top: 8%;
+  width: 220px;
+  height: 260px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 1;
+}
+
+/* Container */
+.case-examples-hero-section .ceh-container {
+  position: relative;
+  z-index: 10;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  width: 100%;
+}
+
+/* Grid layout */
+.case-examples-hero-section .ceh-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  direction: rtl;
+}
+
+/* ── TEXT BLOCK ── */
+.case-examples-hero-section .ceh-text-block {
+  position: relative;
+  z-index: 10;
+}
+
+.case-examples-hero-section .ceh-text-card {
+  background: rgba(247, 246, 243, 0.055);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(200, 169, 107, 0.22);
+  border-radius: 6px;
+  padding: 44px 40px 40px;
+  position: relative;
+  box-shadow: 0 24px 64px rgba(17, 29, 56, 0.35), inset 0 1px 0 rgba(200, 169, 107, 0.12);
+}
+
+/* Label */
+.case-examples-hero-section .ceh-label-row {
+  margin-bottom: 18px;
+}
+
+.case-examples-hero-section .ceh-label {
+  font-family: Inter, Assistant, Arial, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: inline-block;
+}
+
+/* H1 */
+.case-examples-hero-section .ceh-h1 {
+  font-family: 'Cormorant Garamond', 'Noto Serif Hebrew', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--text-light);
+  margin: 0 0 20px;
+  text-align: right;
+}
+
+/* Accent line under H1 */
+.case-examples-hero-section .ceh-accent-line {
+  width: 56px;
+  height: 2px;
+  background: linear-gradient(90deg, #C8A96B 0%, #E8D08A 50%, #C8A96B 100%);
+  margin-bottom: 22px;
+  margin-inline-start: 0;
+  border-radius: 1px;
+}
+
+/* Subtitle (H3) */
+.case-examples-hero-section .ceh-subtitle {
+  font-family: Inter, Assistant, Arial, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: rgba(247, 246, 243, 0.78);
+  margin: 0 0 28px;
+  text-align: right;
+}
+
+/* Trust Row */
+.case-examples-hero-section .ceh-trust-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.case-examples-hero-section .ceh-trust-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+  padding: 0 16px 0 0;
+}
+
+.case-examples-hero-section .ceh-trust-item:first-child {
+  padding-inline-end: 16px;
+  padding-inline-start: 0;
+}
+
+.case-examples-hero-section .ceh-trust-item:last-child {
+  padding-inline-start: 16px;
+  padding-inline-end: 0;
+}
+
+.case-examples-hero-section .ceh-trust-icon {
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.case-examples-hero-section .ceh-trust-text {
+  font-family: Inter, Assistant, Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(247, 246, 243, 0.7);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.case-examples-hero-section .ceh-trust-divider {
+  width: 1px;
+  height: 18px;
+  background: rgba(200, 169, 107, 0.4);
+  flex-shrink: 0;
+}
+
+/* Brass rule before CTA */
+.case-examples-hero-section .ceh-brass-rule {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(200, 169, 107, 0.5) 0%, rgba(200, 169, 107, 0.08) 100%);
+  margin-bottom: 28px;
+}
+
+/* CTA Row */
+.case-examples-hero-section .ceh-cta-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Primary Button */
+.case-examples-hero-section .ceh-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--accent);
+  color: #162435;
+  font-family: Inter, Assistant, Arial, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 14px 28px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 28px rgba(200, 169, 107, 0.28);
+  border: none;
+  flex-direction: row;
+}
+
+.case-examples-hero-section .ceh-btn-primary:hover {
+  background: #d9b97b;
+  box-shadow: 0 12px 36px rgba(200, 169, 107, 0.42);
+  transform: translateY(-2px);
+  color: #162435;
+}
+
+/* ── IMAGE BLOCK ── */
+.case-examples-hero-section .ceh-image-block {
+  position: relative;
+  z-index: 5;
+}
+
+.case-examples-hero-section .ceh-image-frame {
+  position: relative;
+  border: 1px solid rgba(200, 169, 107, 0.28);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(17, 29, 56, 0.45);
+  aspect-ratio: 5/6;
+  max-height: 520px;
+}
+
+.case-examples-hero-section .ceh-image-inner {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.case-examples-hero-section .ceh-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.case-examples-hero-section .ceh-image-frame:hover .ceh-hero-img {
+  transform: scale(1.03);
+}
+
+/* Image overlay gradient */
+.case-examples-hero-section .ceh-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(22, 36, 53, 0.15) 0%,
+    rgba(22, 36, 53, 0.05) 40%,
+    rgba(22, 36, 53, 0.45) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Corner accents */
+.case-examples-hero-section .ceh-corner-accent {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.case-examples-hero-section .ceh-corner-tl {
+  top: -1px;
+  inset-inline-end: -1px;
+  border-top: 2px solid var(--accent);
+  border-inline-end: 2px solid var(--accent);
+  border-radius: 0 6px 0 0;
+}
+
+.case-examples-hero-section .ceh-corner-br {
+  bottom: -1px;
+  inset-inline-start: -1px;
+  border-bottom: 2px solid var(--accent);
+  border-inline-start: 2px solid var(--accent);
+  border-radius: 0 0 0 6px;
+}
+
+/* Bottom fade transition */
+.case-examples-hero-section .ceh-bottom-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(180deg, transparent 0%, rgba(22, 36, 53, 0.6) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .case-examples-hero-section .ceh-grid {
+    gap: 36px;
+  }
+
+  .case-examples-hero-section .ceh-h1 {
+    font-size: 2.4rem;
+  }
+
+  .case-examples-hero-section .ceh-text-card {
+    padding: 36px 32px 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .case-examples-hero-section {
+    padding: 100px 0 60px;
+    min-height: auto;
+    align-items: flex-start;
+  }
+
+  .case-examples-hero-section .ceh-container {
+    padding: 0 16px;
+  }
+
+  .case-examples-hero-section .ceh-grid {
+    grid-template-columns: 1fr !important;
+    gap: 28px;
+    direction: rtl;
+  }
+
+  .case-examples-hero-section .ceh-text-block {
+    order: 1;
+  }
+
+  .case-examples-hero-section .ceh-image-block {
+    order: 2;
+  }
+
+  .case-examples-hero-section .ceh-text-card {
+    padding: 28px 20px 24px;
+  }
+
+  .case-examples-hero-section .ceh-h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .case-examples-hero-section .ceh-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .case-examples-hero-section .ceh-image-frame {
+    aspect-ratio: 16/10;
+    max-height: 280px;
+  }
+
+  .case-examples-hero-section .ceh-shield-emblem {
+    width: 140px;
+    height: 165px;
+    top: 4%;
+    inset-inline-start: 1%;
+    opacity: 0.6;
+  }
+
+  .case-examples-hero-section .ceh-trust-row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .case-examples-hero-section .ceh-trust-item:first-child {
+    padding-inline-end: 0;
+  }
+
+  .case-examples-hero-section .ceh-trust-item:last-child {
+    padding-inline-start: 0;
+  }
+
+  .case-examples-hero-section .ceh-trust-divider {
+    display: none;
+  }
+}
+/* ZAPPY_POSTGEN_GUARD_HERO_FONT_CAP:case-examples-hero */
+.hero h1, .hero-section h1, [class*="hero-"] h1, [class~="hero"] h1, .hero .hero-title, .hero-title { font-size: 48px !important; line-height: 1.2 !important; }
+@media (max-width: 1024px) {
+  .hero h1, .hero-section h1, [class*="hero-"] h1, [class~="hero"] h1, .hero .hero-title, .hero-title { font-size: 36px !important; }
+}
+@media (max-width: 768px) {
+  .hero h1, .hero-section h1, [class*="hero-"] h1, [class~="hero"] h1, .hero .hero-title, .hero-title { font-size: 28px !important; }
+}
+
+
+.case-examples-about-section {
+  background: #F5F5F2;
+  color: var(--text-dark);
+  padding: 120px 0 80px;
+  position: relative;
+  overflow: visible;
+  direction: rtl;
+}
+
+.case-examples-about-section .cea-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ── Intro Row ── */
+.case-examples-about-section .cea-intro-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 60px;
+  margin-bottom: 64px;
+  direction: rtl;
+}
+
+.case-examples-about-section .cea-heading-block {
+  flex: 0 0 260px;
+  min-width: 220px;
+}
+
+.case-examples-about-section .cea-main-heading {
+  font-family: 'Cormorant Garamond', 'Noto Serif Hebrew', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-dark);
+  margin: 0 0 16px 0;
+  text-align: right;
+}
+
+.case-examples-about-section .cea-heading-rule {
+  width: 60px;
+  height: 2px;
+  background: var(--accent);
+  margin-inline-start: 0;
+  margin-inline-end: auto;
+  display: block;
+}
+
+.case-examples-about-section .cea-intro-text-block {
+  flex: 1 1 0;
+}
+
+.case-examples-about-section .cea-intro-text-block p {
+  font-family: 'Inter', 'Assistant', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-dark);
+  text-align: right;
+  margin: 0;
+  padding-top: 6px;
+}
+
+/* ── Dossier Cards Grid ── */
+.case-examples-about-section .cea-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  direction: rtl;
+  margin-bottom: 80px;
+}
+
+/* ── Individual Dossier Card ── */
+.case-examples-about-section .cea-dossier-card {
+  background: #FFFFFF;
+  border: 1px solid #DDD8CF;
+  border-radius: 6px;
+  box-shadow: none;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.case-examples-about-section .cea-dossier-card:hover {
+  box-shadow: 0 12px 40px rgba(26, 39, 68, 0.13);
+  transform: translateY(-4px);
+}
+
+/* Brass corner marker — top-right corner accent */
+.case-examples-about-section .cea-brass-corner {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.case-examples-about-section .cea-card-inner {
+  padding: 2rem 1.75rem 1.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Card number label */
+.case-examples-about-section .cea-card-label {
+  font-family: 'Cormorant Garamond', 'Noto Serif Hebrew', serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  text-align: right;
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* Card heading */
+.case-examples-about-section .cea-card-heading {
+  font-family: 'Cormorant Garamond', 'Noto Serif Hebrew', serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--primary);
+  text-align: right;
+  margin: 0 0 14px 0;
+}
+
+/* Card paragraph */
+.case-examples-about-section .cea-card-inner p {
+  font-family: 'Inter', 'Assistant', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-dark);
+  text-align: right;
+  margin: 0;
+}
+
+/* ── Responsive: Tablet ── */
+@media (max-width: 1024px) {
+  .case-examples-about-section .cea-intro-row {
+    gap: 36px;
+  }
+  .case-examples-about-section .cea-heading-block {
+    flex: 0 0 200px;
+    min-width: 180px;
+  }
+  .case-examples-about-section .cea-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Responsive: Mobile ── */
+@media (max-width: 768px) {
+  .case-examples-about-section {
+    padding: 100px 0 60px;
+  }
+  .case-examples-about-section .cea-container {
+    padding: 0 16px;
+  }
+  .case-examples-about-section .cea-intro-row {
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .case-examples-about-section .cea-heading-block {
+    flex: none;
+    width: 100%;
+  }
+  .case-examples-about-section .cea-main-heading {
+    font-size: 1.75rem;
+  }
+  .case-examples-about-section .cea-intro-text-block {
+    width: 100%;
+  }
+  .case-examples-about-section .cea-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+  .case-examples-about-section .cea-card-inner {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+.case-examples-services-section {
+  background: #F5F5F2;
+  color: var(--text-dark);
+  padding: 100px 24px 80px;
+  position: relative;
+  direction: rtl;
+  font-family: Inter, Assistant, Arial, sans-serif;
+}
+
+.case-examples-services-section .case-examples-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ─── Section Header ─── */
+.case-examples-services-section .case-section-header {
+  margin-bottom: 56px;
+  text-align: right;
+}
+
+.case-examples-services-section .case-section-label {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-family: Inter, Assistant, Arial, sans-serif;
+}
+
+.case-examples-services-section .case-section-title {
+  font-family: 'Cormorant Garamond', 'Noto Serif Hebrew', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-dark);
+  margin: 0 0 16px 0;
+  letter-spacing: -0.01em;
+}
+
+.case-examples-services-section .case-accent-rule {
+  width: 60px;
+  height: 2px;
+  background: var(--accent);
+  margin-inline-start: 0;
+}
+
+/* ─── Dossier Panel ─── */
+.case-examples-services-section .case-dossier-panel {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  box-shadow: 0 4px 24px rgba(26,39,68,0.09);
+  padding: 0;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Brass vertical line on the right edge of the panel */
+.case-examples-services-section .case-brass-line {
+  position: absolute;
+  inset-inline-end: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--accent) 0%, rgba(200,169,107,0.3) 100%);
+  z-index: 2;
+}
+
+/* Case number marker */
+.case-examples-services-section .case-number-marker {
+  position: absolute;
+  inset-inline-end: 20px;
+  top: 20px;
+  font-family: 'Cormorant Garamond', 'Noto Serif Hebrew', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: rgba(200,169,107,0.18);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ─── Panel Inner: 2-column grid ─── */
+.case-examples-services-section .case-panel-inner {
+  display: grid;
+  grid-template-columns: 1fr 2.2fr;
+  gap: 0;
+  direction: rtl;
+}
+
+/* Right column: overview */
+.case-examples-services-section .case-overview-col {
+  padding: 40px 40px 40px 28px;
+  border-inline-start: 1px solid var(--border-light);
+  background: #FAFAF8;
+  position: relative;
+  z-index: 3;
+}
+
+.case-examples-services-section .case-type-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: rgba(31,58,95,0.07);
+  border: 1px solid rgba(31,58,95,0.15);
+  border-radius: 3px;
+  padding: 4px 10px;
+  margin-bottom: 18px;
+  font-family: Inter, Assistant, Arial, sans-serif;
+}
+
+.case-examples-services-section .case-title {
+  font-family: 'Cormorant Garamond', 'Noto Serif Hebrew', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--text-dark);
+  margin: 0 0 16px 0;
+}
+
+.case-examples-services-section .case-summary {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--secondary);
+  margin: 0 0 24px 0;
+}
+
+.case-examples-services-section .case-meta-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.case-examples-services-section .case-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.case-examples-services-section .case-meta-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-family: Inter, Assistant, Arial, sans-serif;
+}
+
+.case-examples-services-section .case-meta-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  font-family: Inter, Assistant, Arial, sans-serif;
+}
+
+/* Left column: content rows */
+.case-examples-services-section .case-content-col {
+  padding: 40px 36px 36px 40px;
+  position: relative;
+  z-index: 3;
+}
+
+.case-examples-services-section .case-content-row {
+  padding: 20px 0;
+}
+
+.case-examples-services-section .case-content-row:first-child {
+  padding-top: 0;
+}
+
+.case-examples-services-section .case-row-title {
+  font-family: 'Cormorant Garamond', 'Noto Serif Hebrew', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--primary);
+  margin: 0 0 8px 0;
+  letter-spacing: 0.01em;
+}
+
+.case-examples-services-section .case-content-col p {
+  font-size: 0.9rem;
+  line-height: 1.78;
+  color: var(--secondary);
+  margin: 0;
+}
+
+.case-examples-services-section .case-divider {
+  border: none;
+  border-top: 1px solid var(--border-light);
+  margin: 0;
+}
+
+/* ─── Finding Callout ─── */
+.case-examples-services-section .case-finding-callout {
+  margin-top: 28px;
+  background: rgba(31,58,95,0.04);
+  border: 1px solid rgba(200,169,107,0.3);
+  border-radius: 4px;
+  padding: 20px 24px 20px 20px;
+  position: relative;
+}
+
+.case-examples-services-section .case-finding-accent {
+  position: absolute;
+  inset-inline-end: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 0 4px 4px 0;
+}
+
+.case-examples-services-section .case-finding-text {
+  font-family: 'Cormorant Garamond', 'Noto Serif Hebrew', serif;
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--text-dark);
+  margin: 0 0 10px 0;
+}
+
+.case-examples-services-section .case-finding-attribution {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  font-family: Inter, Assistant, Arial, sans-serif;
+}
+
+/* ─── CTA Strip ─── */
+.case-examples-services-section .case-cta-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: var(--primary);
+  border-radius: 6px;
+  padding: 32px 40px;
+  margin-top: 16px;
+}
+
+.case-examples-services-section .case-cta-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-light);
+  margin: 0;
+  max-width: 600px;
+}
+
+.case-examples-services-section .case-cta-btn {
+  background: var(--accent);
+  color: #1A2744;
+  padding: 14px 28px;
+  border-radius: 4px;
+  border: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+  font-family: Inter, Assistant, Arial, sans-serif;
+}
+
+.case-examples-services-section .case-cta-btn:hover {
+  background: #b8963e;
+  box-shadow: 0 8px 28px rgba(200,169,107,0.4);
+  color: #1A2744;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .case-examples-services-section .case-panel-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .case-examples-services-section .case-overview-col {
+    border-inline-start: none;
+    border-bottom: 1px solid var(--border-light);
+    padding: 32px 24px 24px 24px;
+    background: #F7F6F3;
+  }
+
+  .case-examples-services-section .case-content-col {
+    padding: 24px;
+  }
+
+  .case-examples-services-section .case-number-marker {
+    font-size: 2rem;
+    inset-inline-end: 16px;
+    top: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .case-examples-services-section {
+    padding: 100px 16px 60px;
+  }
+
+  .case-examples-services-section .case-section-header {
+    margin-bottom: 36px;
+  }
+
+  .case-examples-services-section .case-section-title {
+    font-size: 1.6rem;
+  }
+
+  .case-examples-services-section .case-dossier-panel {
+    margin-bottom: 28px;
+  }
+
+  .case-examples-services-section .case-overview-col {
+    padding: 28px 20px 20px 20px;
+  }
+
+  .case-examples-services-section .case-content-col {
+    padding: 20px 16px;
+  }
+
+  .case-examples-services-section .case-title {
+    font-size: 1.1rem;
+  }
+
+  .case-examples-services-section .case-cta-strip {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 20px;
+    gap: 16px;
+  }
+
+  .case-examples-services-section .case-cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .case-examples-services-section .case-finding-callout {
+    padding: 16px 18px 16px 14px;
+  }
+
+  .case-examples-services-section .case-content-row {
+    padding: 16px 0;
+  }
+}
+
+.case-examples-services-section {
+  direction: rtl;
+  position: relative;
+  overflow: visible;
+  background-color: #111D38;
+  background-image: linear-gradient(180deg, #1A2744 0%, #111D38 100%);
+  color: var(--text-light);
+  padding: 80px 24px 100px;
+}
+
+.ces-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ces-report-panel {
+  border: 1px solid var(--border-dark);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.03);
+  padding: 48px 48px 52px;
+  position: relative;
+}
+
+.ces-panel-header {
+  margin-bottom: 40px;
+}
+
+.ces-case-meta {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.ces-case-number {
+  font-family: 'Cormorant Garamond', 'Noto Serif Hebrew', serif;
+  font-size: 4.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.85;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.ces-header-divider {
+  width: 1px;
+  background: var(--border-dark);
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+.ces-header-text {
+  flex: 1;
+}
+
+.ces-label {
+  display: block;
+  font-family: 'Inter', 'Assistant', Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.ces-label--light {
+  color: var(--accent);
+}
+
+.ces-title {
+  font-family: 'Cormorant Garamond', 'Noto Serif Hebrew', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-light);
+  margin: 0 0 16px 0;
+  letter-spacing: -0.01em;
+}
+
+.ces-brass-rule {
+  width: 60px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 1px;
+}
+
+.ces-panel-body {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 48px;
+  align-items: start;
+  direction: rtl;
+}
+
+.ces-overview-col {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.ces-facts-block {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-dark);
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.ces-overview-text {
+  font-family: 'Inter', 'Assistant', Arial, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: rgba(247,246,243,0.75);
+  margin: 0;
+}
+
+.ces-facts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ces-fact-label {
+  font-family: 'Inter', 'Assistant', Arial, sans-serif;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.ces-fact-value {
+  font-family: 'Inter', 'Assistant', Arial, sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-weight: 600;
+  text-align: start;
+}
+
+.ces-outcome-badge {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  background: rgba(200,169,107,0.1);
+  border: 1px solid rgba(200,169,107,0.3);
+  border-radius: 4px;
+  padding: 12px 16px;
+  color: var(--accent);
+  font-family: 'Inter', 'Assistant', Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.ces-outcome-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+
+.ces-narrative-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ces-narrative-block {
+  padding: 20px 0;
+}
+
+.ces-block-title {
+  font-family: 'Cormorant Garamond', 'Noto Serif Hebrew', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-light);
+  margin: 0 0 10px 0;
+}
+
+.ces-brass-separator {
+  height: 1px;
+  background: linear-gradient(to left, transparent, var(--accent) 30%, var(--accent) 70%, transparent);
+  opacity: 0.25;
+  margin: 0;
+}
+
+.ces-takeaway-panel {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 16px;
+  background: rgba(200,169,107,0.07);
+  border: 1px solid rgba(200,169,107,0.22);
+  border-inline-start: 3px solid var(--accent);
+  border-radius: 4px;
+  padding: 22px 20px;
+}
+
+.ces-takeaway-icon {
+  flex-shrink: 0;
+  color: var(--accent);
+  margin-top: 2px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.ces-takeaway-content {
+  flex: 1;
+}
+
+.ces-takeaway-text {
+  font-family: 'Inter', 'Assistant', Arial, sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: rgba(247,246,243,0.85);
+  margin: 6px 0 0 0;
+  font-style: italic;
+}
+
+.ces-divider-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.ces-panel-body {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+.ces-overview-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+.ces-outcome-badge {
+    grid-column: 1 / -1;
+  }
+
+.case-examples-services-section {
+    padding: 60px 16px 80px;
+  }
+
+.ces-report-panel {
+    padding: 28px 20px 36px;
+  }
+
+.ces-case-meta {
+    gap: 16px;
+  }
+
+.ces-case-number {
+    font-size: 3rem;
+  }
+
+.ces-title {
+    font-size: 1.5rem;
+  }
+
+.ces-overview-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+.ces-panel-body {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+.ces-takeaway-panel {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+.case-examples-cta-section {
+  background: #F5F5F2;
+  color: var(--text-dark);
+  padding: 80px 24px 80px;
+  position: relative;
+  overflow: visible;
+  direction: rtl;
+}
+
+.case-examples-cta-section .case-examples-cta-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.case-examples-cta-section .case-examples-cta-inner {
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.case-examples-cta-section .case-examples-cta-brass-line {
+  width: 60px;
+  height: 2px;
+  background: var(--accent);
+  margin-bottom: 28px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.case-examples-cta-section .case-examples-cta-heading {
+  font-family: 'Cormorant Garamond', 'Noto Serif Hebrew', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-dark);
+  margin: 0 0 20px 0;
+  letter-spacing: 0.01em;
+  text-align: center;
+  max-width: none !important;
+}
+
+.case-examples-cta-section .case-examples-cta-text {
+  font-family: 'Inter', 'Assistant', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--secondary);
+  margin: 0 0 36px 0;
+  text-align: center;
+  max-width: none !important;
+}
+
+.case-examples-cta-section .case-examples-cta-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.case-examples-cta-section .case-examples-btn-primary {
+  background: var(--primary);
+  color: var(--text-light);
+  padding: 14px 28px;
+  border-radius: 4px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-family: 'Inter', 'Assistant', Arial, sans-serif;
+  transition: background 0.22s ease, box-shadow 0.22s ease;
+  box-shadow: 0 4px 24px rgba(26, 39, 68, 0.08);
+  flex-direction: row;
+}
+
+.case-examples-cta-section .case-examples-btn-primary:hover {
+  background: #162435;
+  box-shadow: 0 12px 40px rgba(26, 39, 68, 0.18);
+  color: var(--text-light);
+}
+
+.case-examples-cta-section .case-examples-btn-primary svg {
+  flex-shrink: 0;
+  color: var(--text-light);
+}
+
+.case-examples-cta-section .case-examples-btn-secondary {
+  background: transparent;
+  color: var(--primary);
+  padding: 14px 28px;
+  border-radius: 4px;
+  border: 1.5px solid var(--primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-family: 'Inter', 'Assistant', Arial, sans-serif;
+  transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease;
+}
+
+.case-examples-cta-section .case-examples-btn-secondary:hover {
+  background: var(--primary);
+  color: var(--text-light);
+  border-color: var(--primary);
+}
+
+.case-examples-cta-section .case-examples-cta-note {
+  font-family: 'Inter', 'Assistant', Arial, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
+  text-align: center;
+  max-width: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.case-examples-cta-section .case-examples-cta-note::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236F7782' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .case-examples-cta-section {
+    padding: 56px 16px 56px;
+  }
+
+  .case-examples-cta-section .case-examples-cta-inner {
+    max-width: 100%;
+  }
+
+  .case-examples-cta-section .case-examples-cta-heading {
+    font-size: 1.6rem;
+  }
+
+  .case-examples-cta-section .case-examples-cta-actions {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .case-examples-cta-section .case-examples-btn-primary,
+  .case-examples-cta-section .case-examples-btn-secondary {
+    width: 100%;
+    justify-content: center;
+    max-width: 320px;
+  }
+}</style>
+    <link rel="stylesheet" href="/styles.css">
+    <script>window.ZAPPY_WEBSITE_ID = "5a87f0a1-b6a4-4dec-9e6f-b9d16f8e07e8"; window.ZAPPY_API_BASE = "https://api.zappy5.com";</script>
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+      [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 10px !important; padding-right: 28px !important; }
+      .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus (exclude catalog sub-menus that use <a> children instead of <li>) */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))):not(:has(> a)), .sub-menu:not(:has(li)):not(:has(> a)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .navbar .sub-menu.mobile-expanded, .nav-menu .sub-menu.mobile-expanded, #navMenu .sub-menu.mobile-expanded { max-height: none !important; overflow-y: visible !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-dark) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-dark) !important; white-space: normal !important; }
+        .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+        [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 0 !important; padding-right: 28px !important; }
+        .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+        .nav-menu.active, #navMenu.active { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-dark) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      html[dir="rtl"] .whatsapp-float { right: 20px !important; left: auto !important; }
+      html[dir="ltr"] .whatsapp-float, html:not([dir]) .whatsapp-float { left: 20px !important; right: auto !important; }
+      html[dir="rtl"] #mic-access-tool-general-button, html[dir="rtl"] .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="rtl"] ._access-icon { left: 20px !important; right: auto !important; }
+      html[dir="ltr"] #mic-access-tool-general-button, html[dir="ltr"] .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="ltr"] ._access-icon,
+      html:not([dir]) #mic-access-tool-general-button, html:not([dir]) .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool #mic-access-tool-general-button,
+      html:not([dir]) ._access-icon { right: 20px !important; left: auto !important; }
+      @media (max-width: 768px) { .whatsapp-float { display: flex !important; } }
+      @media (min-width: 769px) { .whatsapp-float { display: flex !important; } }
+      @media (max-width: 768px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+      @media (min-width: 769px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box.opened-mic-access-tool, .mic-access-tool-box.opened-mic-access-tool,
+        #mic-init-access-tool #mic-access-tool-box.opened-mic-access-tool {
+          visibility: visible !important; opacity: 1 !important; pointer-events: auto !important;
+        }
+      }
+    </style>
+</head>
+<body>
+<a class="skip-link" href="#main">דלג לתוכן הראשי</a> <nav class="navbar" dir="rtl"> <button class="mobile-toggle" id="mobileToggle" aria-label="Menu"> <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"> <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path> </svg> <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;"> <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path> </svg> </button> <button class="phone-header-btn" data-phone="" aria-label="Call"> <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"> <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path> </svg> </button> <div class="nav-container"> <div class="nav-right-group"><div class="nav-brand"> <a href="/" class="logo-link"><img class="logo" src="/assets/site-----image-1.webp" alt="פרד" ס="" חקירות"=""></a> </div><ul class="nav-menu" id="navMenu"><li><a href="/">בית</a></li><li><a href="/about">אודות המשרד</a></li><li><a href="/services">שירותים</a></li><li><a href="/case-examples" class="nav-link">מקרים</a></li></ul></div> <div class="nav-cta-container"> <a href="/contact" class="nav-cta-btn">צור קשר</a> </div> </div> </nav> <script> // Navbar Mobile Menu Toggle and Contrast Fix (function() { // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts window.addEventListener('load', function() { // FIX MOBILE BUTTON CONTRAST // Detect navbar background color and apply contrasting color to mobile buttons const navbar = document.querySelector('.navbar, nav, header'); if (!navbar) { console.log('[Navbar] Navbar element not found'); return; } // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors // These are used in multiple places below let mobileToggle = document.getElementById('mobileToggle') || document.querySelector('.mobile-toggle') || document.querySelector('.hamburger') || document.querySelector('.hamburger-menu') || document.querySelector('.menu-toggle') || document.querySelector('.burger-menu') || document.querySelector('[aria-label="Menu"]') || document.querySelector('[aria-label="תפריט"]'); const phoneBtn = document.querySelector('.phone-header-btn'); const computedStyle = window.getComputedStyle(navbar); let bgColor = computedStyle.backgroundColor; console.log('[Navbar] Initial navbar background:', bgColor); // Check if background is transparent or rgba with 0 alpha const isTransparent = bgColor === 'transparent' || bgColor === 'rgba(0, 0, 0, 0)' || (bgColor.startsWith('rgba') && bgColor.includes(', 0)')); if (isTransparent) { // Check for background-image or gradient const bgImage = computedStyle.backgroundImage; if (bgImage && bgImage !== 'none') { console.log('[Navbar] Navbar has background image/gradient, using dark text'); bgColor = 'rgb(240, 240, 240)'; // Assume light background } else { // Transparent navbar - check body background const bodyBg = window.getComputedStyle(document.body).backgroundColor; console.log('[Navbar] Navbar transparent, using body background:', bodyBg); bgColor = bodyBg; } } // Calculate luminance to determine if background is light or dark const rgb = bgColor.match(/\d+/g); if (rgb && rgb.length >= 3) { const r = parseInt(rgb[0]); const g = parseInt(rgb[1]); const b = parseInt(rgb[2]); const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255; // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a) // No dynamic color overrides needed - colors come from the generated navbar CSS console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')'); // FIX ICON SIZES - Ensure SVGs are properly sized and visible // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES const criticalCSS = document.createElement('style'); criticalCSS.id = 'zappy-mobile-nav-fix'; const htmlLang = document.documentElement.lang || 'en'; const htmlDir = document.documentElement.dir || 'ltr'; // Check both dir attribute AND lang for RTL detection // dir="rtl" is the most reliable indicator const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar'; criticalCSS.textContent = ` /* Hide mobile buttons on desktop, show only on mobile */ @media (min-width: 769px) { .mobile-toggle, .phone-header-btn { display: none !important; } } /* Show and position mobile buttons correctly on mobile */ @media (max-width: 768px) { .navbar, nav.navbar { min-height: 70px !important; } .mobile-toggle, .phone-header-btn { position: absolute !important; top: 0 !important; bottom: 0 !important; margin-top: auto !important; margin-bottom: auto !important; transform: none !important; z-index: 1001 !important; display: flex !important; align-items: center !important; justify-content: center !important; width: 36px !important; height: 36px !important; border-radius: 50% !important; border: none !important; cursor: pointer !important; padding: 6px !important; background: none !important; color: var(--nav-text, var(--text-dark)) !important; touch-action: manipulation !important; -webkit-tap-highlight-color: transparent !important; } html[data-zappy-site-type="ecommerce"] .phone-header-btn, body[data-zappy-site-type="ecommerce"] .phone-header-btn, html[data-zappy-site-type="ecommerce"] header .phone-header-btn, html[data-zappy-site-type="ecommerce"] nav .phone-header-btn { display: none !important; visibility: hidden !important; width: 0 !important; height: 0 !important; min-width: 0 !important; overflow: hidden !important; } /* LTR positioning (default): hamburger LEFT, phone RIGHT */ html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle, html[dir="ltr"] .mobile-toggle { left: 12px !important; right: auto !important; } html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn, html[dir="ltr"] .phone-header-btn { right: 12px !important; left: auto !important; } /* RTL positioning: hamburger RIGHT, phone LEFT */ html[dir="rtl"] .mobile-toggle, html[lang="he"] .mobile-toggle, html[lang="ar"] .mobile-toggle { right: 12px !important; left: auto !important; } html[dir="rtl"] .phone-header-btn, html[lang="he"] .phone-header-btn, html[lang="ar"] .phone-header-btn { left: 12px !important; right: auto !important; } /* CRITICAL: Ensure nav-container has min-height on mobile */ /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */ .nav-container { min-height: 70px !important; position: relative !important; } /* Ensure SVG icons are properly sized and inherit color */ .mobile-toggle svg, .phone-header-btn svg { width: 24px !important; height: 24px !important; /* Don't force display - let JavaScript control hamburger/close toggle */ } /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */ /* that creates a visible ghost box when CTA button is hidden */ .nav-cta-container { box-shadow: none !important; padding: 0 !important; } /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */ /* (only the CTA button is inside, and it's hidden on mobile) */ .nav-cta-container:not(:has(.lang-switcher)) { display: none !important; } /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */ /* The .image-fade-gradient has bottom: -30px (extends below parent) */ /* On mobile stacked layout, this overlaps the h1 text below the image */ .hero-image-column { overflow: hidden !important; } .image-fade-gradient { bottom: 0 !important; } /* Hide desktop language switcher on mobile - hamburger menu handles it */ /* High specificity to override stored CSS */ .lang-switcher, .nav-cta-container .lang-switcher, .nav-container .lang-switcher, .navbar .lang-switcher, .navbar .nav-cta-container .lang-switcher { display: none !important; } } `; // Remove existing fix if present and inject new one const existing = document.getElementById('zappy-mobile-nav-fix'); if (existing) existing.remove(); document.head.appendChild(criticalCSS); console.log('[Navbar] Critical CSS injected for mobile nav positioning'); // ONLY apply inline positioning styles on mobile viewport // On desktop, the CSS handles hiding these buttons with display: none // Inline styles were breaking desktop layout by overriding CSS const isMobileViewport = window.innerWidth <= 768; if (mobileToggle) { // Icon sizing applies to all viewports for consistency const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon'); const closeIcon = mobileToggle.querySelector('.close-icon'); if (hamburgerIcon) { hamburgerIcon.style.setProperty('width', '24px', 'important'); hamburgerIcon.style.setProperty('height', '24px', 'important'); hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default } if (closeIcon) { closeIcon.style.setProperty('width', '24px', 'important'); closeIcon.style.setProperty('height', '24px', 'important'); closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default } // ONLY set positioning inline styles on mobile if (isMobileViewport) { mobileToggle.style.setProperty('position', 'absolute', 'important'); mobileToggle.style.setProperty('top', '0', 'important'); mobileToggle.style.setProperty('bottom', '0', 'important'); mobileToggle.style.setProperty('margin-top', 'auto', 'important'); mobileToggle.style.setProperty('margin-bottom', 'auto', 'important'); mobileToggle.style.setProperty('transform', 'none', 'important'); mobileToggle.style.setProperty('z-index', '1001', 'important'); // Clear any inline left/right so CSS can take over based on html[dir] mobileToggle.style.removeProperty('left'); mobileToggle.style.removeProperty('right'); console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)'); } else { // On desktop, clear any positioning styles to let CSS handle it mobileToggle.style.removeProperty('position'); mobileToggle.style.removeProperty('top'); mobileToggle.style.removeProperty('transform'); mobileToggle.style.removeProperty('z-index'); mobileToggle.style.removeProperty('left'); mobileToggle.style.removeProperty('right'); console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning'); } } if (phoneBtn) { // Icon sizing applies to all viewports const phoneIcon = phoneBtn.querySelector('svg'); if (phoneIcon) { phoneIcon.style.width = '24px'; phoneIcon.style.height = '24px'; phoneIcon.setAttribute('width', '24'); phoneIcon.setAttribute('height', '24'); } // ONLY set positioning inline styles on mobile if (isMobileViewport) { phoneBtn.style.setProperty('position', 'absolute', 'important'); phoneBtn.style.setProperty('top', '0', 'important'); phoneBtn.style.setProperty('bottom', '0', 'important'); phoneBtn.style.setProperty('margin-top', 'auto', 'important'); phoneBtn.style.setProperty('margin-bottom', 'auto', 'important'); phoneBtn.style.setProperty('transform', 'none', 'important'); phoneBtn.style.setProperty('z-index', '1001', 'important'); // Clear any inline left/right so CSS can take over based on html[dir] phoneBtn.style.removeProperty('left'); phoneBtn.style.removeProperty('right'); console.log('[Navbar] Phone button positioning applied (mobile viewport)'); } else { // On desktop, clear any positioning styles to let CSS handle it phoneBtn.style.removeProperty('position'); phoneBtn.style.removeProperty('top'); phoneBtn.style.removeProperty('transform'); phoneBtn.style.removeProperty('z-index'); phoneBtn.style.removeProperty('left'); phoneBtn.style.removeProperty('right'); console.log('[Navbar] Desktop viewport - cleared phone button inline positioning'); } } } else { console.log('[Navbar] Could not parse background color:', bgColor); } // MOBILE MENU TOGGLE // Re-query in case DOM changed (mobileToggle already declared at top of function) mobileToggle = document.getElementById('mobileToggle') || document.querySelector('.mobile-toggle') || document.querySelector('.hamburger') || document.querySelector('.hamburger-menu') || document.querySelector('.menu-toggle') || document.querySelector('.burger-menu') || document.querySelector('[aria-label="Menu"]') || document.querySelector('[aria-label="תפריט"]'); // EXPANDED SEARCH: Find nav menu by ID or class const navMenu = document.getElementById('navMenu') || document.querySelector('.nav-menu') || document.querySelector('.nav-links') || document.querySelector('nav ul:not(.submenu)'); if (!mobileToggle || !navMenu) { console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu }); return; } // Ensure navMenu has ID for CSS targeting if (!navMenu.id) { navMenu.id = 'navMenu'; } console.log('[Navbar] Initializing mobile menu...'); // Remove any existing event listeners by cloning the button const newToggle = mobileToggle.cloneNode(true); mobileToggle.parentNode.replaceChild(newToggle, mobileToggle); // Toggle menu handler (shared by click and touchend) function handleToggle(e) { e.preventDefault(); e.stopPropagation(); const hamburgerIcon = newToggle.querySelector('.hamburger-icon'); const closeIcon = newToggle.querySelector('.close-icon'); const isActive = navMenu.classList.contains('active'); if (isActive) { // Close menu navMenu.classList.remove('active'); if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important'); if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important'); document.body.style.overflow = ''; console.log('[Navbar] Menu closed'); } else { // Open menu navMenu.classList.add('active'); if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important'); if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important'); document.body.style.overflow = 'hidden'; console.log('[Navbar] Menu opened'); } } // Use click for desktop/emulation and touchend as iOS Safari fallback. // Prevent double-fire with a timestamp guard. var lastToggleTime = 0; function guardedToggle(e) { var now = Date.now(); if (now - lastToggleTime < 300) return; lastToggleTime = now; handleToggle(e); } newToggle.addEventListener('click', guardedToggle); newToggle.addEventListener('touchend', guardedToggle); // Close menu when clicking nav links (but NOT dropdown toggles) const navLinks = navMenu.querySelectorAll('a'); navLinks.forEach(function(link) { link.addEventListener('click', function() { // Don't close if it's a dropdown child (unless it's a real navigation link) if (this.getAttribute('href') === '#') return; const hamburgerIcon = newToggle.querySelector('.hamburger-icon'); const closeIcon = newToggle.querySelector('.close-icon'); navMenu.classList.remove('active'); if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important'); if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important'); document.body.style.overflow = ''; console.log('[Navbar] Menu closed (link clicked)'); }); }); // DROPDOWN MENU TOGGLE (for mobile and touch devices) var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle'); dropdownToggles.forEach(function(toggle) { toggle.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); var parent = this.closest('.nav-dropdown'); if (!parent) return; // Close other open dropdowns at the same level var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open'); siblings.forEach(function(sib) { if (sib !== parent) sib.classList.remove('open'); }); parent.classList.toggle('open'); console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed'); }); }); // Close dropdowns when clicking outside document.addEventListener('click', function(e) { if (!e.target.closest('.nav-dropdown')) { var openDropdowns = document.querySelectorAll('.nav-dropdown.open'); openDropdowns.forEach(function(dd) { dd.classList.remove('open'); }); } }); console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns'); // Phone button functionality (phoneBtn already declared at top of function) if (phoneBtn) { phoneBtn.addEventListener('click', function() { // Get phone number from placeholder in page or use default const phoneLinks = document.querySelectorAll('a[href^="tel:"]'); const phoneNumber = phoneLinks.length > 0 ? phoneLinks[0].getAttribute('href').replace('tel:', '') : '[business_phone]'; window.location.href = 'tel:' + phoneNumber; console.log('[Navbar] Phone button clicked'); }); } console.log('[Navbar] Mobile menu initialized successfully'); // WhatsApp button visibility is now controlled via CSS (siteSettings). // No JS-based desktop hiding — the button is visible on both mobile and desktop by default. }); })(); </script> <main id="main" class="blog-page ai-generated-page"><section class="case-examples-hero-section" data-layout-spec="מקרי בוחן לדוגמה-hero" dir="rtl" data-hero-type="fullscreen-scrim">
+
+  <!-- Decorative gold shield emblem -->
+  <div class="ceh-shield-emblem" aria-hidden="true">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 220 260" fill="none" xmlns="http://www.w3.org/2000/svg" width="220" height="260">
+      <path d="M110 8 L200 45 L200 130 C200 185 160 230 110 252 C60 230 20 185 20 130 L20 45 Z" stroke="#C8A96B" stroke-width="1.5" fill="none" opacity="0.18"></path>
+      <path d="M110 28 L185 60 L185 130 C185 177 150 215 110 234 C70 215 35 177 35 130 L35 60 Z" stroke="#C8A96B" stroke-width="1" fill="none" opacity="0.12"></path>
+      <circle cx="110" cy="120" r="28" stroke="#C8A96B" stroke-width="1" fill="none" opacity="0.14"></circle>
+      <path d="M110 95 L110 145 M85 120 L135 120" stroke="#C8A96B" stroke-width="1" opacity="0.12"></path>
+      <path d="M95 103 Q110 88 125 103 Q140 118 125 133 Q110 148 95 133 Q80 118 95 103Z" stroke="#C8A96B" stroke-width="0.8" fill="none" opacity="0.10"></path>
+    </svg>
+  </div>
+
+  <!-- Hero Container -->
+  <div class="ceh-container">
+    <div class="ceh-grid">
+
+      <!-- Text Block (right column in RTL) -->
+      <div class="ceh-text-block">
+        <div class="ceh-text-card">
+          <div class="ceh-label-row">
+            <span class="ceh-label">פרד"ס חקירות · מקרי בוחן</span>
+          </div>
+
+          <h1 class="ceh-h1">חקירות שמדברות<br>בעצמן</h1>
+
+          <div class="ceh-accent-line" aria-hidden="true"></div>
+
+          <h3 class="ceh-subtitle">מבחר מקרים אמיתיים המשקפים את עומק הניתוח, שיקול הדעת והמקצועיות שמביאה פרד"ס לכל משימה עסקית.</h3>
+
+          <!-- Trust Notes Row -->
+          <div class="ceh-trust-row" aria-label="נקודות אמון">
+            <div class="ceh-trust-item">
+              <span class="ceh-trust-icon" aria-hidden="true">
+                <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 1L10 6H15L11 9.5L12.5 14.5L8 11.5L3.5 14.5L5 9.5L1 6H6Z" stroke="currentColor" stroke-width="1.2" fill="none"></path>
+                </svg>
+              </span>
+              <span class="ceh-trust-text">רישיון משרד המשפטים</span>
+            </div>
+            <div class="ceh-trust-divider" aria-hidden="true"></div>
+            <div class="ceh-trust-item">
+              <span class="ceh-trust-icon" aria-hidden="true">
+                <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"></rect>
+                  <path d="M5 8L7 10L11 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
+              <span class="ceh-trust-text">סודיות מוחלטת מובטחת</span>
+            </div>
+          </div>
+
+          <!-- Brass accent line before CTA -->
+          <div class="ceh-brass-rule" aria-hidden="true"></div>
+
+          <div class="ceh-cta-row">
+            <a href="/contact" class="ceh-btn-primary">
+              <span>צרו קשר לייעוץ</span>
+              <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M10 8H3M6 5L3 8L6 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image Block (left column in RTL) -->
+      <div class="ceh-image-block">
+        <div class="ceh-image-frame">
+          <div class="ceh-image-inner">
+            <img data-hero-bg="true" data-context="A sophisticated editorial photograph for an Israeli private investigation and business intelligence firm. Shows a high-end corporate office desk with a closed leather-bound dossier, a fountain pen, reading glasses, and neatly stacked documents. Warm, controlled lighting with deep navy and gold tones. The atmosphere is precise, confidential, and executive — evoking due diligence and legal-grade intelligence work. No people visible. Clean, minimal composition with dark tones." width="600" height="520" src="/assets/private-investigation-business-intelligence-section-hero-case-examples-hero-image-1.webp" alt="חקירות עסקיות ומודיעין פיננסי — פרד&quot;ס חקירות" class="ceh-hero-img">
+          </div>
+          <!-- Image overlay gradient -->
+          <div class="ceh-img-overlay" aria-hidden="true"></div>
+          <!-- Corner accent -->
+          <div class="ceh-corner-accent ceh-corner-tl" aria-hidden="true"></div>
+          <div class="ceh-corner-accent ceh-corner-br" aria-hidden="true"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom fade transition -->
+  <div class="ceh-bottom-fade" aria-hidden="true"></div>
+
+</section>
+
+<section class="case-examples-about-section" data-layout-spec="מקרי בוחן לדוגמה-about" dir="rtl">
+  <div class="cea-container">
+
+    <!-- Top Row: H2 block (right, narrow) + Paragraph block (left, wider) -->
+    <div class="cea-intro-row">
+      <div class="cea-heading-block">
+        <h2 class="cea-main-heading">מקרי בוחן<br>לדוגמה</h2>
+        <div class="cea-heading-rule" aria-hidden="true"></div>
+      </div>
+      <div class="cea-intro-text-block">
+        <p>מקרי הבוחן המוצגים בדפים הבאים מבוססים על תיקים אמיתיים שטופלו על ידי פרד"ס חקירות, תוך שמירה מוחלטת על סודיות הלקוח. כל מקרה מוצג באופן מובנה: רקע העסק או הגורם המבקש, הגישה החקירתית שיושמה, והשלכות העסקיות שנגזרו מהממצאים. מטרתנו להמחיש כיצד מודיעין עסקי מקצועי ו-Due Diligence מעמיק הופכים לכלי ניהולי ממשי עבור ארגונים, עורכי דין, ומשקיעים.</p>
+      </div>
+    </div>
+
+    <!-- Dossier Cards Grid -->
+    <div class="cea-cards-grid">
+
+      <!-- Card 1: Background -->
+      <article class="cea-dossier-card">
+        <div class="cea-brass-corner" aria-hidden="true"></div>
+        <div class="cea-card-inner">
+          <div class="cea-card-label">01</div>
+          <h3 class="cea-card-heading">רקע המקרה</h3>
+          <p>כל מקרה בוחן נפתח בתיאור מדויק של ההקשר העסקי — מי הלקוח, מהי הסביבה התחרותית, ומה הנסיבות שהובילו לפנייה לחקירה. הרקע מוצג בצורה תמציתית ועניינית, ללא פרטים מזהים.</p>
+        </div>
+      </article>
+
+      <!-- Card 2: Investigative Approach -->
+      <article class="cea-dossier-card">
+        <div class="cea-brass-corner" aria-hidden="true"></div>
+        <div class="cea-card-inner">
+          <div class="cea-card-label">02</div>
+          <h3 class="cea-card-heading">הגישה החקירתית</h3>
+          <p>בחלק זה מפורטת המתודולוגיה שיושמה: אילו כלים ומקורות מידע הופעלו, כיצד נוהלה החקירה בשטח ובמרחב הדיגיטלי, ומה היו נקודות ההכרעה שהכתיבו את כיוון הבירור.</p>
+        </div>
+      </article>
+
+      <!-- Card 3: Outcome -->
+      <article class="cea-dossier-card">
+        <div class="cea-brass-corner" aria-hidden="true"></div>
+        <div class="cea-card-inner">
+          <div class="cea-card-label">03</div>
+          <h3 class="cea-card-heading">ממצאים והשלכות עסקיות</h3>
+          <p>הממצאים מוצגים בצורה ברורה ומסוכמת, לצד ניתוח ההשלכות המעשיות: החלטות עסקיות שהתקבלו, סיכונים שנמנעו, או הליכים משפטיים שנתמכו בממצאי החקירה.</p>
+        </div>
+      </article>
+
+    </div>
+    <!-- End Cards Grid -->
+
+  </div>
+</section>
+
+<section class="case-examples-services-section" data-layout-spec="מקרי בוחן לדוגמה-services" dir="rtl">
+  <div class="case-examples-container">
+
+    <!-- Section Header -->
+    <div class="case-section-header">
+      <span class="case-section-label">מקרי בוחן</span>
+      <h2 class="case-section-title">תיקים נבחרים</h2>
+      <div class="case-accent-rule"></div>
+    </div>
+
+    <!-- Dossier Panel: Case 01 -->
+    <article class="case-dossier-panel">
+      <!-- Brass vertical accent -->
+      <div class="case-brass-line" aria-hidden="true"></div>
+      <!-- Case number marker -->
+      <div class="case-number-marker" aria-hidden="true">01</div>
+
+      <div class="case-panel-inner">
+
+        <!-- Right column: overview -->
+        <aside class="case-overview-col">
+          <span class="case-type-badge">בדיקת נאותות עסקית</span>
+          <h2 class="case-title">רכישת חברת טכנולוגיה — חשיפת מרמה פיננסית</h2>
+          <p class="case-summary">לקוח מוסדי שקל רכישה של חברת סטארט-אפ בשווי עשרות מיליוני שקלים. בטרם השלמת העסקה, התבקשה פרד"ס חקירות לבצע בדיקת נאותות מקיפה — ממצאיה שינו את מהלך העסקה כולה.</p>
+          <div class="case-meta-row">
+            <span class="case-meta-item"><span class="case-meta-label">תחום</span><span class="case-meta-value">Due Diligence פיננסי</span></span>
+            <span class="case-meta-item"><span class="case-meta-label">היקף</span><span class="case-meta-value">ישראל ואירופה</span></span>
+          </div>
+        </aside>
+
+        <!-- Left column: content rows -->
+        <div class="case-content-col">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">רקע המקרה</h3>
+            <p>חברת טכנולוגיה פרטית הציגה עצמה כבעלת בסיס לקוחות מוצק, הכנסות חוזרות ויציבות ותיק קניין רוחני נרחב. הלקוח, קרן השקעות מוסדית, ניהל משא ומתן מתקדם לרכישת החברה ופנה לפרד"ס חקירות לביצוע בדיקת נאותות עצמאית ומקיפה.</p>
+          </div>
+
+          <hr class="case-divider">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">מטרת הבדיקה</h3>
+            <p>לאמת את מצגי הנהלת החברה בנוגע לנתוני הכנסות, מצב משפטי, רישומי קניין רוחני, ורקע הבעלים והמנהלים הבכירים — הן בישראל והן בגרמניה, שם פעלה זרוע אירופית של החברה.</p>
+          </div>
+
+          <hr class="case-divider">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">מה נעשה בפועל</h3>
+            <p>צוות האנליסטים של פרד"ס חקירות ביצע בדיקה רב-שכבתית: עיון ברישומי חברות ולשכת ההוצאה לפועל, ניתוח דוחות כספיים מול נתוני שוק, בדיקת רישום פטנטים ברשם הפטנטים הישראלי ובמשרד האירופי, חקירת רקע מלאה של שני הבעלים, ואיסוף מידע ממקורות פתוחים ומקורות שדה.</p>
+          </div>
+
+          <hr class="case-divider">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">ממצאים מרכזיים</h3>
+            <p>נמצא כי אחד הבעלים נשא בעברו בעבירות כלכליות שלא גולו. בסיס הלקוחות המוצהר כלל חוזים שפגו תוקפם. הכנסות חוזרות הוצגו בנתון מנופח של כ-40% מהשווי האמיתי. הזרוע האירופית פעלה תחת הגבלות רגולטוריות שלא נחשפו בשלב המשא ומתן.</p>
+          </div>
+
+          <hr class="case-divider">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">תוצאה</h3>
+            <p>הלקוח הפסיק את המשא ומתן עם קבלת דוח הממצאים. הערכת השווי הופחתה משמעותית לאחר הצגת הממצאים לייעוץ המשפטי. הלקוח חסך הפסד פוטנציאלי של עשרות מיליוני שקלים בזכות הבדיקה המוקדמת.</p>
+          </div>
+
+          <!-- Finding callout -->
+          <div class="case-finding-callout">
+            <div class="case-finding-accent" aria-hidden="true"></div>
+            <p class="case-finding-text">"הפער בין המצג לבין המציאות היה כה מהותי, עד שלא ניתן היה להמשיך בעסקה בתנאיה המקוריים. הדוח של פרד"ס חקירות שינה את כל מסגרת ההחלטה."</p>
+            <span class="case-finding-attribution">— מסקנת הלקוח לאחר קבלת הדוח</span>
+          </div>
+
+        </div>
+      </div>
+    </article>
+
+    <!-- Dossier Panel: Case 02 -->
+    <article class="case-dossier-panel">
+      <div class="case-brass-line" aria-hidden="true"></div>
+      <div class="case-number-marker" aria-hidden="true">02</div>
+
+      <div class="case-panel-inner">
+
+        <aside class="case-overview-col">
+          <span class="case-type-badge">חקירה פנים-ארגונית</span>
+          <h2 class="case-title">דליפת מידע מסחרי — זיהוי גורם פנימי</h2>
+          <p class="case-summary">חברה בינלאומית חשדה כי מידע מסחרי רגיש מועבר לגורם מתחרה. ההנהלה פנתה לפרד"ס חקירות לביצוע חקירה פנים-ארגונית בשיקול דעת מלא ובמינימום חשיפה.</p>
+          <div class="case-meta-row">
+            <span class="case-meta-item"><span class="case-meta-label">תחום</span><span class="case-meta-value">חקירה ארגונית</span></span>
+            <span class="case-meta-item"><span class="case-meta-label">היקף</span><span class="case-meta-value">ישראל</span></span>
+          </div>
+        </aside>
+
+        <div class="case-content-col">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">רקע המקרה</h3>
+            <p>חברה בינלאומית העוסקת בפיתוח תוכנה גילתה כי הצעות מחיר ייחודיות ומידע על לקוחות מפתח מגיעים לידי מתחרה ישיר. ניסיונות פנימיים לאתר את מקור הדליפה לא העלו תוצאות, ופניה לפרד"ס חקירות הגיעה לאחר כחצי שנה של אובדן עסקאות.</p>
+          </div>
+
+          <hr class="case-divider">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">מטרת הבדיקה</h3>
+            <p>לאתר את מקור הדליפה בתוך הארגון, לתעד את היקף המידע שהועבר, ולספק לחברה בסיס ראייתי מוצק שיאפשר פעולה משפטית ו/או משמעתית.</p>
+          </div>
+
+          <hr class="case-divider">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">מה נעשה בפועל</h3>
+            <p>פרד"ס חקירות ביצע ניתוח דיגיטלי של דפוסי גישה למידע, מיפוי של עובדים בעלי גישה למידע הרגיש, בחינת פעילות רשתות חברתיות ואנשי קשר מקצועיים, ומעקב שדה מבוקר. הבדיקה בוצעה ללא ידיעת העובדים, תוך שמירה מלאה על מסגרת חוקית.</p>
+          </div>
+
+          <hr class="case-divider">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">ממצאים מרכזיים</h3>
+            <p>זוהה עובד בכיר בדרג ניהול ביניים שניהל קשרים עסקיים מוסתרים עם חברת המתחרה. נמצאו ראיות לשיתוף פעולה שיטתי שנמשך כשנה. הועברו נתוני לקוחות, מחירונים ותכניות מוצר עתידיות.</p>
+          </div>
+
+          <hr class="case-divider">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">תוצאה</h3>
+            <p>החברה פיטרה את העובד בגין הפרת אמון ושמירת סוד מסחרי. תביעה אזרחית הוגשה על בסיס הדוח שהוכן על ידי פרד"ס חקירות. החברה שינתה את מדיניות ניהול הגישה למידע הרגיש בארגון.</p>
+          </div>
+
+          <div class="case-finding-callout">
+            <div class="case-finding-accent" aria-hidden="true"></div>
+            <p class="case-finding-text">"הדוח שסיפקה פרד"ס חקירות היה מדויק, מתועד ומוכן לשימוש ישיר בהליך משפטי. לא היינו מצליחים להוכיח את הטענות ללא הבסיס הראייתי שנבנה."</p>
+            <span class="case-finding-attribution">— יועץ משפטי של החברה</span>
+          </div>
+
+        </div>
+      </div>
+    </article>
+
+    <!-- Dossier Panel: Case 03 -->
+    <article class="case-dossier-panel">
+      <div class="case-brass-line" aria-hidden="true"></div>
+      <div class="case-number-marker" aria-hidden="true">03</div>
+
+      <div class="case-panel-inner">
+
+        <aside class="case-overview-col">
+          <span class="case-type-badge">חקירה כלכלית</span>
+          <h2 class="case-title">שותף עסקי — חשיפת נכסים מוסתרים בחו"ל</h2>
+          <p class="case-summary">לקוח פרטי נמצא בסכסוך עסקי עם שותף לשעבר שטען לחדלות פירעון. פרד"ס חקירות אותר נכסים בשווי מיליוני שקלים שהוסתרו בחשבונות ובחברות בחו"ל.</p>
+          <div class="case-meta-row">
+            <span class="case-meta-item"><span class="case-meta-label">תחום</span><span class="case-meta-value">חקירה כלכלית</span></span>
+            <span class="case-meta-item"><span class="case-meta-label">היקף</span><span class="case-meta-value">ישראל, קפריסין, בריטניה</span></span>
+          </div>
+        </aside>
+
+        <div class="case-content-col">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">רקע המקרה</h3>
+            <p>לקוח פרטי שניהל עסק משותף במשך שמונה שנים גילה כי שותפו העביר נכסים מהחברה המשותפת ימים ספורים לפני הגשת תביעה. השותף הצהיר על חדלות פירעון מלאה בהליכים משפטיים, אך הלקוח חשד כי קיימים נכסים נסתרים.</p>
+          </div>
+
+          <hr class="case-divider">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">מטרת הבדיקה</h3>
+            <p>לאתר נכסים, חשבונות, חברות ואחזקות שייתכן כי הוסתרו מחוץ לישראל, ולספק לייעוץ המשפטי של הלקוח בסיס לבקשת עיקולים ועצירת העברות נכסים.</p>
+          </div>
+
+          <hr class="case-divider">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">מה נעשה בפועל</h3>
+            <p>בדיקה מקיפה של רישומי חברות בקפריסין ובבריטניה, ניתוח עסקאות נדל"ן ורישומי בעלות, מעקב אחר פעילות עסקית של גורמים קשורים, ובדיקת מסמכים ציבוריים. הבדיקה כללה שיתוף פעולה עם גורמי מידע מחוץ לישראל.</p>
+          </div>
+
+          <hr class="case-divider">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">ממצאים מרכזיים</h3>
+            <p>אותרו שתי חברות אחזקה רשומות בקפריסין בבעלות עקיפה של השותף, נכס נדל"ן בלונדון שנרכש שישה חודשים לפני ההליכים, וחשבון בנק פעיל בבריטניה. שווי הנכסים שאותרו עלה על שלושה מיליון אירו.</p>
+          </div>
+
+          <hr class="case-divider">
+
+          <div class="case-content-row">
+            <h3 class="case-row-title">תוצאה</h3>
+            <p>על בסיס הדוח, הושגו צווי עיקול בינלאומיים. הסכסוך הסתיים בפשרה לטובת הלקוח בסכום משמעותי. הממצאים הוגשו לבית המשפט כראיות ולא נסתרו.</p>
+          </div>
+
+          <div class="case-finding-callout">
+            <div class="case-finding-accent" aria-hidden="true"></div>
+            <p class="case-finding-text">"בלי הדוח הזה, לא היה לנו כלום. הממצאים שינו את מאזן הכוחות בהליך המשפטי ואפשרו לנו להגיע לפשרה הוגנת."</p>
+            <span class="case-finding-attribution">— עורך הדין המייצג של הלקוח</span>
+          </div>
+
+        </div>
+      </div>
+    </article>
+
+    <!-- CTA strip -->
+    <div class="case-cta-strip">
+      <p class="case-cta-text">כל תיק מטופל בסודיות מוחלטת, ממוקד במטרה, ומגובה בניסיון מוכח.</p>
+      <a href="/contact" class="btn-primary case-cta-btn">לפגישת ייעוץ ראשונית</a>
+    </div>
+
+  </div>
+</section>
+
+<section class="case-examples-services-section" data-layout-spec="מקרי בוחן לדוגמה-services" dir="rtl">
+  <div class="ces-container">
+    <div class="ces-report-panel">
+
+      <!-- Panel Header -->
+      <div class="ces-panel-header">
+        <div class="ces-case-meta">
+          <span class="ces-case-number">02</span>
+          <div class="ces-header-divider"></div>
+          <div class="ces-header-text">
+            <small class="ces-label">תיק מקרה</small>
+            <h2 class="ces-title">חקירת מרמה פנים-ארגונית: חשיפת הברחת נכסים ומניפולציה חשבונאית בחברת בת</h2>
+            <div class="ces-brass-rule"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel Body: 2 columns -->
+      <div class="ces-panel-body">
+
+        <!-- Narrow Column: Overview & Key Facts -->
+        <aside class="ces-overview-col">
+          <div class="ces-overview-block">
+            <small class="ces-label">סקירה כללית</small>
+            <p class="ces-overview-text">לאחר חשד פנימי שהועלה על ידי דירקטוריון חברה ציבורית, נתבקשנו לבצע חקירה פנים-ארגונית מקיפה בחברת בת בבעלות מלאה. המנדט כלל מיפוי מלא של זרימת הנכסים, ניתוח חשבונאי ואיתור גורמים מעורבים.</p>
+          </div>
+          <div class="ces-facts-block">
+            <small class="ces-label">עובדות מפתח</small>
+            <ul class="ces-facts-list">
+              <li>
+                <span class="ces-fact-label">תחום</span>
+                <span class="ces-fact-value">חקירה פנים-ארגונית</span>
+              </li>
+              <li>
+                <span class="ces-fact-label">משך</span>
+                <span class="ces-fact-value">11 שבועות</span>
+              </li>
+              <li>
+                <span class="ces-fact-label">היקף</span>
+                <span class="ces-fact-value">3 ישויות משפטיות</span>
+              </li>
+              <li>
+                <span class="ces-fact-label">מיקום</span>
+                <span class="ces-fact-value">ישראל ואירופה</span>
+              </li>
+              <li>
+                <span class="ces-fact-label">תוצאה</span>
+                <span class="ces-fact-value">הגשת כתב אישום</span>
+              </li>
+            </ul>
+          </div>
+          <div class="ces-outcome-badge">
+            <span class="ces-outcome-icon">
+              <svg data-element-type="icon" data-icon-type="svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </span>
+            <span>תיק הועבר לייעוץ משפטי חיצוני</span>
+          </div>
+        </aside>
+
+        <!-- Wide Column: Full Narrative -->
+        <article class="ces-narrative-col">
+
+          <div class="ces-narrative-block">
+            <h3 class="ces-block-title">רקע ונסיבות הפנייה</h3>
+            <p>חברה ציבורית הנסחרת בבורסה לניירות ערך בתל אביב פנתה אלינו לאחר שדוחות כספיים של חברת הבת הצביעו על אי-סדרים בלתי מוסברים בסעיפי הוצאות ובהון החוזר. הדירקטוריון חשש כי מדובר בפעולה מכוונת של גורמים בכירים בניהול, ולא בטעות חשבונאית. הוחלט לפנות לחקירה חיצונית בלתי תלויה על מנת להבטיח אמינות הממצאים.</p>
+          </div>
+
+          <div class="ces-brass-separator" aria-hidden="true"></div>
+
+          <div class="ces-narrative-block">
+            <h3 class="ces-block-title">מתודולוגיית החקירה</h3>
+            <p>הצוות שלנו יישם גישה רב-שכבתית: ניתוח פורנזי של מאגרי הנתונים הפיננסיים, עיון ממוקד בחוזים ובהסכמי שירות עם ספקים, ומעקב אחר תנועות בנקאיות בין ישויות קשורות. במקביל, בוצעו ראיונות מובנים עם עובדים בכירים ועם גורמי ביקורת פנימיים — כולם תחת מסגרת של סודיות מוחלטת.</p>
+          </div>
+
+          <div class="ces-brass-separator" aria-hidden="true"></div>
+
+          <div class="ces-narrative-block">
+            <h3 class="ces-block-title">ממצאים מרכזיים</h3>
+            <p>החקירה חשפה מנגנון מרמה מתוחכם: חשבוניות פיקטיביות שהונפקו על ידי חברת קליפה אירופאית בשליטת מנהל בכיר, תשלומים שהוסוו כהוצאות ייעוץ, והברחת כספים לחשבון אישי בחו"ל. הנזק הכספי הוערך בלמעלה מ-4 מיליון שקל לאורך שלוש שנות פעילות. זוהו שלושה גורמים מעורבים ישירות, ושניים נוספים שידעו ולא דיווחו.</p>
+          </div>
+
+          <div class="ces-brass-separator" aria-hidden="true"></div>
+
+          <div class="ces-narrative-block">
+            <h3 class="ces-block-title">שלבי הטיפול והמסירה</h3>
+            <p>הממצאים הוצגו בדוח מסכם מפורט בפני הדירקטוריון ויועצי החברה המשפטיים. הדוח כלל שרשרת ראיות מתועדת, ציר זמן מלא של הפעילות הפסולה, ומפת גורמים מעורבים. לצד העברת החומר לגורמים המשפטיים, הכנו המלצות מבניות לשיפור מנגנוני הבקרה הפנימית ומניעת הישנות.</p>
+          </div>
+
+          <div class="ces-brass-separator" aria-hidden="true"></div>
+
+          <!-- Takeaway Inset Panel -->
+          <div class="ces-takeaway-panel">
+            <div class="ces-takeaway-icon" aria-hidden="true">
+              <svg data-element-type="icon" data-icon-type="svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            </div>
+            <div class="ces-takeaway-content">
+              <small class="ces-label ces-label--light">מסקנה מרכזית</small>
+              <p class="ces-takeaway-text">חקירה פנים-ארגונית מקצועית, המופרדת לחלוטין מהמבנה הניהולי הפנימי, היא הכלי האפקטיבי ביותר לחשיפת מרמה ארגונית — ולשמירה על אמינות הממצאים בפני גורמים חיצוניים כגון בתי משפט ורגולטורים.</p>
+            </div>
+          </div>
+
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom divider back to white -->
+  <div class="ces-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 L0,28 Q180,10 360,28 T720,22 Q900,10 1080,28 T1440,20 L1440,60 Z" fill="#F7F6F3"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="case-examples-cta-section" data-layout-spec="מקרי בוחן לדוגמה-cta" dir="rtl">
+  <div class="case-examples-cta-container">
+    <div class="case-examples-cta-inner">
+      <div class="case-examples-cta-brass-line" aria-hidden="true"></div>
+      <h2 class="case-examples-cta-heading">מוכנים לפתוח בחקירה?</h2>
+      <p class="case-examples-cta-text">צוות פרד"ס חקירות עומד לרשותכם לכל פנייה עסקית, משפטית או פיננסית. אנו מציעים ייעוץ ראשוני חסוי ומקצועי, ללא כל התחייבות מצידכם.</p>
+      <div class="case-examples-cta-actions">
+        <a href="/contact" class="btn-primary case-examples-btn-primary">
+          <span>צרו קשר</span>
+          <svg data-element-type="icon" data-icon-type="svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </a>
+        <a href="/services" class="btn-secondary case-examples-btn-secondary">
+          <span>השירותים שלנו</span>
+        </a>
+      </div>
+      <p class="case-examples-cta-note">כל פנייה מטופלת בסודיות מוחלטת בהתאם לחוק הגנת הפרטיות</p>
+    </div>
+  </div>
+</section></main> <footer class="site-footer" dir="rtl" aria-label="כותרת תחתית של האתר"><div class="footer-top"><div class="footer-container"><div class="footer-grid"><div class="footer-col footer-col--brand"><div class="footer-logo-wrap"><img src="/assets/private-investigation-business-intelligence-logo.webp" alt="פרד&quot;ס חקירות" class="logo"></div><p class="footer-tagline">חקירות פרטיות ומודיעין עסקי ברמה הגבוהה ביותר. שיקול דעת, דיוק ואמינות — בכל תיק ותיק.</p><div class="footer-social" aria-label="רשתות חברתיות"></div></div><div class="footer-col footer-col--links"><h3 class="footer-heading"><span class="footer-heading-accent"></span>ניווט מהיר</h3><ul class="footer-nav" aria-label="קישורים מהירים"><li><a href="/">בית</a></li><li><a href="/about">אודות המשרד</a></li><li><a href="/services">שירותים</a></li><li><a href="/contact">צור קשר</a></li></ul></div><div class="footer-col footer-col--contact"><h3 class="footer-heading"><span class="footer-heading-accent"></span>יצירת קשר</h3><ul class="footer-contact" aria-label="פרטי יצירת קשר"><li><span class="contact-icon"><i class="fas fa-envelope"></i></span><span class="contact-text"><a href="mailto:[business_email]">[business_email]</a></span></li><li><span class="contact-icon"><i class="fas fa-phone"></i></span><span class="contact-text"><a href="tel:[business_phone]">[business_phone]</a></span></li><li><a href="/"><span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span><span class="contact-text">[business_address]</span></a></li></ul></div><div class="footer-col footer-col--hours"><h3 class="footer-heading"><span class="footer-heading-accent"></span>שעות פעילות</h3><ul class="footer-hours" aria-label="שעות פעילות"><li><a href="/"><span class="day">ראשון – חמישי</span><span class="time">08:00 – 19:00</span></a></li><li><a href="/"><span class="day">שישי</span><span class="time">08:00 – 13:00</span></a></li><li><a href="/"><span class="day">שבת</span><span class="time closed">סגור</span></a></li></ul><div class="footer-badge"><i class="fas fa-shield-alt"></i><span>סודיות מוחלטת מובטחת</span></div></div></div></div></div><div class="footer-bottom"><div class="footer-container"><div class="footer-bottom-inner"><p class="footer-copyright">© 2026 פרד"ס חקירות. כל הזכויות שמורות.</p><div class="footer-legal-links"><a href="/privacy">מדיניות פרטיות</a><span class="footer-divider" aria-hidden="true"></span><a href="/terms">תנאי שימוש</a><span class="footer-divider" aria-hidden="true"></span><a href="/accessibility">נגישות</a><span class="footer-divider" aria-hidden="true"></span><a href="https://zappy5.com" target="_blank" class="zappy-attribution">נוצר באמצעות Zappy</a></div></div></div></div></footer> <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp"> <i class="fab fa-whatsapp"></i> </a> <div data-integration="accessibility:toolbar"></div> 
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body>
+</html>
