@@ -8871,6 +8871,285 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
   outline: 2px solid var(--primary, #1F3A5F);
   outline-offset: 2px;
 }
+
+/* AI-generated section */
+/* =============================================
+   PARDAS ABOUT SECTION — פרד"ס חקירות
+   ============================================= */
+
+.pardas-about {
+  background: var(--gradient-primary, linear-gradient(135deg, #1A2744 0%, #2B3A5C 100%));
+  padding: 100px 20px;
+  font-family: system-ui, sans-serif;
+  direction: rtl;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle decorative background texture */
+.pardas-about::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(180, 140, 60, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 80% 20%, rgba(31, 58, 95, 0.4) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pardas-about__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Badge ── */
+.pardas-about__badge-wrap {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.pardas-about__badge {
+  display: inline-block;
+  background: rgba(180, 140, 60, 0.15);
+  border: 1px solid rgba(180, 140, 60, 0.55);
+  color: #C8A94A;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 7px 22px;
+  border-radius: 50px;
+}
+
+/* ── Heading ── */
+.pardas-about__heading {
+  font-size: clamp(1.75rem, 4vw, 2.6rem);
+  font-weight: 800;
+  color: #FFFFFF;
+  text-align: center;
+  line-height: 1.35;
+  margin: 0 0 40px;
+  letter-spacing: -0.01em;
+}
+
+/* ── Body Text ── */
+.pardas-about__body {
+  max-width: 820px;
+  margin: 0 auto 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pardas-about__paragraph {
+  font-size: 16.5px;
+  line-height: 1.85;
+  color: rgba(220, 230, 245, 0.88);
+  text-align: justify;
+  margin: 0;
+}
+
+/* ── Stats Row ── */
+.pardas-about__stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(200, 169, 74, 0.22);
+  border-radius: 16px;
+  padding: 36px 24px;
+  margin-bottom: 64px;
+}
+
+.pardas-about__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 140px;
+  padding: 12px 20px;
+}
+
+.pardas-about__stat-number {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: #C8A94A;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.pardas-about__stat-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(210, 225, 245, 0.78);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.pardas-about__stat-divider {
+  width: 1px;
+  height: 60px;
+  background: rgba(200, 169, 74, 0.25);
+  flex-shrink: 0;
+}
+
+/* ── Expertise Section ── */
+.pardas-about__expertise-wrap {
+  text-align: center;
+}
+
+.pardas-about__expertise-heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #C8A94A;
+  margin: 0 0 32px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+}
+
+.pardas-about__expertise-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pardas-about__expertise-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(200, 169, 74, 0.2);
+  border-radius: 12px;
+  padding: 18px 20px;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  cursor: default;
+}
+
+.pardas-about__expertise-item:hover {
+  background: rgba(200, 169, 74, 0.1);
+  border-color: rgba(200, 169, 74, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+
+.pardas-about__expertise-item--license {
+  border-color: rgba(200, 169, 74, 0.45);
+  background: rgba(200, 169, 74, 0.07);
+}
+
+.pardas-about__expertise-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.pardas-about__expertise-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(220, 232, 250, 0.92);
+  text-align: right;
+  line-height: 1.35;
+}
+
+/* =============================================
+   RESPONSIVE — TABLET
+   ============================================= */
+@media (max-width: 900px) {
+  .pardas-about {
+    padding: 80px 20px;
+  }
+
+  .pardas-about__expertise-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pardas-about__stat-divider {
+    display: none;
+  }
+
+  .pardas-about__stats {
+    gap: 8px;
+  }
+
+  .pardas-about__stat {
+    min-width: 120px;
+    flex: 1 1 40%;
+  }
+}
+
+/* =============================================
+   RESPONSIVE — MOBILE
+   ============================================= */
+@media (max-width: 560px) {
+  .pardas-about {
+    padding: 64px 16px;
+  }
+
+  .pardas-about__heading {
+    font-size: 1.65rem;
+    margin-bottom: 28px;
+  }
+
+  .pardas-about__paragraph {
+    font-size: 15.5px;
+    text-align: right;
+  }
+
+  .pardas-about__body {
+    margin-bottom: 40px;
+  }
+
+  .pardas-about__stats {
+    flex-direction: column;
+    gap: 0;
+    padding: 24px 16px;
+    margin-bottom: 48px;
+  }
+
+  .pardas-about__stat {
+    flex: unset;
+    width: 100%;
+    padding: 16px 12px;
+    border-bottom: 1px solid rgba(200, 169, 74, 0.15);
+  }
+
+  .pardas-about__stat:last-child {
+    border-bottom: none;
+  }
+
+  .pardas-about__stat-number {
+    font-size: 2.2rem;
+  }
+
+  .pardas-about__expertise-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .pardas-about__expertise-item {
+    padding: 14px 14px;
+    gap: 10px;
+  }
+
+  .pardas-about__expertise-text {
+    font-size: 13.5px;
+  }
+
+  .pardas-about__expertise-icon {
+    font-size: 19px;
+  }
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
