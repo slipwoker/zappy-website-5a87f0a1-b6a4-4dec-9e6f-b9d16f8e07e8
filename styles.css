@@ -9189,6 +9189,23 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
   background: rgba(200, 169, 107, 0.18);
   margin: 0 32px;
 }
+
+.site-footer .footer-hours .day,
+.site-footer .footer-hours .time {
+  color: #F7F6F3 !important;
+}
+
+.site-footer .footer-hours .time.closed {
+  color: var(--accent-color) !important;
+}
+
+.site-footer .footer-bottom span:not(.separator) {
+  color: #F7F6F3 !important;
+}
+
+.site-footer .footer-legal .separator {
+  color: #F7F6F3 !important;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
