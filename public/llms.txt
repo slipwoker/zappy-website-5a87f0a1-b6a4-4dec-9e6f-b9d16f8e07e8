@@ -7,37 +7,37 @@
 ## Pages
 
 ### בית
-https://example.com
+https://pardes-hakirot.zappy5.app
 Pardes Investigations is a licensed private investigation and business intelligence firm owned by Yair Bloom, a fully licensed private investigator authorized b
 
 ### אודות המשרד
-https://example.com/about
+https://pardes-hakirot.zappy5.app/about
 אודות המשרד | פרד&quot;ס חקירות. חקירות כלכליות
 
 ### שירותים
-https://example.com/services
+https://pardes-hakirot.zappy5.app/services
 שירותים | פרד&quot;ס חקירות. חקירות כלכליות
 
 ### צור קשר
-https://example.com/contact
+https://pardes-hakirot.zappy5.app/contact
 צור קשר | פרד&quot;ס חקירות. חקירות כלכליות
 
 ### מקרי בוחן לדוגמה
-https://example.com/case-examples
+https://pardes-hakirot.zappy5.app/case-examples
 פרד"ס חקירות - מקרי בוחן לדוגמה
 
 ## Legal & Policy
 
 ### Privacy Policy
-https://example.com/privacy
+https://pardes-hakirot.zappy5.app/privacy
 Information about how user data is collected, stored, and protected.
 
 ### Terms & Conditions
-https://example.com/terms
+https://pardes-hakirot.zappy5.app/terms
 Legal terms describing service usage, rights, and policies.
 
 ### Accessibility Statement
-https://example.com/accessibility
+https://pardes-hakirot.zappy5.app/accessibility
 Information about WCAG compliance and accessibility features.
 
 ---
@@ -49,8 +49,8 @@ Information about WCAG compliance and accessibility features.
 - Phone (tel): tel:+972543975210
 
 ### Contact form
-- URL: https://example.com/contact
-- Endpoint: https://example.com/api/email/contact-form
+- URL: https://pardes-hakirot.zappy5.app/contact
+- Endpoint: https://pardes-hakirot.zappy5.app/api/email/contact-form
 - Method: POST
 - Content-Type: application/json
 - Fields:
@@ -96,6 +96,6 @@ Private Investigation & Business Intelligence
 
 # Machine-readable feeds
 
-- Sitemap (XML): https://example.com/sitemap.xml
-- Robots: https://example.com/robots.txt
-- Flattened page text (for LLMs): https://example.com/llms-full.txt
+- Sitemap (XML): https://pardes-hakirot.zappy5.app/sitemap.xml
+- Robots: https://pardes-hakirot.zappy5.app/robots.txt
+- Flattened page text (for LLMs): https://pardes-hakirot.zappy5.app/llms-full.txt
