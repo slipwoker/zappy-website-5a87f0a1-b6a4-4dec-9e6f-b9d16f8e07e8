@@ -7,37 +7,37 @@
 ## Pages
 
 ### בית
-https://pardes-hakirot.zappy5.app
+https://prdsbi.com
 Pardes Investigations is a licensed private investigation and business intelligence firm owned by Yair Bloom, a fully licensed private investigator authorized b
 
 ### אודות המשרד
-https://pardes-hakirot.zappy5.app/about
+https://prdsbi.com/about
 אודות המשרד | פרד&quot;ס חקירות. חקירות כלכליות
 
 ### שירותים
-https://pardes-hakirot.zappy5.app/services
+https://prdsbi.com/services
 שירותים | פרד&quot;ס חקירות. חקירות כלכליות
 
 ### צור קשר
-https://pardes-hakirot.zappy5.app/contact
+https://prdsbi.com/contact
 צור קשר | פרד&quot;ס חקירות. חקירות כלכליות
 
 ### מקרי בוחן לדוגמה
-https://pardes-hakirot.zappy5.app/case-examples
+https://prdsbi.com/case-examples
 פרד"ס חקירות - מקרי בוחן לדוגמה
 
 ## Legal & Policy
 
 ### Privacy Policy
-https://pardes-hakirot.zappy5.app/privacy
+https://prdsbi.com/privacy
 Information about how user data is collected, stored, and protected.
 
 ### Terms & Conditions
-https://pardes-hakirot.zappy5.app/terms
+https://prdsbi.com/terms
 Legal terms describing service usage, rights, and policies.
 
 ### Accessibility Statement
-https://pardes-hakirot.zappy5.app/accessibility
+https://prdsbi.com/accessibility
 Information about WCAG compliance and accessibility features.
 
 ---
@@ -49,8 +49,8 @@ Information about WCAG compliance and accessibility features.
 - Phone (tel): tel:+972543975210
 
 ### Contact form
-- URL: https://pardes-hakirot.zappy5.app/contact
-- Endpoint: https://pardes-hakirot.zappy5.app/api/email/contact-form
+- URL: https://prdsbi.com/contact
+- Endpoint: https://prdsbi.com/api/email/contact-form
 - Method: POST
 - Content-Type: application/json
 - Fields:
@@ -96,6 +96,6 @@ Private Investigation & Business Intelligence
 
 # Machine-readable feeds
 
-- Sitemap (XML): https://pardes-hakirot.zappy5.app/sitemap.xml
-- Robots: https://pardes-hakirot.zappy5.app/robots.txt
-- Flattened page text (for LLMs): https://pardes-hakirot.zappy5.app/llms-full.txt
+- Sitemap (XML): https://prdsbi.com/sitemap.xml
+- Robots: https://prdsbi.com/robots.txt
+- Flattened page text (for LLMs): https://prdsbi.com/llms-full.txt

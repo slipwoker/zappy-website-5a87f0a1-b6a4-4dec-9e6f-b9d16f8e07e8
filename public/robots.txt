@@ -50,4 +50,4 @@ Allow: /
 User-agent: MistralAI-User
 Allow: /
 
-Sitemap: https://pardes-hakirot.zappy5.app/sitemap.xml
+Sitemap: https://prdsbi.com/sitemap.xml

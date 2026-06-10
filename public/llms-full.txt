@@ -2,16 +2,18 @@
 
 Pardes Investigations is a licensed private investigation and business intelligence firm owned by Yair Bloom, a fully licensed private investigator authorized by the Israeli Ministry of Justice. The agency operates at a high professional level, emphasizing absolute discretion, strategic thinking, and reliability. The team includes analysts with backgrounds in Israel's security and intelligence establishment. The firm focuses exclusively on business, financial, and legal investigations — including due diligence, economic investigations, internal corporate investigations, digital investigations, and background checks both in Israel and abroad — projecting an image of authority, trustworthiness, and elite professionalism.
 
-Source: https://pardes-hakirot.zappy5.app
+Source: https://prdsbi.com
 
 ---
 
 ## חקירות כלכליות — פרד&quot;ס חקירות
 
-URL: https://pardes-hakirot.zappy5.app
+URL: https://prdsbi.com
 Description: Pardes Investigations is a licensed private investigation and business intelligence firm owned by Yair Bloom, a fully licensed private investigator authorized b
 
-חקירות כלכליות — פרד"ס חקירות                                                   דלג לתוכן הראשי                          - בית
+חקירות כלכליות — פרד"ס חקירות
+
+דלג לתוכן הראשי                          - בית
 - אודות המשרד
 - שירותים
 - מקרים
@@ -107,10 +109,12 @@ Description: Pardes Investigations is a licensed private investigation and busin
 
 ## אודות המשרד — פרד&quot;ס חקירות
 
-URL: https://pardes-hakirot.zappy5.app/about
+URL: https://prdsbi.com/about
 Description: אודות המשרד | פרד&quot;ס חקירות. חקירות כלכליות
 
 אודות המשרד — פרד"ס חקירות
+
+
 
 
 
@@ -567,10 +571,12 @@ Description: אודות המשרד | פרד&quot;ס חקירות. חקירות �
 
 ## שירותים — פרד&quot;ס חקירות
 
-URL: https://pardes-hakirot.zappy5.app/services
+URL: https://prdsbi.com/services
 Description: שירותים | פרד&quot;ס חקירות. חקירות כלכליות
 
-שירותים — פרד"ס חקירות                                                   דלג לתוכן הראשי                          - בית
+שירותים — פרד"ס חקירות
+
+דלג לתוכן הראשי                          - בית
 - אודות המשרד
 - שירותים
 - מקרים
@@ -767,10 +773,12 @@ OSINT   ניתוח פיננסי   מיפוי רשתות
 
 ## צור קשר — פרד&quot;ס חקירות
 
-URL: https://pardes-hakirot.zappy5.app/contact
+URL: https://prdsbi.com/contact
 Description: צור קשר | פרד&quot;ס חקירות. חקירות כלכליות
 
 צור קשר — פרד"ס חקירות
+
+
 
 
 
@@ -1191,10 +1199,12 @@ WhatsApp
 
 ## מדיניות פרטיות
 
-URL: https://pardes-hakirot.zappy5.app/privacy
+URL: https://prdsbi.com/privacy
 Description: מדיניות הפרטיות שלנו - כיצד אנו אוספים, משתמשים ומגנים על המידע שלכם
 
 מדיניות פרטיות
+
+
 
 
 
@@ -1373,10 +1383,12 @@ Description: מדיניות הפרטיות שלנו - כיצד אנו אוספי
 
 ## הצהרת נגישות
 
-URL: https://pardes-hakirot.zappy5.app/accessibility
+URL: https://prdsbi.com/accessibility
 Description: הצהרת הנגישות שלנו - מחויבותנו לנגישות דיגיטלית
 
 הצהרת נגישות
+
+
 
 
 
@@ -1564,10 +1576,12 @@ Description: הצהרת הנגישות שלנו - מחויבותנו לנגיש�
 
 ## תנאי שימוש
 
-URL: https://pardes-hakirot.zappy5.app/terms
+URL: https://prdsbi.com/terms
 Description: תנאי השימוש באתר - הזכויות והחובות של המשתמשים
 
 תנאי שימוש
+
+
 
 
 
@@ -1774,10 +1788,12 @@ Description: תנאי השימוש באתר - הזכויות והחובות של
 
 ## מקרי בוחן לדוגמה
 
-URL: https://pardes-hakirot.zappy5.app/case-examples
+URL: https://prdsbi.com/case-examples
 Description: פרד"ס חקירות - מקרי בוחן לדוגמה
 
 מקרי בוחן לדוגמה
+
+
 
 
 
