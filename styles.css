@@ -2800,8 +2800,9 @@ html[dir="rtl"] .footer-contact li > a { flex-direction: row !important; }
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: var(--border-light);
+  color: var(--accent);
   line-height: 1;
+  opacity: 0.6;
 }
 
 .index-capabilities-section .index-cap-card-inner {
@@ -2814,8 +2815,8 @@ html[dir="rtl"] .footer-contact li > a { flex-direction: row !important; }
   justify-content: flex-end;
   width: 48px;
   height: 48px;
-  border-radius: 4px;
-  background: rgba(31,58,95,0.06);
+  border-radius: 8px;
+  background: rgba(200,169,107,0.1);
   margin-bottom: 18px;
   margin-inline-start: auto;
   margin-inline-end: 0;
@@ -2833,7 +2834,7 @@ html[dir="rtl"] .footer-contact li > a { flex-direction: row !important; }
   font-size: 1.2rem;
   font-weight: 700;
   line-height: 1.35;
-  color: var(--primary);
+  color: var(--text-light);
   margin: 0 0 14px;
   text-align: right;
 }
@@ -9235,6 +9236,21 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
 
 .index-hero-section .index-hero-label {
   color: var(--accent) !important;
+}
+
+.index-capabilities-section .index-cap-sidenote {
+  display: none !important;
+}
+
+.index-capabilities-section .index-capabilities-grid {
+  grid-template-columns: repeat(2, 1fr) !important;
+}
+
+.index-capabilities-section .index-cap-card {
+  background: var(--bg-dark, var(--background-color, var(--background, var(--bg-light, #162435)))) !important;
+  border: 1px solid var(--border-dark, #314357) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15) !important;
 }
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
