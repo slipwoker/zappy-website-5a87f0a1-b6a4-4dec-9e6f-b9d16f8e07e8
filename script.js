@@ -1642,11 +1642,11 @@ window.onload = function() {
 /* END ZAPPY_PUBLISHED_LIGHTBOX_RUNTIME */
 
 
-/* ZAPPY_PUBLISHED_ZOOM_WRAPPER_RUNTIME_V2 */
+/* ZAPPY_PUBLISHED_ZOOM_WRAPPER_RUNTIME_V3 */
 (function(){
   try {
-    if (window.__zappyPublishedZoomInitV2) return;
-    window.__zappyPublishedZoomInitV2 = true;
+    if (window.__zappyPublishedZoomInitV3) return;
+    window.__zappyPublishedZoomInitV3 = true;
 
     function isHeroBgWrapper(wrapper) {
       var img = wrapper.querySelector('img');
@@ -1678,6 +1678,27 @@ window.onload = function() {
       return { w: 100, h: (contA / imgA) * 100 };
     }
 
+    var IMAGE_SLOT_CLASS_TOKENS = ['image-wrap', 'image-tile', 'image-slot', 'card-image', 'card-media', 'media-wrap', 'portrait-wrap'];
+    function classNameHasImageSlotMarker(className) {
+      var raw = (className || '').toString().toLowerCase();
+      if (!raw.trim()) return false;
+      var classes = raw.split(/\s+/);
+      for (var c = 0; c < classes.length; c++) {
+        var segments = classes[c].split(/[^a-z0-9]+/).filter(function(s) { return !!s; });
+        for (var t = 0; t < IMAGE_SLOT_CLASS_TOKENS.length; t++) {
+          var tokenParts = IMAGE_SLOT_CLASS_TOKENS[t].split('-');
+          for (var i = 0; i <= segments.length - tokenParts.length; i++) {
+            var match = true;
+            for (var j = 0; j < tokenParts.length; j++) {
+              if (segments[i + j] !== tokenParts[j]) { match = false; break; }
+            }
+            if (match) return true;
+          }
+        }
+      }
+      return false;
+    }
+
     function normalizeInsertedZoomParent(wrapper) {
       try {
         var parent = wrapper && wrapper.parentElement;
@@ -1692,6 +1713,46 @@ window.onload = function() {
         parent.style.setProperty('max-height', 'none', 'important');
         parent.setAttribute('data-zappy-inserted-zoom-parent-normalized', '1');
       } catch (_e) {}
+    }
+
+    function findImageSlotContainerForZoomWrapper(wrapper, maxWalk) {
+      try {
+        if (!wrapper || !wrapper.parentElement) return null;
+        var node = wrapper.parentElement;
+        for (var walk = 0; walk < (maxWalk || 4) && node && node !== document.body; walk++) {
+          var nodeClass = (node.className || '').toString();
+          if (classNameHasImageSlotMarker(nodeClass)) return node;
+
+          var nodeCS = window.getComputedStyle(node);
+          var rawClass = (node.className || '').toString();
+          var isThinAnchor = node.tagName === 'A' && nodeCS && nodeCS.display === 'contents';
+          var isUnclassedDiv = node.tagName === 'DIV' && !rawClass.trim();
+          var isInsertedEl = / zappy-inserted-element |^zappy-inserted-element | zappy-inserted-element$|^zappy-inserted-element$/.test(' ' + rawClass + ' ');
+          if (!(isThinAnchor || isUnclassedDiv || isInsertedEl)) break;
+          node = node.parentElement;
+        }
+      } catch (_e) {}
+      return null;
+    }
+
+    function hasSyncedDecorativeImageFrame(wrapper) {
+      try {
+        if (!wrapper) return false;
+        var node = wrapper.parentElement;
+        for (var walk = 0; walk < 4 && node && node !== document.body; walk++) {
+          if (node.getAttribute && node.getAttribute('data-zappy-image-frame-synced') === 'true') {
+            return true;
+          }
+          var nodeCS = window.getComputedStyle(node);
+          var rawClass = (node.className || '').toString();
+          var isThinAnchor = node.tagName === 'A' && nodeCS && nodeCS.display === 'contents';
+          var isUnclassedDiv = node.tagName === 'DIV' && !rawClass.trim();
+          var isInsertedEl = / zappy-inserted-element |^zappy-inserted-element | zappy-inserted-element$|^zappy-inserted-element$/.test(' ' + rawClass + ' ');
+          if (!(isThinAnchor || isUnclassedDiv || isInsertedEl)) break;
+          node = node.parentElement;
+        }
+      } catch (_e) {}
+      return false;
     }
 
     // FULL-BLEED FIRST-CHILD MEDIA: when the wrapper's parent (the image-wrap)
@@ -1713,8 +1774,8 @@ window.onload = function() {
         var slotForBleed = null;
         var slotNode = wrapper.parentElement;
         for (var slotWalk = 0; slotWalk < 4 && slotNode && slotNode !== document.body; slotWalk++) {
-          var slotNodeClass = (slotNode.className || '').toString().toLowerCase();
-          if (/(image-wrap|image-tile|image-slot|card-image|card-media|media-wrap|portrait-wrap)/.test(slotNodeClass)) {
+          var slotNodeClass = (slotNode.className || '').toString();
+          if (classNameHasImageSlotMarker(slotNodeClass)) {
             slotForBleed = slotNode;
             break;
           }
@@ -1792,6 +1853,8 @@ window.onload = function() {
         if (!wrapper || isHeroBgWrapper(wrapper)) return;
         var widthMode = wrapper.getAttribute('data-zappy-zoom-wrapper-width-mode');
         if (widthMode === 'full') return;
+        var forceCardSlotFill = widthMode === 'card-slot' || wrapper.getAttribute('data-zappy-card-slot-fill') === '1';
+        if (hasSyncedDecorativeImageFrame(wrapper)) return;
         // Walk UP through editor-injected / "thin" wrappers to find the real
         // visual image-slot container. We tolerate at most 3 levels of:
         //   - <a style="display:contents">           (editor link wrap)
@@ -1800,8 +1863,8 @@ window.onload = function() {
         var node = wrapper.parentElement;
         var slotEl = null;
         for (var walk = 0; walk < 3 && node && node !== document.body; walk++) {
-          var nodeClass = (node.className || '').toString().toLowerCase();
-          if (/(image-wrap|image-tile|image-slot|card-image|card-media|media-wrap|portrait-wrap)/.test(nodeClass)) {
+          var nodeClass = (node.className || '').toString();
+          if (classNameHasImageSlotMarker(nodeClass)) {
             slotEl = node;
             break;
           }
@@ -1814,6 +1877,18 @@ window.onload = function() {
           node = node.parentElement;
         }
         if (!slotEl) {
+          if (forceCardSlotFill) {
+            var forcedSW = parseFloat(wrapper.getAttribute('data-zappy-zoom-wrapper-width')) || 0;
+            var forcedSH = parseFloat(wrapper.getAttribute('data-zappy-zoom-wrapper-height')) || 0;
+            wrapper.style.setProperty('width', '100%', 'important');
+            wrapper.style.setProperty('max-width', '100%', 'important');
+            wrapper.style.setProperty('padding-bottom', '0', 'important');
+            if (forcedSW > 0 && forcedSH > 0) {
+              wrapper.style.setProperty('aspect-ratio', forcedSW + '/' + forcedSH, 'important');
+              wrapper.style.setProperty('height', 'auto', 'important');
+            }
+            wrapper.setAttribute('data-zappy-card-slot-fill', '1');
+          }
           // No image-slot found. Check if the walk stopped at a card-like
           // container and the saved width fills most of the card — this handles
           // user-replaced images where the original image-wrap is empty and the
@@ -1871,14 +1946,14 @@ window.onload = function() {
         var slotCS = window.getComputedStyle(slotEl);
         var slotWidthGap = slotRect.width - wrapRect.width;
         var slotHeightGap = wrapRect.height - slotRect.height;
-        if (slotWidthGap <= 4 && !(slotHeightGap > 4 && slotRect.height > 0 && slotCS.overflow !== 'visible')) return;
+        if (!forceCardSlotFill && slotWidthGap <= 4 && !(slotHeightGap > 4 && slotRect.height > 0 && slotCS.overflow !== 'visible')) return;
         var swStr = wrapper.getAttribute('data-zappy-zoom-wrapper-width');
         var shStr = wrapper.getAttribute('data-zappy-zoom-wrapper-height');
         var swNum = parseFloat(swStr) || 0;
         var shNum = parseFloat(shStr) || 0;
         wrapper.style.setProperty('width', '100%', 'important');
         wrapper.style.setProperty('max-width', '100%', 'important');
-        if (slotHeightGap > 4 && slotRect.height > 0 && slotCS.overflow !== 'visible') {
+        if (slotRect.height > 0 && (forceCardSlotFill || (slotHeightGap > 4 && slotCS.overflow !== 'visible'))) {
           wrapper.style.setProperty('height', '100%', 'important');
           wrapper.style.setProperty('aspect-ratio', 'auto', 'important');
           wrapper.style.setProperty('padding-bottom', '0', 'important');
@@ -2157,6 +2232,19 @@ window.onload = function() {
       if (widthMode === 'full' || widthMode === 'grid-responsive') return;
       if (isHeroBgWrapper(wrapper)) return;
 
+      if ((widthMode === 'card-slot' || wrapper.getAttribute('data-zappy-card-slot-fill') === '1') &&
+          !findImageSlotContainerForZoomWrapper(wrapper, 4) &&
+          hasSyncedDecorativeImageFrame(wrapper)) {
+        // Older published runtimes used substring matching and could persist
+        // card-slot fill on decorative frames like "showcase-image-wrapper".
+        // Clear that stale marker so saved pixel crop dimensions win again.
+        wrapper.removeAttribute('data-zappy-card-slot-fill');
+        if (widthMode === 'card-slot') {
+          wrapper.setAttribute('data-zappy-zoom-wrapper-width-mode', 'px');
+          widthMode = 'px';
+        }
+      }
+
       var storedW = wrapper.getAttribute('data-zappy-zoom-wrapper-width');
       var storedH = wrapper.getAttribute('data-zappy-zoom-wrapper-height');
       if (!storedW && !storedH) return;
@@ -2245,6 +2333,67 @@ window.onload = function() {
   } catch (eOuter) {}
 })();
 /* END ZAPPY_PUBLISHED_ZOOM_WRAPPER_RUNTIME */
+
+
+/* ZAPPY_PUBLISHED_MOBILE_IMAGE_SWAP_V2 */
+(function(){
+  try {
+    if (window.__zappyMobileImageSwapInitV2) return;
+    window.__zappyMobileImageSwapInitV2 = true;
+    var SEL = 'img[data-zappy-mobile-src],img[data-zappy-mobile-object-position],img[data-zappy-mobile-zoom]';
+    var applied = false;
+    function standalone(img){ return img && !img.closest('[data-zappy-zoom-wrapper="true"]'); }
+    function applyMobile(){
+      if (applied) return; applied = true;
+      document.querySelectorAll(SEL).forEach(function(img){
+        if (!standalone(img)) return;
+        if (!img._zappyDesktop) img._zappyDesktop = { src: img.getAttribute('src'), style: img.getAttribute('style') };
+        var mSrc = img.getAttribute('data-zappy-mobile-src');
+        var mPos = img.getAttribute('data-zappy-mobile-object-position');
+        var mZoom = parseFloat(img.getAttribute('data-zappy-mobile-zoom'));
+        if (mSrc) img.src = mSrc;
+        if (mPos) img.style.setProperty('object-position', mPos, 'important');
+        if (isFinite(mZoom) && mZoom > 1) {
+          img.style.setProperty('transform', 'scale(' + mZoom + ')', 'important');
+          img.style.setProperty('transform-origin', mPos || '50% 50%', 'important');
+          var p = img.parentElement;
+          if (p) {
+            if (!p._zappyDesktop) p._zappyDesktop = { style: p.getAttribute('style') };
+            p.style.setProperty('overflow', 'hidden', 'important');
+          }
+        }
+      });
+    }
+    function revertDesktop(){
+      if (!applied) return; applied = false;
+      document.querySelectorAll(SEL).forEach(function(img){
+        if (!standalone(img)) return;
+        if (img._zappyDesktop) {
+          if (img._zappyDesktop.src != null) img.setAttribute('src', img._zappyDesktop.src);
+          if (img._zappyDesktop.style != null) img.setAttribute('style', img._zappyDesktop.style);
+          else img.removeAttribute('style');
+        }
+        var p = img.parentElement;
+        if (p && p._zappyDesktop) {
+          if (p._zappyDesktop.style != null) p.setAttribute('style', p._zappyDesktop.style);
+          else p.removeAttribute('style');
+        }
+      });
+    }
+    function init(){
+      var mq = window.matchMedia('(max-width:768px)');
+      function onChange(e){ if (e.matches) applyMobile(); else revertDesktop(); }
+      if (mq.matches) applyMobile();
+      try { mq.addEventListener('change', onChange); } catch (e) { mq.addListener(onChange); }
+    }
+    // script.js loads at end of <body>, so the <img> elements already exist —
+    // run immediately to minimise the desktop-image flash, with a
+    // DOMContentLoaded fallback for the head-loaded edge case.
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
+    else init();
+  } catch (eOuter) {}
+})();
+/* END ZAPPY_PUBLISHED_MOBILE_IMAGE_SWAP_V2 */
 
 
 /* ZAPPY_MOBILE_MENU_TOGGLE */
@@ -2412,6 +2561,94 @@ window.onload = function() {
         question.__zappyFaqBound = true;
         question.style.cursor = 'pointer';
 
+        // Shared answer expand/collapse animation (used by both the <details>
+        // toggle path and the generic click path) so the two stay identical.
+        function expandFaqAnswer(answer) {
+          if (!answer) return;
+          answer.style.display = '';
+          answer.style.paddingTop = '';
+          answer.style.paddingBottom = '';
+          var inners = answer.querySelectorAll(answerSel);
+          inners.forEach(function(inn) {
+            inn.style.maxHeight = '';
+            inn.style.overflow = '';
+            inn.style.opacity = '';
+            inn.style.paddingTop = '';
+            inn.style.paddingBottom = '';
+          });
+          answer.style.transition = 'none';
+          answer.style.maxHeight = 'none';
+          answer.style.opacity = '0';
+          var realH = answer.scrollHeight;
+          answer.style.maxHeight = '0';
+          answer.offsetHeight;
+          answer.style.transition = 'max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease';
+          answer.style.maxHeight = realH + 'px';
+          answer.style.overflow = 'hidden';
+          answer.style.opacity = '1';
+        }
+        function collapseFaqAnswer(answer) {
+          if (!answer) return;
+          answer.style.transition = 'max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease';
+          answer.style.maxHeight = '0';
+          answer.style.overflow = 'hidden';
+          answer.style.opacity = '0';
+          answer.style.paddingTop = '0';
+          answer.style.paddingBottom = '0';
+        }
+
+        // Native <details>/<summary> accordions: the browser hides the answer
+        // whenever the <details> lacks the `open` attribute, so animating
+        // max-height alone is NOT enough — and a click handler that
+        // preventDefault()s the summary blocks the native open toggle, leaving
+        // the answer permanently clamped (max-height:0 inside a closed details).
+        // Drive the animation off the native `toggle` event instead — it fires
+        // no matter WHERE inside the summary the user clicks (text, icon,
+        // padding) — and let the browser own the `open` state. This is the
+        // modern FAQ markup the legacy click+preventDefault path never handled.
+        var detailsEl = (item.tagName === 'DETAILS')
+          ? item
+          : (question.closest ? question.closest('details') : null);
+        if (detailsEl) {
+          if (detailsEl.__zappyFaqToggleBound) return;
+          detailsEl.__zappyFaqToggleBound = true;
+          detailsEl.addEventListener('toggle', function() {
+            var isActive = detailsEl.open;
+            item.classList.toggle('active', isActive);
+            question.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+            if (isActive) {
+              // Single-open accordion: close the OTHER open <details> in this
+              // FAQ list. Match by the SAME faq-item selector (NOT
+              // `details[class*="faq-item"]`) and resolve each item's
+              // <details>, because the faq-item / accordion-item class
+              // frequently lives on a WRAPPER (e.g.
+              // `<div class="faq-item"><details>…</details></div>`) rather
+              // than on the <details> itself — querying for class-bearing
+              // <details> would miss those siblings and let multiple answers
+              // stay open.
+              var parent = item.parentElement;
+              if (parent) {
+                var sibItems = parent.querySelectorAll('[class*="faq-item"], .accordion-item');
+                sibItems.forEach(function(sibItem) {
+                  if (sibItem === item) return;
+                  var sibDetails = (sibItem.tagName === 'DETAILS') ? sibItem : sibItem.querySelector('details');
+                  if (sibDetails && sibDetails !== detailsEl && sibDetails.open) sibDetails.open = false;
+                });
+              }
+              expandFaqAnswer(pickAnswer(item, question));
+            } else {
+              collapseFaqAnswer(pickAnswer(item, question));
+            }
+            var chevron = question.querySelector('[class*="chevron"], [class*="icon"], svg');
+            if (chevron) {
+              chevron.style.transform = isActive ? 'rotate(180deg)' : 'rotate(0deg)';
+              chevron.style.transition = 'transform 0.3s ease';
+            }
+          });
+          if (detailsEl.open) { item.classList.add('active'); expandFaqAnswer(pickAnswer(item, question)); }
+          return;
+        }
+
         question.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
@@ -2483,6 +2720,9 @@ window.onload = function() {
 
       items.forEach(function(item) {
         if (item.classList.contains('active')) return;
+        // Native <details> manage their own open/closed visibility; never clamp
+        // an open one to max-height:0 (its toggle handler already expanded it).
+        if (item.tagName === 'DETAILS' && item.open) return;
         if (item.closest(answerSel)) return;
         var question = item.querySelector('[class*="faq-question"], [class*="faq-header"], [class*="faq-item__question"], [class*="faq-item__btn"], [class*="faq-btn"], .accordion-header, .accordion-toggle');
         // No clickable question/header toggle exists → this is a STATIC FAQ
@@ -2617,6 +2857,85 @@ function resolveVar(val){
   return getComputedStyle(document.documentElement).getPropertyValue('--'+m[1]).trim()||val;
 }
 
+// An explicit inline `color:` on the element itself means the colour is
+// intentional and must not be auto-"fixed" (handled in the loop). The SAME
+// intent applies when an ANCESTOR set an explicit inline colour and this element
+// merely inherits it (e.g. a panel whose <h3 style="color:#fff"> wraps a <span>
+// that inherits white). Without this, removing a child's own colour to let it
+// inherit would make the child eligible for the fixer, which on a mid-tone
+// background can compute black > white contrast and flip intentional white text
+// to black with !important (the "white flash then black" bug). Respecting the
+// ancestor's explicit colour keeps the fixer for genuinely un-styled text only.
+function ancestorHasExplicitColor(el){
+  var n=el&&el.parentElement;
+  while(n&&n!==document.body){
+    var st=n.getAttribute&&n.getAttribute('style');
+    if(st&&/(?:^|;)\s*color\s*:/i.test(st))return true;
+    n=n.parentElement;
+  }
+  return false;
+}
+
+// Respect deliberate author-level `color: ... !important` rules. The runtime
+// fixer runs late and writes inline `!important`, so without this check it can
+// override an explicit user/AI styling request (e.g. white FAQ text on a brand
+// orange card) simply because black has a slightly higher WCAG ratio. We still
+// fix ordinary generated CSS, but an author `!important` colour is intentional.
+function elementMatchesColorRule(el, importantOnly){
+  if(!el||!el.matches)return false;
+  function ruleApplies(rule){
+    if(!rule)return false;
+    if(rule.type===1){
+      try{
+        if(rule.style&&rule.style.getPropertyValue('color')&&
+          (!importantOnly||rule.style.getPropertyPriority('color')==='important')&&
+          el.matches(rule.selectorText)){
+          return true;
+        }
+      }catch(e){return false;}
+    }
+    if(rule.cssRules){
+      try{
+        for(var ri=0;ri<rule.cssRules.length;ri++){
+          if(ruleApplies(rule.cssRules[ri]))return true;
+        }
+      }catch(e2){return false;}
+    }
+    return false;
+  }
+  for(var si=0;si<document.styleSheets.length;si++){
+    var rules=null;
+    try{rules=document.styleSheets[si].cssRules;}catch(e3){continue;}
+    if(!rules)continue;
+    for(var i=0;i<rules.length;i++){
+      if(ruleApplies(rules[i]))return true;
+    }
+  }
+  return false;
+}
+function elementMatchesImportantColorRule(el){
+  return elementMatchesColorRule(el,true);
+}
+function elementMatchesAuthorColorRule(el){
+  return elementMatchesColorRule(el,false);
+}
+function selfOrAncestorHasImportantAuthorColor(el){
+  var n=el;
+  while(n&&n!==document.body){
+    if(elementMatchesImportantColorRule(n))return true;
+    n=n.parentElement;
+  }
+  return false;
+}
+function selfOrAncestorHasAuthorColor(el){
+  var n=el;
+  while(n&&n!==document.body){
+    if(elementMatchesAuthorColorRule(n))return true;
+    n=n.parentElement;
+  }
+  return false;
+}
+
 function isDecorativeAccentText(el){
   if(!el||!el.matches)return false;
   if(el.matches('.font-accent,.hero-logotype,.hero-logotype-line,[class*="script"],[class*="accent-line"],[class*="subheadline"]'))return true;
@@ -2644,16 +2963,51 @@ function fixContrast(){
   if(!darkRGB)darkRGB={r:26,g:26,b:26};
   if(!lightRGB)lightRGB={r:255,g:255,b:255};
 
+  var TEXT_SEL='h1,h2,h3,h4,h5,h6,p,span,a,button,li,label,td,th,dt,dd,figcaption';
   var mainEl=document.querySelector('main')||document.body;
-  var els=mainEl.querySelectorAll('h1,h2,h3,h4,h5,h6,p,span,a,button,li,label,td,th,dt,dd,figcaption');
+  var els=[];
+  var mainNodes=mainEl.querySelectorAll(TEXT_SEL);
+  for(var mi=0;mi<mainNodes.length;mi++)els.push(mainNodes[mi]);
+  // The page footer (e.g. <footer class="site-footer">) usually lives OUTSIDE
+  // <main>, so it would never be scanned otherwise. Pull in any footer not
+  // already covered by mainEl so its (often muted-on-dark) text is fixed too.
+  var extraFooters=document.querySelectorAll('footer,.site-footer,.zappy-footer');
+  for(var fi=0;fi<extraFooters.length;fi++){
+    var ft=extraFooters[fi];
+    if(mainEl.contains(ft))continue;
+    var fNodes=ft.querySelectorAll(TEXT_SEL);
+    for(var fj=0;fj<fNodes.length;fj++)els.push(fNodes[fj]);
+  }
+  // The navbar CTA pill (.nav-cta-btn / .cta-button) is a SOLID-FILL button, so
+  // unlike plain nav links (which are transparent over the managed navbar bg and
+  // are intentionally skipped below) its text contrast is well-defined against
+  // its own fill. It lives OUTSIDE <main>, so add it + its text nodes explicitly.
+  var ctaPills=document.querySelectorAll('.nav-cta-btn,.cta-button');
+  for(var ci=0;ci<ctaPills.length;ci++){
+    var cp=ctaPills[ci];
+    if(mainEl.contains(cp))continue;
+    els.push(cp);
+    var cpNodes=cp.querySelectorAll(TEXT_SEL);
+    for(var cj=0;cj<cpNodes.length;cj++)els.push(cpNodes[cj]);
+  }
   var fixed=0;
   for(var i=0;i<els.length;i++){
     var el=els[i];
-    if(el.closest('nav,header,.zappy-header,footer,.zappy-footer'))continue;
+    // Skip the navbar/header only — those are managed by the navbar contrast
+    // helpers. Footers are NOT skipped: the page footer (e.g. .site-footer) is
+    // often a dark band with muted/grey text, AND the LLM frequently uses a
+    // semantic <footer> for citation/role text INSIDE testimonial/blockquote
+    // cards — both need the same computed-background contrast fix as body text.
+    // The navbar CTA pill is the ONE nav element we DO fix: it's a solid-fill
+    // button whose text/bg contrast is self-contained (the AI sometimes paints
+    // the label the same hue as the fill → invisible until hover).
+    if(el.closest('nav,header,.zappy-header')&&!el.closest('.nav-cta-btn,.cta-button'))continue;
     if(isDecorativeAccentText(el))continue;
     if(hasImageOrVideoBackground(el))continue;
     var inlineStyle=el.getAttribute('style')||'';
     if(/(?:^|;\s*)color\s*:/i.test(inlineStyle))continue;
+    if(ancestorHasExplicitColor(el))continue;
+    if(selfOrAncestorHasImportantAuthorColor(el))continue;
     if(el.tagName==='FONT'&&el.hasAttribute('color'))continue;
     var txt=el.textContent?el.textContent.trim():'';
     if(!txt)continue;
@@ -2666,6 +3020,7 @@ function fixContrast(){
     if(!cRGB||!bRGB)continue;
     var ratio=contrastRatio(cRGB,bRGB);
     if(ratio<4.5){
+      if(ratio>=3&&selfOrAncestorHasAuthorColor(el))continue;
       var darkC=contrastRatio(darkRGB,bRGB);
       var lightC=contrastRatio(lightRGB,bRGB);
       var best=darkC>=lightC?dark:light;
@@ -2948,6 +3303,14 @@ function fixContrast(){
             container.removeAttribute('data-zappy-grid-centered');
           }
 
+          // List grids (<ul>/<ol>) read in document order and align to the start
+          // (first column); centering a checklist's lonely last item breaks its
+          // column alignment with the rows above. Cards (div grids) still center.
+          // The cleanup above already reverted any prior centering, so a list
+          // centered before this runtime shipped snaps back to its natural spot.
+          var containerTag = (container.tagName || '').toLowerCase();
+          if (containerTag === 'ul' || containerTag === 'ol') continue;
+
           var items = [];
           for (var c = 0; c < container.children.length; c++) {
             var ch = container.children[c];
@@ -3105,6 +3468,11 @@ function fixContrast(){
       }
 
       var c = ['justify-content:center!important'];
+      if (hAlign === 'center') {
+        c.push('margin-left:auto!important');
+        c.push('margin-right:auto!important');
+        c.push('text-align:center!important');
+      }
       if (!isFlex && hAlign !== 'center') {
         c.push('min-width:33.33%!important');
         c.push('text-align:start!important');
@@ -3112,6 +3480,10 @@ function fixContrast(){
 
       var css = '';
       if (hPx !== 0 || vPx !== 0) css += sel + '{overflow:hidden!important}';
+      if (hAlign === 'center') {
+        css += sel + '{display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;text-align:center!important}';
+        t.push('text-align:center!important');
+      }
       css += sel + ' [data-zappy-align-target]{' + t.join(';') + '}';
       css += sel + ' [data-zappy-align-target]>*{' + c.join(';') + '}';
       css += '@media(max-width:768px){' +
@@ -3357,7 +3729,7 @@ function fixContrast(){
       window.initVariantSelection = function(product, t) {
         // Store product data for our fix
         if (product && product.variants && product.variants.length > 0) {
-          _variantProduct = product;
+          _variantProduct = _augmentProductFromCardVariants(product);
           var trans = t || {};
           // Ensure pleaseSelect is available (for sites generated before this key was added)
           if (!trans.pleaseSelect) {
@@ -3390,6 +3762,131 @@ function fixContrast(){
     function _getVariants() {
       if (!_variantProduct) return [];
       return (_variantProduct.variants || []).filter(function(v) { return v.is_active !== false; });
+    }
+
+    function _augmentProductFromCardVariants(product) {
+      if (!product || !product.card_variants || !Array.isArray(product.card_variants.matrix)) return product;
+      var byId = {};
+      (Array.isArray(product.variants) ? product.variants : []).forEach(function(v) {
+        if (v && v.id != null) byId[String(v.id)] = v;
+      });
+      product.card_variants.matrix.forEach(function(row) {
+        if (!row || row.id == null) return;
+        var existing = byId[String(row.id)] || {};
+        byId[String(row.id)] = Object.assign({}, existing, {
+          id: row.id,
+          attributes: row.attributes || existing.attributes || {},
+          price: row.price != null ? row.price : existing.price,
+          image: row.image || existing.image,
+          sku: row.sku || existing.sku,
+          custom_fields: existing.custom_fields || existing.customFields || row.custom_fields || row.customFields || {},
+          available: typeof row.available === 'boolean' ? row.available : existing.available,
+          is_active: existing.is_active !== false
+        });
+      });
+      product.variants = Object.keys(byId).map(function(id) { return byId[id]; });
+      return product;
+    }
+
+    function _variantCssUrl(value) {
+      return String(value == null ? '' : value).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n|\r/g, '');
+    }
+
+    function _cardVariantSwatchStyle(value) {
+      if (typeof window.zappyCardSwatchStyle === 'function') return window.zappyCardSwatchStyle(value);
+      if (value && (value.swatchImage || value.image)) {
+        var resolver = window.resolveProductImageUrl || function(src) { return src; };
+        return "background-image:url('" + _variantCssUrl(resolver(value.swatchImage || value.image)) + "');background-size:" + (value.imageSize || 'cover') + ';background-position:' + (value.imagePosition || '50% 50%') + ';';
+      }
+      if (value && value.hex2) return 'background:linear-gradient(90deg,' + (value.hex || '#94a3b8') + ' 0 50%,' + value.hex2 + ' 50% 100%);';
+      return 'background:' + ((value && (value.hex || value.value)) || '#94a3b8') + ';';
+    }
+
+    function _translateVariantOptionLabel(product, key, value, fallback) {
+      if (typeof window.zappyTranslateVariantValue === 'function') {
+        return window.zappyTranslateVariantValue(product, key, value, fallback);
+      }
+      var lang = '';
+      try {
+        lang = String((typeof getCurrentEcomLanguage === 'function' ? getCurrentEcomLanguage() : (document.documentElement.lang || '')) || '').split('-')[0].toLowerCase();
+      } catch (e) {}
+      function translateKnownColor(rawValue) {
+        if (lang !== 'he') return '';
+        if (String(key || '').toLowerCase().indexOf('color') === -1 && String(key || '').toLowerCase() !== 'colour') return '';
+        var raw = String(rawValue == null ? '' : rawValue).trim();
+        if (!raw || /[\u0590-\u05FF]/.test(raw)) return '';
+        var map = { black:'שחור', white:'לבן', gray:'אפור', grey:'אפור', red:'אדום', green:'ירוק', blue:'כחול', navy:'כחול כהה', pink:'ורוד', purple:'סגול', yellow:'צהוב', orange:'כתום', brown:'חום', beige:'בז׳', gold:'זהב', silver:'כסף', teal:'טורקיז', mint:'מנטה', cream:'קרם', ivory:'שנהב' };
+        var direct = map[raw.toLowerCase().replace(/\s+/g, ' ')];
+        if (direct) return direct;
+        var parts = raw.split(/\s*-\s*/).filter(Boolean);
+        if (parts.length > 1) {
+          var translated = parts.map(function(part) { return map[String(part).toLowerCase().replace(/\s+/g, ' ')]; });
+          if (translated.every(Boolean)) return translated.join('-');
+        }
+        return '';
+      }
+      var wanted = String(value);
+      var variants = product && Array.isArray(product.variants) ? product.variants : [];
+      for (var i = 0; i < variants.length; i++) {
+        var variant = variants[i] || {};
+        var attrs = variant.attributes_source || variant.attributes || {};
+        if (!attrs || String(attrs[key]) !== wanted) continue;
+        var translatedAttrs = variant.attributes_translations && lang && variant.attributes_translations[lang];
+        if (translatedAttrs && translatedAttrs[key]) return translateKnownColor(translatedAttrs[key]) || String(translatedAttrs[key]);
+        var displayAttrs = variant.attributes_display || {};
+        if (displayAttrs && displayAttrs[key]) return translateKnownColor(displayAttrs[key]) || String(displayAttrs[key]);
+      }
+      var matrix = product && product.card_variants && Array.isArray(product.card_variants.matrix) ? product.card_variants.matrix : [];
+      for (var j = 0; j < matrix.length; j++) {
+        var row = matrix[j] || {};
+        var rowAttrs = row.attributes || {};
+        if (rowAttrs && String(rowAttrs[key]) === wanted && row.attributes_display && row.attributes_display[key]) {
+          return translateKnownColor(row.attributes_display[key]) || String(row.attributes_display[key]);
+        }
+      }
+      return translateKnownColor(fallback) || fallback;
+    }
+
+    function _ensureCardVariantOptionButtons() {
+      var product = _variantProduct || window.currentProduct;
+      var cv = product && product.card_variants;
+      if (!cv || !Array.isArray(cv.options)) return;
+      cv.options.forEach(function(option) {
+        if (!option || !option.key || !Array.isArray(option.values)) return;
+        var group = null;
+        document.querySelectorAll('.variant-group').forEach(function(candidate) {
+          if (candidate.getAttribute('data-group') === option.key) group = candidate;
+        });
+        var container = group && group.querySelector('.variant-options');
+        if (!container) return;
+        var isColor = option.type === 'color' || String(option.key).toLowerCase().indexOf('color') !== -1;
+        option.values.forEach(function(entry) {
+          if (!entry || entry.value == null) return;
+          var displayLabel = String(entry.label || entry.value);
+          displayLabel = _translateVariantOptionLabel(product, option.key, entry.value, displayLabel);
+          var existingButton = null;
+          container.querySelectorAll('.variant-option').forEach(function(btn) {
+            if (btn.getAttribute('data-value') === String(entry.value)) existingButton = btn;
+          });
+          if (existingButton) {
+            existingButton.setAttribute('data-display-value', displayLabel);
+            existingButton.title = displayLabel;
+            if (isColor) existingButton.style.cssText = _cardVariantSwatchStyle(entry);
+            else existingButton.textContent = displayLabel;
+            return;
+          }
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'variant-option' + (isColor ? ' color-swatch' : '');
+          btn.setAttribute('data-attr', option.key);
+          btn.setAttribute('data-value', String(entry.value));
+          btn.setAttribute('data-display-value', displayLabel);
+          btn.title = displayLabel;
+          if (isColor) btn.style.cssText = _cardVariantSwatchStyle(entry);
+          else btn.textContent = displayLabel;
+          container.appendChild(btn);
+        });
+      });
     }
     
     function _getAttributeKeys() {
@@ -3452,17 +3949,68 @@ function fixContrast(){
         }
         test[ak] = av;
         var matching = _findMatching(test);
+        var globalMatching = _findMatching((function() { var any = {}; any[ak] = av; return any; })());
         btn.classList.remove('disabled', 'out-of-stock');
         btn.disabled = false;
         if (matching.length === 0) {
           btn.classList.add('disabled');
-          btn.disabled = true;
+          btn.disabled = globalMatching.length === 0;
         } else if (matching.every(function(v) { return _isOOS(v); })) {
           btn.classList.add('disabled');
           btn.classList.add('out-of-stock');
           btn.disabled = true;
         }
       });
+    }
+
+    function _hasAvailableCombination(selections) {
+      return _findMatching(selections).filter(function(v) { return !_isOOS(v); }).length > 0;
+    }
+
+    function _syncSelectedDom() {
+      document.querySelectorAll('.variant-option').forEach(function(btn) {
+        var key = btn.getAttribute('data-attr');
+        var value = btn.getAttribute('data-value');
+        btn.classList.toggle('selected', !!key && selectedAttributes[key] === value);
+      });
+    }
+
+    function _reconcileSelectedAttributes(changedKey) {
+      var keys = _getAttributeKeys();
+      var next = {};
+      if (changedKey && selectedAttributes[changedKey]) {
+        var changedOnly = {};
+        changedOnly[changedKey] = selectedAttributes[changedKey];
+        if (_hasAvailableCombination(changedOnly)) next[changedKey] = selectedAttributes[changedKey];
+      }
+      keys.forEach(function(key) {
+        if (key === changedKey || !selectedAttributes.hasOwnProperty(key)) return;
+        var candidate = Object.assign({}, next);
+        candidate[key] = selectedAttributes[key];
+        if (_hasAvailableCombination(candidate)) next[key] = selectedAttributes[key];
+      });
+      selectedAttributes = next;
+      var guard = 0;
+      var changed = true;
+      while (changed && guard++ < keys.length + 2) {
+        changed = false;
+        keys.forEach(function(key) {
+          if (selectedAttributes.hasOwnProperty(key)) return;
+          var viable = [];
+          document.querySelectorAll('.variant-option[data-attr="' + key + '"]').forEach(function(candidateBtn) {
+            var val = candidateBtn.getAttribute('data-value');
+            if (!val) return;
+            var candidate = Object.assign({}, selectedAttributes);
+            candidate[key] = val;
+            if (_hasAvailableCombination(candidate)) viable.push(candidateBtn);
+          });
+          if (viable.length === 1) {
+            selectedAttributes[key] = viable[0].getAttribute('data-value');
+            changed = true;
+          }
+        });
+      }
+      _syncSelectedDom();
     }
     
     function _updateProductDisplay() {
@@ -3584,6 +4132,9 @@ function fixContrast(){
           } else if (mainImage && window._originalMainImageSrc) {
             mainImage.src = window._originalMainImageSrc;
           }
+          if (typeof updateProductSpecificationsForVariant === 'function') {
+            updateProductSpecificationsForVariant(v, product);
+          }
         }
       } else {
         window.selectedVariant = null;
@@ -3659,6 +4210,9 @@ function fixContrast(){
         if (mainImage && window._originalMainImageSrc) {
           mainImage.src = window._originalMainImageSrc;
         }
+        if (typeof updateProductSpecificationsForVariant === 'function') {
+          updateProductSpecificationsForVariant(null, product);
+        }
       }
     }
     
@@ -3674,7 +4228,7 @@ function fixContrast(){
       var ak = btn.getAttribute('data-attr');
       var av = btn.getAttribute('data-value');
       if (!ak || !av) return;
-      if (btn.disabled || btn.classList.contains('disabled')) return;
+      if (btn.disabled || (btn.classList.contains('disabled') && _findMatching((function() { var any = {}; any[ak] = av; return any; })()).length === 0)) return;
       
       // If already selected, do nothing (no manual deselect)
       if (selectedAttributes[ak] === av) {
@@ -3684,15 +4238,7 @@ function fixContrast(){
       document.querySelectorAll('.variant-option[data-attr="' + ak + '"]').forEach(function(b) { b.classList.remove('selected'); });
       selectedAttributes[ak] = av;
       btn.classList.add('selected');
-      // Non-existent combo check: if the new selection creates an impossible combo, clear all others
-      if (Object.keys(selectedAttributes).length > 1) {
-        if (!_comboExists(selectedAttributes)) {
-          document.querySelectorAll('.variant-option').forEach(function(b) { b.classList.remove('selected'); });
-          selectedAttributes = {};
-          selectedAttributes[ak] = av;
-          btn.classList.add('selected');
-        }
-      }
+      _reconcileSelectedAttributes(ak);
       
       _updateVisuals();
       _updateProductDisplay();
@@ -3755,7 +4301,7 @@ function fixContrast(){
       if (window._zappyVariantFixed) return;
       window._zappyVariantFixed = true;
       
-      _variantProduct = product;
+      _variantProduct = _augmentProductFromCardVariants(product);
       // Ensure pleaseSelect translation exists (for sites generated before this key was added)
       if (!t.pleaseSelect) {
         var isRTL = document.documentElement.getAttribute('dir') === 'rtl' || document.body.getAttribute('dir') === 'rtl';
@@ -3822,6 +4368,7 @@ function fixContrast(){
           });
         });
       }
+      _ensureCardVariantOptionButtons();
       _repairVariantButtons();
 
       // Sort variant options (numeric, then known sizes, then alphabetical)
@@ -4050,7 +4597,75 @@ function fixContrast(){
       }
     }
 
-    function getCartTotalTarget(drawer, currency) {
+    function convertDisplayAmount(baseAmount, exchangeRate) {
+      var n = parseFloat(baseAmount);
+      if (!isFinite(n)) n = 0;
+      var rate = parseFloat(exchangeRate);
+      if (!isFinite(rate) || rate <= 0) rate = 1;
+      var converted = n * rate;
+      if (rate === 1) return Math.round(converted * 100) / 100;
+      return Math.round(converted * 10) / 10;
+    }
+
+    function formatCartDisplayAmount(amount) {
+      if (typeof window.zappyFormatMoney === 'function') {
+        return window.zappyFormatMoney(amount);
+      }
+      var n = parseFloat(amount);
+      if (!isFinite(n)) n = 0;
+      var sym = (window.ZAPPY_CURRENCY_SYMBOL || '').trim() || '₪';
+      var rate = getCartDisplayExchangeRate();
+      try {
+        if (window.ZAPPY_MULTI_CURRENCY && window.ZAPPY_MULTI_CURRENCY.enabled) {
+          var lang = '';
+          try { lang = new URLSearchParams(window.location.search).get('lang') || ''; } catch (e) {}
+          if (!lang && window.zappyI18n && typeof window.zappyI18n.getCurrentLanguage === 'function') {
+            lang = window.zappyI18n.getCurrentLanguage();
+          }
+          if (!lang) lang = document.documentElement.getAttribute('lang') || '';
+          lang = String(lang).split('-')[0].toLowerCase();
+          var langs = window.ZAPPY_MULTI_CURRENCY.languages || {};
+          if (lang && langs[lang]) {
+            if (langs[lang].symbol) sym = langs[lang].symbol;
+          } else if (window.ZAPPY_MULTI_CURRENCY.base && window.ZAPPY_MULTI_CURRENCY.base.symbol) {
+            sym = window.ZAPPY_MULTI_CURRENCY.base.symbol;
+          }
+        }
+      } catch (e) {}
+      return sym + convertDisplayAmount(n, rate).toFixed(2);
+    }
+
+    function getCartDisplayExchangeRate() {
+      var rate = 1;
+      try {
+        if (window.ZAPPY_MULTI_CURRENCY && window.ZAPPY_MULTI_CURRENCY.enabled) {
+          var lang = '';
+          try { lang = new URLSearchParams(window.location.search).get('lang') || ''; } catch (e) {}
+          if (!lang && window.zappyI18n && typeof window.zappyI18n.getCurrentLanguage === 'function') {
+            lang = window.zappyI18n.getCurrentLanguage();
+          }
+          if (!lang) lang = document.documentElement.getAttribute('lang') || '';
+          lang = String(lang).split('-')[0].toLowerCase();
+          var langs = window.ZAPPY_MULTI_CURRENCY.languages || {};
+          if (lang && langs[lang]) {
+            var r = parseFloat(langs[lang].exchangeRate);
+            if (isFinite(r) && r > 0) rate = r;
+          }
+        }
+      } catch (e) {}
+      return rate;
+    }
+
+    function parseDisplayedCartAmount(text) {
+      var match = String(text || '').match(/-?[\d,.]+/);
+      if (!match) return NaN;
+      var parsed = parseFloat(match[0].replace(/,/g, ''));
+      if (!isFinite(parsed)) return NaN;
+      var rate = getCartDisplayExchangeRate();
+      return rate > 0 ? Math.abs(parsed) / rate : Math.abs(parsed);
+    }
+
+    function getCartTotalTarget(drawer) {
       if (!drawer) return null;
       var totalEl = document.getElementById('cart-drawer-total');
       if (totalEl) return totalEl;
@@ -4060,8 +4675,44 @@ function fixContrast(){
       var labelMatch = existingText.match(/^([^:]+):/);
       var label = labelMatch ? labelMatch[1].trim() : (window.zappyI18n && window.zappyI18n.t ? window.zappyI18n.t('ecom_total') : 'Total');
       if (!label || label === 'ecom_total') label = existingText.indexOf('סה') !== -1 ? 'סה"כ' : 'Total';
-      legacyTotal.innerHTML = '<span>' + label + ':</span><span id="cart-drawer-total">' + (currency || '₪') + '0</span>';
+      legacyTotal.innerHTML = '<span>' + label + ':</span><span id="cart-drawer-total">' + formatCartDisplayAmount(0) + '</span>';
       return document.getElementById('cart-drawer-total');
+    }
+
+    /** Auto discounts already rendered by updateCartDrawerSummary (bundle, seasonal, customer, etc.). */
+    function readDrawerAutoDiscount(totalEl) {
+      if (totalEl) {
+        var attrDiscount = parseFloat(totalEl.getAttribute('data-zappy-auto-discount'));
+        if (isFinite(attrDiscount) && attrDiscount > 0.005) return attrDiscount;
+      }
+
+      var subtotalEl = document.getElementById('cart-drawer-subtotal');
+      if (subtotalEl && totalEl) {
+        var subtotal = parseDisplayedCartAmount(subtotalEl.textContent);
+        var renderedTotal = parseDisplayedCartAmount(totalEl.textContent);
+        if (isFinite(subtotal) && isFinite(renderedTotal) && subtotal >= renderedTotal) {
+          var renderedDiscount = subtotal - renderedTotal;
+          if (renderedDiscount > 0.005) return renderedDiscount;
+        }
+      }
+
+      var discount = 0;
+      var discountRows = document.querySelectorAll('#cart-drawer .zappy-cart-discount-row');
+      for (var i = 0; i < discountRows.length; i++) {
+        var row = discountRows[i];
+        if (!row || row.style.display === 'none') continue;
+        var valueEl = row.querySelector('span:last-child') || row;
+        var amount = parseDisplayedCartAmount(valueEl.textContent);
+        if (isFinite(amount)) discount += amount;
+      }
+      if (discount > 0.005) return discount;
+
+      var bundleRow = document.querySelector('.cart-drawer-bundle-discount');
+      if (!bundleRow || bundleRow.style.display === 'none') return 0;
+      var bundleEl = document.getElementById('cart-drawer-bundle-discount');
+      if (!bundleEl) return 0;
+      var bundleAmount = parseDisplayedCartAmount(bundleEl.textContent);
+      return isFinite(bundleAmount) ? bundleAmount : 0;
     }
 
     function patchCartTotals() {
@@ -4069,26 +4720,23 @@ function fixContrast(){
       if (!drawer) return;
       var items = getCartItems();
       if (!items.length) return;
-      var currency = (window.ZAPPY_CURRENCY_SYMBOL || '').trim();
-      var totalEl = getCartTotalTarget(drawer, currency);
-      if (!currency && totalEl) {
-        var match = (totalEl.textContent || '').match(/^[^\d\s-]+/);
-        currency = match ? match[0] : '₪';
-      }
+      var totalEl = getCartTotalTarget(drawer);
       var total = 0;
       var priceEls = drawer.querySelectorAll('.cart-item-price, .cart-drawer-item-price');
       items.forEach(function(item, index) {
         var lineTotal = getLineTotal(item);
         total += lineTotal;
         if (priceEls[index]) {
-          var nextText = currency + lineTotal.toFixed(2);
+          var nextText = formatCartDisplayAmount(lineTotal);
           if (priceEls[index].textContent !== nextText) {
             priceEls[index].textContent = nextText;
           }
         }
       });
       if (totalEl) {
-        var nextTotal = currency + total.toFixed(2);
+        var autoDiscount = readDrawerAutoDiscount(totalEl);
+        var displayTotal = Math.max(0, total - autoDiscount);
+        var nextTotal = formatCartDisplayAmount(displayTotal);
         if (totalEl.textContent !== nextTotal) totalEl.textContent = nextTotal;
       }
     }
@@ -4173,16 +4821,31 @@ function fixContrast(){
       var product = window.currentProduct;
       var variants = product && Array.isArray(product.variants) ? product.variants : [];
       var lang = getLang();
+      function translateKnownColor(rawValue) {
+        if (lang !== 'he') return '';
+        if (String(attr || '').toLowerCase().indexOf('color') === -1 && String(attr || '').toLowerCase() !== 'colour') return '';
+        var raw = String(rawValue == null ? '' : rawValue).trim();
+        if (!raw || /[\u0590-\u05FF]/.test(raw)) return '';
+        var map = { black:'שחור', white:'לבן', gray:'אפור', grey:'אפור', red:'אדום', green:'ירוק', blue:'כחול', navy:'כחול כהה', pink:'ורוד', purple:'סגול', yellow:'צהוב', orange:'כתום', brown:'חום', beige:'בז׳', gold:'זהב', silver:'כסף', teal:'טורקיז', mint:'מנטה', cream:'קרם', ivory:'שנהב' };
+        var direct = map[raw.toLowerCase().replace(/\s+/g, ' ')];
+        if (direct) return direct;
+        var parts = raw.split(/\s*-\s*/).filter(Boolean);
+        if (parts.length > 1) {
+          var translated = parts.map(function(part) { return map[String(part).toLowerCase().replace(/\s+/g, ' ')]; });
+          if (translated.every(Boolean)) return translated.join('-');
+        }
+        return '';
+      }
       for (var i = 0; i < variants.length; i++) {
         var variant = variants[i];
         var attrs = variant && (variant.attributes_source || variant.attributes || {});
         if (String(attrs[attr]) !== String(sourceValue)) continue;
         var translatedAttrs = variant.attributes_translations && variant.attributes_translations[lang];
-        if (translatedAttrs && translatedAttrs[attr]) return translatedAttrs[attr];
+        if (translatedAttrs && translatedAttrs[attr]) return translateKnownColor(translatedAttrs[attr]) || translatedAttrs[attr];
         var displayAttrs = variant.attributes_display || {};
-        if (displayAttrs[attr]) return displayAttrs[attr];
+        if (displayAttrs[attr]) return translateKnownColor(displayAttrs[attr]) || displayAttrs[attr];
       }
-      return sourceValue;
+      return translateKnownColor(sourceValue) || sourceValue;
     }
 
     function patchProductDetailI18n() {
@@ -4198,11 +4861,21 @@ function fixContrast(){
         window.getVariantAttributeLabels.__zappyRuntimeI18nWrapped = true;
       }
 
+      function getVariantGroupLabel(attr) {
+        var product = window.currentProduct;
+        var t = window.productTranslations || {};
+        if (typeof window.getVariantAttributeLabels === 'function' && product) {
+          var attrLabels = window.getVariantAttributeLabels(product, t) || {};
+          var resolved = attrLabels[attr] || attrLabels[String(attr).toLowerCase()];
+          if (resolved) return resolved;
+        }
+        return getText(String(attr).toLowerCase());
+      }
+
       document.querySelectorAll('.variant-group').forEach(function(group) {
         var attr = group.getAttribute('data-group');
         if (!attr) return;
-        var key = String(attr).toLowerCase();
-        var labelText = getText(key);
+        var labelText = getVariantGroupLabel(attr);
         var label = group.querySelector('.variant-group-label');
         if (label) {
           var selected = label.querySelector('.variant-selected-value');
@@ -4316,7 +4989,7 @@ function fixContrast(){
         { key: 'subtotal', id: 'subtotal', fallback: '₪0' },
         { key: 'vatIncluded', id: 'vat-amount', fallback: '₪0' },
         { key: 'shipping', id: 'shipping-cost', fallback: '₪0' },
-        { key: 'discount', id: 'discount', fallback: '₪0' },
+        { key: 'discount', id: 'checkout-discount-amount', fallback: '₪0.00' },
         { key: 'totalToPay', id: 'order-total', fallback: '₪0' }
       ];
       specs.forEach(function(spec, index) {
@@ -4335,13 +5008,35 @@ function fixContrast(){
       return isFinite(parsed) ? parsed : 0;
     }
 
+    function getCheckoutDisplaySymbol() {
+      var subtotalEl = document.getElementById('subtotal');
+      if (subtotalEl) {
+        var m = (subtotalEl.textContent || '').match(/^[^\d\s.-]+/);
+        if (m && m[0]) return m[0];
+      }
+      try {
+        if (window.ZAPPY_MULTI_CURRENCY && window.ZAPPY_MULTI_CURRENCY.enabled) {
+          var lang = getLang();
+          var langs = window.ZAPPY_MULTI_CURRENCY.languages || {};
+          if (lang && langs[lang] && langs[lang].symbol) return langs[lang].symbol;
+          if (window.ZAPPY_MULTI_CURRENCY.base && window.ZAPPY_MULTI_CURRENCY.base.symbol) {
+            return window.ZAPPY_MULTI_CURRENCY.base.symbol;
+          }
+        }
+      } catch (e) {}
+      return window.ZAPPY_CURRENCY_SYMBOL || '₪';
+    }
+
     function normalizeCheckoutValues() {
-      var discountEl = document.getElementById('discount');
+      var discountEl = document.getElementById('checkout-discount-amount') || document.getElementById('discount');
       var discountRow = document.getElementById('discount-row') || (discountEl && discountEl.closest('.discount-row, .order-totals-row'));
       if (discountEl && Math.abs(parseMoney(discountEl.textContent)) < 0.005) {
-        var zeroDiscountText = (window.ZAPPY_CURRENCY_SYMBOL || '₪') + '0';
+        if (discountRow) discountRow.classList.add('zappy-discount-hidden');
+        var sym = getCheckoutDisplaySymbol();
+        var zeroDiscountText = sym + '0.00';
         if (discountEl.textContent !== zeroDiscountText) discountEl.textContent = zeroDiscountText;
-        if (discountRow && discountRow.style.display !== 'none') discountRow.style.display = 'none';
+      } else if (discountRow) {
+        discountRow.classList.remove('zappy-discount-hidden');
       }
       var shippingCost = document.getElementById('shipping-cost');
       if (shippingCost && /^(חינם|FREE)$/i.test((shippingCost.textContent || '').trim())) {
@@ -4382,6 +5077,7 @@ function fixContrast(){
       setLabelForValue('#subtotal', 'subtotal');
       setLabelForValue('#vat-amount', 'vatIncluded');
       setLabelForValue('#shipping-cost', 'shipping');
+      setLabelForValue('#checkout-discount-amount', 'discount');
       setLabelForValue('#discount', 'discount');
       setLabelForValue('#order-total', 'totalToPay');
       var shippingCost = document.getElementById('shipping-cost');
@@ -4444,7 +5140,7 @@ function fixContrast(){
 
     var style = document.createElement('style');
     style.id = 'zappy-checkout-runtime-i18n-css';
-    style.textContent = '.checkout-order-details .order-totals-row{display:flex!important;justify-content:space-between!important;align-items:baseline!important;gap:12px!important}.checkout-order-details .order-totals-row span:first-child{flex:1 1 auto;min-width:0}.checkout-order-details .order-totals-row span:last-child{flex:0 0 auto;text-align:end}';
+    style.textContent = '.checkout-order-details .order-totals-row{display:flex!important;justify-content:space-between!important;align-items:baseline!important;gap:12px!important}.checkout-order-details .order-totals-row.zappy-discount-hidden{display:none!important}.checkout-order-details .order-totals-row span:first-child{flex:1 1 auto;min-width:0}.checkout-order-details .order-totals-row span:last-child{flex:0 0 auto;text-align:end}';
     if (!document.getElementById(style.id)) document.head.appendChild(style);
 
     if (document.readyState === 'complete') {
@@ -4471,13 +5167,74 @@ function fixContrast(){
     }
   })();
 
+  function reviveCanonicalHeroBackgroundWrappers() {
+    try {
+      var imgs = document.querySelectorAll('img[data-hero-bg], img[data-hero-background="true"]');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        var parent = img.parentElement;
+        while (parent && parent !== document.body && parent.tagName !== 'SECTION') {
+          parent.style.display = '';
+          parent.removeAttribute('data-zappy-original-bg');
+          parent.removeAttribute('data-zappy-preview-hidden');
+          parent = parent.parentElement;
+        }
+        img.removeAttribute('data-zappy-original-bg');
+      }
+    } catch (e) {}
+  }
+
+  function scheduleCanonicalHeroWrapperRevival() {
+    reviveCanonicalHeroBackgroundWrappers();
+    [100, 500, 1500, 3000, 6000, 10000].forEach(function(delay) {
+      setTimeout(reviveCanonicalHeroBackgroundWrappers, delay);
+    });
+    try {
+      if (window.__zappyHeroWrapperRevivalObserver) return;
+      var observer = new MutationObserver(function(mutations) {
+        for (var i = 0; i < mutations.length; i++) {
+          var target = mutations[i].target;
+          if (!target || !target.querySelector) continue;
+          if (
+            (target.matches && target.matches('img[data-hero-bg], img[data-hero-background="true"]')) ||
+            target.querySelector('img[data-hero-bg], img[data-hero-background="true"]')
+          ) {
+            reviveCanonicalHeroBackgroundWrappers();
+            break;
+          }
+        }
+      });
+      observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['style', 'data-zappy-original-bg', 'data-zappy-preview-hidden']
+      });
+      window.__zappyHeroWrapperRevivalObserver = observer;
+      setTimeout(function() {
+        try {
+          observer.disconnect();
+          if (window.__zappyHeroWrapperRevivalObserver === observer) {
+            window.__zappyHeroWrapperRevivalObserver = null;
+          }
+        } catch (e) {}
+      }, 15000);
+    } catch (e) {}
+  }
+
+  scheduleCanonicalHeroWrapperRevival();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', scheduleCanonicalHeroWrapperRevival, { once: true });
+  }
+  window.addEventListener('load', scheduleCanonicalHeroWrapperRevival, { once: true });
+
 })();
 
 
-/* ZAPPY_ECOM_LANGUAGE_ROUTING_RUNTIME_V20 */
+/* ZAPPY_ECOM_LANGUAGE_ROUTING_RUNTIME_V21 */
 (function() {
-  if (window.__zappyEcomLanguageRoutingRuntime >= 20) return;
-  window.__zappyEcomLanguageRoutingRuntime = 20;
+  if (window.__zappyEcomLanguageRoutingRuntime >= 21) return;
+  window.__zappyEcomLanguageRoutingRuntime = 21;
 
   // Routing strategy: use path-based language URLs for ALL storefront pages
   // (including dynamic /product/:slug and /category/:slug). The publish
@@ -4890,12 +5647,12 @@ function fixContrast(){
   // declaration merging that was eating the standalone CSS injection.
   function ensureRuntimeCssInjected() {
     var existing = document.getElementById('zappy-ecom-routing-runtime-css');
-    if (existing && existing.getAttribute('data-v') === '25') return;
+    if (existing && existing.getAttribute('data-v') === '26') return;
     if (existing) existing.remove();
     var style = document.createElement('style');
     style.id = 'zappy-ecom-routing-runtime-css';
     style.setAttribute('data-zappy-runtime', 'ecom-routing');
-    style.setAttribute('data-v', '25');
+    style.setAttribute('data-v', '26');
     style.textContent =
       '@media (min-width: 769px){' +
         'html[dir="ltr"] .nav-container > .nav-brand,body[dir="ltr"] .nav-container > .nav-brand,html[dir="ltr"] .nav-right-group > .nav-brand,body[dir="ltr"] .nav-right-group > .nav-brand{order:-1!important}' +
@@ -4915,6 +5672,11 @@ function fixContrast(){
         'html[dir="ltr"] .zappy-catalog-menu .catalog-menu-categories{display:flex!important;align-items:flex-start!important;align-content:flex-start!important;row-gap:4px!important;column-gap:2px!important}' +
         'html[dir="ltr"] .zappy-catalog-menu .catalog-menu-item{padding-inline:10px!important}' +
         'html[dir="ltr"] .zappy-catalog-menu .catalog-menu-all{margin-top:0!important;align-self:flex-start!important}' +
+        '.navbar .nav-menu>li:has(>.sub-menu),nav.navbar .nav-menu>li:has(>.sub-menu),#navMenu>li:has(>.sub-menu){position:relative!important}' +
+        '.navbar .nav-menu>li>.sub-menu,nav.navbar .nav-menu>li>.sub-menu,#navMenu>li>.sub-menu{display:block!important;position:absolute!important;top:100%!important;inset-inline-start:0!important;inset-inline-end:auto!important;min-width:200px!important;max-width:min(280px,calc(100vw - 32px))!important;width:max-content!important;max-height:calc(100vh - 150px)!important;overflow-y:auto!important;background:var(--background-color,var(--background,#fff))!important;border-radius:12px!important;box-shadow:0 8px 30px rgba(0,0,0,.15),0 2px 8px rgba(0,0,0,.06)!important;padding:8px!important;margin:0!important;list-style:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important;transform:translateY(6px)!important;z-index:100001!important}' +
+        '.navbar .nav-menu>li:hover>.sub-menu,.navbar .nav-menu>li:focus-within>.sub-menu,nav.navbar .nav-menu>li:hover>.sub-menu,nav.navbar .nav-menu>li:focus-within>.sub-menu,#navMenu>li:hover>.sub-menu,#navMenu>li:focus-within>.sub-menu{opacity:1!important;visibility:visible!important;pointer-events:auto!important;transform:translateY(0)!important}' +
+        '.navbar .nav-menu>li>.sub-menu>li,nav.navbar .nav-menu>li>.sub-menu>li,#navMenu>li>.sub-menu>li{display:block!important;width:100%!important;list-style:none!important;margin:0!important;padding:0!important}' +
+        '.navbar .nav-menu>li>.sub-menu a,nav.navbar .nav-menu>li>.sub-menu a,#navMenu>li>.sub-menu a{display:block!important;white-space:nowrap!important;padding:10px 16px!important;border-radius:8px!important;text-decoration:none!important}' +
         '.nav-menu .zappy-products-dropdown>.sub-menu,#navMenu .zappy-products-dropdown>.sub-menu{left:50%!important;right:auto!important;transform:translateX(-50%) translateY(8px)!important}' +
         '.nav-menu .zappy-products-dropdown:hover>.sub-menu,#navMenu .zappy-products-dropdown:hover>.sub-menu,.nav-menu .zappy-products-dropdown:focus-within>.sub-menu,#navMenu .zappy-products-dropdown:focus-within>.sub-menu{transform:translateX(-50%) translateY(0)!important}' +
         '.nav-menu.zappy-desktop-wrap,#navMenu.zappy-desktop-wrap{flex-wrap:wrap!important;max-height:44px!important;align-content:flex-start!important;row-gap:4px!important}' +
@@ -5162,6 +5924,526 @@ function fixContrast(){
   } catch (e) {}
 })();
 
+
+/* ZAPPY_NAV_OVERFLOW_MENU_V1 */
+(function(){
+  try {
+    if (window.__zappyNavOverflowInit) return;
+    window.__zappyNavOverflowInit = true;
+
+    var MORE_LABELS = {en:'More',he:'עוד',es:'Más',fr:'Plus',de:'Mehr',it:'Altro',pt:'Mais',ar:'المزيد',ru:'Ещё',nl:'Meer',pl:'Więcej',tr:'Daha',ja:'その他',zh:'更多',hi:'और',sv:'Mer',uk:'Ще',ro:'Mai mult',cs:'Více',da:'Mere',fi:'Lisää',no:'Mer',el:'Περισσότερα'};
+    var TOL = 2;
+    var mo = null;
+
+    function moreLabel() {
+      var lang = (document.documentElement.getAttribute('lang') || 'en').slice(0,2).toLowerCase();
+      return MORE_LABELS[lang] || 'More';
+    }
+
+    function injectCss() {
+      if (document.getElementById('zappy-nav-overflow-css')) return;
+      var s = document.createElement('style');
+      s.id = 'zappy-nav-overflow-css';
+      s.textContent =
+        '@media (min-width:769px){' +
+          '.zappy-nav-more-item{position:relative!important;flex:0 0 auto!important;}' +
+          '.zappy-nav-more-item>.zappy-nav-more-toggle{cursor:pointer;display:inline-flex!important;align-items:center;gap:6px;white-space:nowrap;}' +
+          '.navbar .zappy-nav-more-item>.sub-menu{display:block!important;left:auto!important;right:0!important;min-width:200px!important;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(6px);transition:opacity .18s ease,visibility .18s ease,transform .18s ease;}' +
+          'html[dir="rtl"] .navbar .zappy-nav-more-item>.sub-menu{left:0!important;right:auto!important;}' +
+          '.navbar .zappy-nav-more-item:hover>.sub-menu,.navbar .zappy-nav-more-item:focus-within>.sub-menu,.navbar .zappy-nav-more-item.open>.sub-menu{opacity:1!important;visibility:visible!important;pointer-events:auto!important;transform:translateY(0)!important;}' +
+          '.zappy-nav-more-item>.sub-menu>li{display:block!important;width:100%!important;flex:0 0 auto!important;}' +
+          /* Mobile-only items (hamburger-overlay contact CTA) must never render
+             inside the desktop More panel — the display:block above would
+             otherwise resurrect them there (duplicate CTA bug, 2026-07). */
+          '.zappy-nav-more-item>.sub-menu>li.mobile-contact-link,.zappy-nav-more-item>.sub-menu>li.nav-cta-mobile-item,.zappy-nav-more-item>.sub-menu>li.mobile-only{display:none!important;}' +
+          '.zappy-nav-more-item>.sub-menu>li>a{display:block!important;white-space:nowrap!important;padding:10px 16px!important;}' +
+          '.zappy-nav-more-item .sub-menu .sub-menu{position:static!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;transform:none!important;box-shadow:none!important;min-width:0!important;padding-inline-start:12px!important;}' +
+          '.zappy-nav-more-item>.sub-menu>li>a .dropdown-arrow,.zappy-nav-more-item>.sub-menu .mobile-submenu-toggle{display:none!important;}' +
+        '}' +
+        '@media (max-width:768px){.zappy-nav-more-item{display:none!important;}}';
+      (document.head || document.documentElement).appendChild(s);
+    }
+
+    function getMenu() {
+      return document.querySelector('.nav-container > .nav-menu, .nav-right-group > .nav-menu')
+        || document.getElementById('navMenu')
+        || document.querySelector('.nav-menu');
+    }
+
+    // Visual extent (px) of just the IN-FLOW top-level <li> items — the true
+    // width the menu's content needs. Measured from the left-most item edge to
+    // the right-most item edge so the REAL gaps are captured by geometry (never
+    // guessed). Absolutely-positioned dropdown sub-menus (the auto "More" panel,
+    // the Products/Categories dropdowns) are excluded: they hang out of flow yet
+    // still inflate menu.scrollWidth, which was the false signal that drained
+    // almost every item into "More" on a near-empty navbar (bug 2026-06).
+    function inflowItemsExtent(menu) {
+      var left = Infinity, right = -Infinity, found = false, kids = menu.children;
+      for (var i = 0; i < kids.length; i++) {
+        var li = kids[i];
+        if (!li || li.tagName !== 'LI') continue;
+        var pos = '';
+        try { pos = getComputedStyle(li).position; } catch (e) {}
+        if (pos === 'absolute' || pos === 'fixed') continue;
+        var r = li.getBoundingClientRect();
+        if (r.width === 0 && r.height === 0) continue; // skip display:none items
+        if (r.left < left) left = r.left;
+        if (r.right > right) right = r.right;
+        found = true;
+      }
+      return found ? (right - left) : 0;
+    }
+
+    // Drop any width/flex sizing override we previously pinned on the menu so
+    // the next reflow re-measures from the site's natural layout. flex-basis +
+    // flex-grow are cleared alongside width/flex-shrink: many navbars (V2
+    // ecommerce, RTL) ship .nav-menu{flex:1 1 0% important}, and a DEFINITE
+    // flex-basis (0%) makes the width property a no-op for the flex item's
+    // main size (CSS Flexbox spec). Without neutralizing flex-basis/flex-grow
+    // our width pin was silently ignored — the menu kept its flex-distributed
+    // box while its items spilled over the search/cart icons, and the overflow
+    // detector measured the capped box (not the overflowing items) so it never
+    // drained anything into "More" (bug 2026-06, RTL navbars).
+    function clearMenuWidthOverride(menu) {
+      if (!menu) return;
+      menu.style.removeProperty('width');
+      menu.style.removeProperty('flex-shrink');
+      menu.style.removeProperty('flex-basis');
+      menu.style.removeProperty('flex-grow');
+      menu.removeAttribute('data-zappy-nav-fitted');
+    }
+
+    // Force the menu so its inline width actually governs the flex item's main
+    // size, regardless of any flex:1 1 0% the site baked in. Sets flex-shrink:0
+    // (don't compress), flex-grow:0 (don't stretch) and flex-basis:auto (so width
+    // wins). Returns a token array to pass to restoreMenuSizing(). Pass the
+    // desired width (px) or null to only freeze the flex triplet.
+    function forceMenuSizing(menu, widthPx) {
+      var saved = [
+        menu.style.getPropertyValue('width'), menu.style.getPropertyPriority('width'),
+        menu.style.getPropertyValue('flex-shrink'), menu.style.getPropertyPriority('flex-shrink'),
+        menu.style.getPropertyValue('flex-grow'), menu.style.getPropertyPriority('flex-grow'),
+        menu.style.getPropertyValue('flex-basis'), menu.style.getPropertyPriority('flex-basis')
+      ];
+      menu.style.setProperty('flex-shrink', '0', 'important');
+      menu.style.setProperty('flex-grow', '0', 'important');
+      menu.style.setProperty('flex-basis', 'auto', 'important');
+      if (widthPx != null) menu.style.setProperty('width', widthPx + 'px', 'important');
+      return saved;
+    }
+
+    function restoreMenuSizing(menu, saved) {
+      if (saved[0]) menu.style.setProperty('width', saved[0], saved[1]); else menu.style.removeProperty('width');
+      if (saved[2]) menu.style.setProperty('flex-shrink', saved[2], saved[3]); else menu.style.removeProperty('flex-shrink');
+      if (saved[4]) menu.style.setProperty('flex-grow', saved[4], saved[5]); else menu.style.removeProperty('flex-grow');
+      if (saved[6]) menu.style.setProperty('flex-basis', saved[6], saved[7]); else menu.style.removeProperty('flex-basis');
+    }
+
+    // The NATURAL (un-shrunk) content width the menu's in-flow items need. The
+    // menu carries flex-shrink:1 (and often flex:1 1 0%), so on a tight navbar
+    // the browser compresses/expands its box and a plain inflowItemsExtent()
+    // read can under-report. Force the flex triplet (shrink:0, grow:0,
+    // basis:auto) + a huge width so the items lay out at full size, read the
+    // real span (gaps captured by geometry, abs sub-menus excluded), restore.
+    function naturalMenuWidth(menu) {
+      var saved = forceMenuSizing(menu, 100000);
+      var ext = inflowItemsExtent(menu);
+      restoreMenuSizing(menu, saved);
+      return ext;
+    }
+
+    // Would the navbar ROW overflow its container if the menu were sized to
+    // widthPx? This is the authoritative "do the items fit?" test. It is
+    // deliberately NOT based on container.scrollWidth > clientWidth, which is
+    // unreliable here for THREE reasons:
+    //   (a) abs-positioned dropdown sub-menus inflate the menu's own scrollWidth,
+    //   (b) RTL: a flex child overflowing past the container's edge does NOT grow
+    //       the container scrollWidth (measured: menu right=942 over an 817 box,
+    //       scrollWidth still 817) — the original bug that left RTL navbars with
+    //       no "More" and overlapping links, and
+    //   (c) a flexible sibling (the search/cart icon group) silently CRUSHES to
+    //       absorb the overflow, hiding it from scrollWidth entirely.
+    // Instead we pin the menu to widthPx AND freeze every in-flow sibling at
+    // flex-shrink:0 (so none can crush), then measure the geometric UNION SPAN of
+    // all in-flow children (leftmost edge → rightmost edge) and compare it to the
+    // container's content width. This is fully direction-agnostic (LTR + RTL) and
+    // immune to scrollWidth quirks. margin:auto gaps collapse to 0 exactly at
+    // the fit boundary, so a row WITH free space spans ≈ clientWidth (not over)
+    // while a genuinely too-wide row spans past it. Styles restored exactly.
+    //
+    // The MENU must be frozen with the full flex triplet (shrink:0, grow:0,
+    // basis:auto) — not just flex-shrink:0 — so widthPx actually sizes its box.
+    // A navbar that baked .nav-menu{flex:1 1 0%} has a DEFINITE flex-basis,
+    // which makes width a no-op: without this the menu kept its narrow
+    // flex-distributed box, getBoundingClientRect read that capped box (NOT the
+    // overflowing items), the span stayed inside the container, and "More" was
+    // never triggered (bug 2026-06). Siblings keep flex-shrink:0 + natural width.
+    function rowOverflowsAtWidth(menu, widthPx) {
+      var c = menu.parentElement;
+      if (!c) return false;
+      var saved = [];
+      function freezeSibling(el) {
+        saved.push([
+          el,
+          el.style.getPropertyValue('flex-shrink'), el.style.getPropertyPriority('flex-shrink')
+        ]);
+        el.style.setProperty('flex-shrink', '0', 'important');
+      }
+      var kids = c.children, i, ch, pos;
+      var menuSaved = forceMenuSizing(menu, widthPx);
+      for (i = 0; i < kids.length; i++) {
+        ch = kids[i];
+        if (ch === menu) continue;
+        pos = '';
+        try { pos = getComputedStyle(ch).position; } catch (e) {}
+        if (pos === 'absolute' || pos === 'fixed') continue;
+        freezeSibling(ch); // flex-shrink:0 only — keep the sibling's natural width
+      }
+      var left = Infinity, right = -Infinity, b;
+      for (i = 0; i < kids.length; i++) {
+        ch = kids[i];
+        pos = '';
+        try { pos = getComputedStyle(ch).position; } catch (e) {}
+        if (pos === 'absolute' || pos === 'fixed') continue;
+        b = ch.getBoundingClientRect();
+        if (b.width === 0 && b.height === 0) continue;
+        if (b.left < left) left = b.left;
+        if (b.right > right) right = b.right;
+      }
+      var span = (right > left) ? (right - left) : 0;
+      var over = span > c.clientWidth + TOL;
+      for (i = saved.length - 1; i >= 0; i--) {
+        var s = saved[i], el = s[0];
+        if (s[1]) el.style.setProperty('flex-shrink', s[1], s[2]); else el.style.removeProperty('flex-shrink');
+      }
+      restoreMenuSizing(menu, menuSaved);
+      return over;
+    }
+
+    function makeMoreItem() {
+      var li = document.createElement('li');
+      li.className = 'menu-item-has-children zappy-nav-more-item';
+      li.setAttribute('data-zappy-nav-more', '1');
+      var a = document.createElement('a');
+      a.href = '#';
+      a.className = 'zappy-nav-more-toggle nav-link';
+      a.setAttribute('aria-haspopup', 'true');
+      a.setAttribute('aria-expanded', 'false');
+      a.innerHTML = '<span class="zappy-nav-more-label"></span><svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>';
+      a.querySelector('.zappy-nav-more-label').textContent = moreLabel();
+      var ul = document.createElement('ul');
+      ul.className = 'sub-menu zappy-nav-more-menu';
+      ul.setAttribute('role', 'menu');
+      li.appendChild(a);
+      li.appendChild(ul);
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        var open = li.classList.toggle('open');
+        a.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      return li;
+    }
+
+    function restore(menu) {
+      var more = menu.querySelector(':scope > .zappy-nav-more-item');
+      if (!more) return;
+      var sub = more.querySelector('.sub-menu');
+      while (sub && sub.firstElementChild) {
+        menu.insertBefore(sub.firstElementChild, more);
+      }
+      more.remove();
+    }
+
+    // Is this anchor href the site home/root? Handles BOTH the preview shape
+    // (.../preview-fullscreen/<id>?page=%2F) and the published shape (/, /index.html,
+    // /en/, etc.), language prefixes and absolute origins included.
+    function isHomeHref(href) {
+      if (!href) return false;
+      href = ('' + href).trim();
+      if (!href || href.charAt(0) === '#') return false;
+      var pIdx = href.indexOf('page=');
+      if (pIdx !== -1) {
+        var val = href.slice(pIdx + 5);
+        var stop = val.search(/[&#]/);
+        if (stop !== -1) val = val.slice(0, stop);
+        try { val = decodeURIComponent(val); } catch (e) {}
+        val = val.replace(/index\.html$/i, '').replace(/^\/[a-z]{2}\/$/i, '/');
+        return val === '/' || val === '';
+      }
+      var clean = href.split('?')[0].split('#')[0].trim();
+      clean = clean.replace(/^https?:\/\/[^/]+/i, '').replace(/^\.\//, '/').replace(/index\.html$/i, '');
+      if (clean === '' || clean === '/') return true;
+      return /^\/[a-z]{2}\/?$/i.test(clean);
+    }
+
+    // The "Home" link must always be the FIRST top-level nav item. The
+    // ecommerce generator injects the auto-built Products dropdown by replacing
+    // the catalog/products link IN PLACE, so when the LLM happened to emit that
+    // link before "Home" the dropdown rendered first (bug 2026-06: "Products,
+    // Home, ..." across e-commerce sites). This deterministically hoists the
+    // Home item back to the front on every reflow — runs before the overflow
+    // pass so Home can never be pushed into "More".
+    function reorderHomeFirst(menu) {
+      var home = menu.querySelector(':scope > li.nav-home-item');
+      if (!home) {
+        var lis = Array.prototype.filter.call(menu.children, function (el) {
+          return el.tagName === 'LI' && !(el.classList && el.classList.contains('zappy-nav-more-item'));
+        });
+        for (var i = 0; i < lis.length; i++) {
+          var a = lis[i].querySelector(':scope > a');
+          if (a && isHomeHref(a.getAttribute('href'))) { home = lis[i]; break; }
+        }
+      }
+      if (home && menu.firstElementChild !== home) {
+        menu.insertBefore(home, menu.firstElementChild);
+      }
+    }
+
+    function reflow() {
+      var menu = getMenu();
+      if (!menu) return;
+      if (mo) mo.disconnect();
+      try {
+        menu.classList.remove('zappy-desktop-wrap');
+        clearMenuWidthOverride(menu);
+        restore(menu);
+        reorderHomeFirst(menu);
+        if (window.innerWidth <= 768) return;
+
+        // Drain trailing items into "More" until the items, AT THEIR NATURAL
+        // CONTENT WIDTH, fit the navbar row. Using the row-fit test (instead of
+        // the menu's own scrollWidth/clientWidth) means we never over-drain on a
+        // navbar that actually has room: the abs-positioned dropdown panels no
+        // longer count, and the flex gap intrinsic-sizing quirk (a content-
+        // sized menu under-reporting its width by the total gap) no longer
+        // matters. "More" is appended last and items leave from the END, so the
+        // maximum number of items stays visible before "More".
+        var more = null, sub = null, guard = 0;
+        while (guard < 200) {
+          guard++;
+          if (!rowOverflowsAtWidth(menu, Math.ceil(naturalMenuWidth(menu)))) break;
+          var reals = Array.prototype.filter.call(menu.children, function(li) {
+            if (li === more || li.tagName !== 'LI') return false;
+            // Never drain mobile-only items (the hamburger-overlay contact CTA
+            // <li class="mobile-contact-link nav-cta-mobile-item">): they are
+            // display:none on desktop and take no row space, but once moved
+            // into the More panel its display:block li rule made them visible,
+            // duplicating the navbar CTA inside "More" (bug 2026-07).
+            if (li.classList && (li.classList.contains('mobile-contact-link') || li.classList.contains('nav-cta-mobile-item') || li.classList.contains('mobile-only'))) return false;
+            try { if (getComputedStyle(li).display === 'none') return false; } catch (e) {}
+            return true;
+          });
+          if (reals.length <= 1) break;
+          if (!more) {
+            more = makeMoreItem();
+            menu.appendChild(more);
+            sub = more.querySelector('.sub-menu');
+          }
+          sub.insertBefore(reals[reals.length - 1], sub.firstChild);
+        }
+        if (more && sub && !sub.firstElementChild) more.remove();
+
+        // The site's flex gap is excluded from a flex-basis:auto menu's
+        // intrinsic width, so the menu box can be narrower than its items and
+        // they spill over the search/cart icons. Pin the menu to its real
+        // NATURAL content extent (only when it currently under-fits) so every
+        // remaining item is fully visible. We drained until the row fits at this
+        // natural width, so the pin is always safe. Cleared on the next reflow /
+        // resize. Using naturalMenuWidth (not the possibly-shrunk inflow extent)
+        // is what makes this correct on a tight RTL navbar.
+        var ext = naturalMenuWidth(menu);
+        if (ext > menu.clientWidth + TOL) {
+          // forceMenuSizing pins width + neutralizes flex-grow/flex-basis so the
+          // pin holds even under .nav-menu{flex:1 1 0%}. Cleared on next reflow.
+          forceMenuSizing(menu, Math.ceil(ext));
+          menu.setAttribute('data-zappy-nav-fitted', '1');
+        }
+      } finally {
+        observe();
+      }
+    }
+
+    function relabel() {
+      var menu = getMenu();
+      if (!menu) return;
+      var lbl = menu.querySelector('.zappy-nav-more-label');
+      if (lbl) lbl.textContent = moreLabel();
+    }
+
+    var t = null;
+    function schedule() {
+      if (t) clearTimeout(t);
+      t = setTimeout(reflow, 150);
+    }
+
+    function observe() {
+      if (!window.MutationObserver) return;
+      var menu = getMenu();
+      if (!menu) return;
+      if (!mo) mo = new MutationObserver(function() { schedule(); });
+      mo.observe(menu, { childList: true, subtree: true });
+    }
+
+    function init() {
+      injectCss();
+      reflow();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+    window.addEventListener('load', function() { injectCss(); reflow(); });
+    window.addEventListener('resize', schedule, { passive: true });
+    window.addEventListener('orientationchange', schedule, { passive: true });
+    window.addEventListener('popstate', function() { setTimeout(reflow, 0); });
+    window.addEventListener('zappy:languageChanged', function() { setTimeout(function() { relabel(); reflow(); }, 0); });
+    window.addEventListener('languageChanged', function() { setTimeout(function() { relabel(); reflow(); }, 0); });
+    document.addEventListener('click', function(e) {
+      var menu = getMenu();
+      if (!menu) return;
+      var more = menu.querySelector(':scope > .zappy-nav-more-item');
+      if (more && more.classList.contains('open') && !more.contains(e.target)) {
+        more.classList.remove('open');
+        var tog = more.querySelector('.zappy-nav-more-toggle');
+        if (tog) tog.setAttribute('aria-expanded', 'false');
+      }
+    }, true);
+    setTimeout(reflow, 300);
+    setTimeout(reflow, 1200);
+  } catch (e) {}
+})();
+
+/* ZAPPY_ANNOUNCEMENT_HEADER_SYNC_V1 */
+(function(){
+  if (window.__zappyAnnouncementHeaderSyncV1) return;
+  window.__zappyAnnouncementHeaderSyncV1 = true;
+
+  function primaryHeader() {
+    var selectors = [
+      'nav#navbar',
+      'nav.navbar',
+      '.navbar:not(.zappy-catalog-menu)',
+      'nav[class*="nav"]',
+      'header.navbar',
+      'header:not([class*="gallery"]):not([class*="hero"]):not([class*="section"])'
+    ];
+    for (var i = 0; i < selectors.length; i++) {
+      var el = document.querySelector(selectors[i]);
+      if (!el) continue;
+      if (el.classList && el.classList.contains('zappy-catalog-menu')) continue;
+      if (el.id === 'zappy-catalog-menu') continue;
+      if (el.classList && el.classList.contains('mobile-search-panel')) continue;
+      if (el.tagName === 'HEADER' && el.closest('section')) continue;
+      if (el.classList && (
+        el.classList.contains('lookbook-gallery-header') ||
+        el.classList.contains('hero-header') ||
+        el.classList.contains('section-header') ||
+        el.classList.contains('page-header')
+      )) continue;
+      return el;
+    }
+    return null;
+  }
+
+  function visibleHeight(el) {
+    if (!el) return 0;
+    var cs;
+    try { cs = window.getComputedStyle(el); } catch (e) {}
+    if (cs && (cs.display === 'none' || cs.visibility === 'hidden')) return 0;
+    var r = el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+    return Math.ceil((r && r.height) || el.offsetHeight || 0);
+  }
+
+  function sync() {
+    var header = primaryHeader();
+    var bar = document.querySelector('.zappy-announcement-bar');
+    var catalog = document.querySelector('.zappy-catalog-menu');
+    var barHeight = visibleHeight(bar);
+    if (!header) {
+      if (barHeight > 0) document.body.style.setProperty('padding-top', barHeight + 'px', 'important');
+      return;
+    }
+
+    header.style.setProperty('position', 'fixed', 'important');
+    header.style.setProperty('top', barHeight + 'px', 'important');
+    header.style.setProperty('left', '0', 'important');
+    header.style.setProperty('right', '0', 'important');
+    header.style.setProperty('z-index', '100000', 'important');
+    header.style.marginBottom = '0';
+
+    var headerHeight = visibleHeight(header);
+    var totalHeight = barHeight + headerHeight;
+    if (catalog && visibleHeight(catalog) > 0) {
+      catalog.style.marginTop = '0';
+      catalog.style.setProperty('top', totalHeight + 'px', 'important');
+      totalHeight += visibleHeight(catalog);
+    }
+
+    document.documentElement.style.setProperty('--header-height', headerHeight + 'px');
+    document.documentElement.style.setProperty('--total-header-height', totalHeight + 'px');
+    document.documentElement.style.setProperty('--zappy-mobile-menu-top', (barHeight + headerHeight) + 'px');
+    document.body.style.setProperty('padding-top', totalHeight + 'px', 'important');
+  }
+
+  var timer = null;
+  function schedule(delay) {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(sync, delay || 0);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ schedule(0); });
+  } else {
+    schedule(0);
+  }
+  window.addEventListener('load', function(){ schedule(0); });
+  window.addEventListener('resize', function(){ schedule(50); }, { passive: true });
+  window.addEventListener('zappy:languageChanged', function(){ schedule(50); });
+  window.addEventListener('languageChanged', function(){ schedule(50); });
+  [50, 150, 350, 750, 1500, 3000].forEach(function(ms){ setTimeout(sync, ms); });
+
+  try {
+    new MutationObserver(function(mutations) {
+      for (var i = 0; i < mutations.length; i++) {
+        var mutation = mutations[i];
+        var t = mutation.target;
+        var classes = t && t.classList;
+        if (mutation.type === 'childList') {
+          for (var j = 0; j < mutation.addedNodes.length; j++) {
+            var node = mutation.addedNodes[j];
+            var nodeClasses = node && node.classList;
+            if (nodeClasses && (
+              nodeClasses.contains('zappy-announcement-bar') ||
+              nodeClasses.contains('zappy-catalog-menu') ||
+              nodeClasses.contains('navbar')
+            )) {
+              schedule(0);
+              return;
+            }
+          }
+        }
+        if (
+          (t === document.body && mutation.attributeName === 'class') ||
+          (classes && (
+          classes.contains('zappy-announcement-bar') ||
+          classes.contains('zappy-catalog-menu')
+        ))
+        ) {
+          schedule(0);
+          return;
+        }
+      }
+    }).observe(document.body || document.documentElement, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['class', 'style']
+    });
+  } catch (e) {}
+})();
+
 /* ZAPPY_CUSTOMER_DISCOUNT_DELAYED_REFRESH_V1 */
 
 
@@ -5353,3 +6635,494 @@ function fixContrast(){
     boot();
   }
 })();
+
+/* ZAPPY_CART_BUNDLE_DISCOUNT_V3 */
+;(function() {
+  if (window.__zappyCartAutomaticDiscountRuntimeV3) return;
+  window.__zappyCartAutomaticDiscountRuntimeV3 = true;
+
+  function getWebsiteId() {
+    return window.ZAPPY_WEBSITE_ID || document.body.getAttribute('data-website-id') || document.documentElement.getAttribute('data-website-id') || '';
+  }
+
+  function apiUrl(path) {
+    var base = window.ZAPPY_API_BASE || window.location.origin || '';
+    if (base.endsWith('/')) base = base.slice(0, -1);
+    return base + path;
+  }
+
+  function readCart() {
+    var wid = getWebsiteId();
+    if (!wid) return [];
+    try {
+      var cart = JSON.parse(localStorage.getItem('zappy_cart_' + wid) || '[]');
+      return Array.isArray(cart) ? cart : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function formatMoney(amount) {
+    if (typeof window.zappyFormatMoney === 'function') {
+      try { return window.zappyFormatMoney(amount); } catch (e) {}
+    }
+    var sym = '₪';
+    try {
+      if (window.zappyStoreSettings && window.zappyStoreSettings.currencySymbol) {
+        sym = window.zappyStoreSettings.currencySymbol;
+      }
+    } catch (e) {}
+    return sym + (parseFloat(amount) || 0).toFixed(2);
+  }
+
+  function getEcomLabel(key, fallback) {
+    if (typeof getEcomText === 'function') {
+      try {
+        var v = getEcomText(key, fallback);
+        if (v) return v;
+      } catch (e) {}
+    }
+    return fallback;
+  }
+
+  function getUnitPrice(item) {
+    if (item && item.selectedVariant && item.selectedVariant.price != null && item.selectedVariant.price !== '') {
+      var vp = parseFloat(item.selectedVariant.price);
+      if (Number.isFinite(vp)) return vp;
+    }
+    if (item && item.displayPrice != null && item.displayPrice !== '') {
+      var dp = parseFloat(item.displayPrice);
+      if (Number.isFinite(dp)) return dp;
+    }
+    var reg = parseFloat(item && item.price);
+    var sale = parseFloat(item && item.sale_price);
+    if (Number.isFinite(sale) && Number.isFinite(reg) && sale < reg) return sale;
+    return Number.isFinite(reg) ? reg : 0;
+  }
+
+  function getLineTotal(item) {
+    var price = getUnitPrice(item);
+    var qty = parseInt(item.quantity, 10) || 1;
+    var step = parseFloat(item.quantityStep || item.quantity_step) || 1;
+    var unit = (item.quantityUnit || item.quantity_unit || 'piece');
+    if (unit === 'piece') return price * qty;
+    return price * (qty / step);
+  }
+
+  function getProductId(item) {
+    return String((item && (item.productId || item.id)) || '');
+  }
+
+  function idListContains(ids, id) {
+    var idStr = String(id || '');
+    for (var i = 0; i < ids.length; i++) {
+      if (String(ids[i]) === idStr) return true;
+    }
+    return false;
+  }
+
+  function getCartSubtotal(cart) {
+    var total = 0;
+    for (var i = 0; i < cart.length; i++) total += getLineTotal(cart[i]);
+    return total;
+  }
+
+  function calcBestBundleGroupDiscount(groupBundles, unitPrices) {
+    if (!groupBundles.length || !unitPrices.length) return 0;
+    unitPrices.sort(function(a, c) { return c - a; });
+
+    var prefixSums = [0];
+    for (var i = 0; i < unitPrices.length; i++) {
+      prefixSums.push(prefixSums[prefixSums.length - 1] + unitPrices[i]);
+    }
+
+    var dp = [0];
+    for (var n = 1; n <= unitPrices.length; n++) {
+      var best = dp[n - 1] || 0;
+      for (var b = 0; b < groupBundles.length; b++) {
+        var tier = groupBundles[b];
+        if (n < tier.qty) continue;
+        var groupSum = prefixSums[n] - prefixSums[n - tier.qty];
+        var saving = Math.max(0, groupSum - tier.bPrice);
+        if (saving <= 0) continue;
+        best = Math.max(best, (dp[n - tier.qty] || 0) + saving);
+      }
+      dp[n] = best;
+    }
+    return dp[unitPrices.length] || 0;
+  }
+
+  function calcBundleDiscount(bundles, cart) {
+    var groups = {};
+    for (var i = 0; i < bundles.length; i++) {
+      var b = bundles[i];
+      var qty = parseInt(b.quantity, 10);
+      var bPrice = parseFloat(b.bundlePrice);
+      if (!qty || qty < 2 || !Number.isFinite(bPrice) || bPrice < 0) continue;
+
+      var ids = Array.isArray(b.eligibleProductIds) ? b.eligibleProductIds.map(function(id) { return String(id || ''); }).filter(Boolean).sort() : [];
+      var appliesToAll = b.appliesTo === 'all';
+      if (!appliesToAll && ids.length === 0) continue;
+
+      var key = appliesToAll ? 'all' : ('products:' + ids.join('|'));
+      if (!groups[key]) groups[key] = { appliesToAll: appliesToAll, ids: ids, bundles: [] };
+      groups[key].bundles.push({ qty: qty, bPrice: bPrice });
+    }
+
+    var totalDiscount = 0;
+    Object.keys(groups).forEach(function(key) {
+      var group = groups[key];
+      var unitPrices = [];
+      for (var j = 0; j < cart.length; j++) {
+        var item = cart[j];
+        var itemId = getProductId(item);
+        if (!group.appliesToAll && !idListContains(group.ids, itemId)) continue;
+        var uPrice = getUnitPrice(item);
+        var itemQty = parseInt(item.quantity, 10) || 1;
+        for (var k = 0; k < itemQty; k++) unitPrices.push(uPrice);
+      }
+      totalDiscount += calcBestBundleGroupDiscount(group.bundles, unitPrices);
+    });
+    return totalDiscount;
+  }
+
+  function calcSeasonalDiscount(discounts, cart) {
+    var totalDiscount = 0;
+    for (var i = 0; i < discounts.length; i++) {
+      var d = discounts[i];
+      var ids = Array.isArray(d.product_ids) ? d.product_ids : [];
+      var appliesToAll = d.applies_to === 'all' || ids.length === 0;
+      var eligibleSubtotal = 0;
+
+      for (var j = 0; j < cart.length; j++) {
+        var item = cart[j];
+        if (appliesToAll || idListContains(ids, getProductId(item))) {
+          eligibleSubtotal += getLineTotal(item);
+        }
+      }
+
+      var value = parseFloat(d.value);
+      if (!Number.isFinite(value) || eligibleSubtotal <= 0) continue;
+      if (d.type === 'percentage') {
+        totalDiscount += (eligibleSubtotal * value) / 100;
+      } else if (d.type === 'fixed') {
+        totalDiscount += Math.min(value, eligibleSubtotal);
+      }
+    }
+    return totalDiscount;
+  }
+
+  function calcCustomerDiscount(cart) {
+    var cfg = window.__zappyCustomerDiscountConfig;
+    var percent = parseFloat(cfg && (cfg.discountPercent || cfg.discount_percent));
+    if (!Number.isFinite(percent) || percent <= 0) return 0;
+
+    var excluded = Array.isArray(cfg.excludedProductIds)
+      ? cfg.excludedProductIds
+      : (Array.isArray(cfg.excluded_product_ids) ? cfg.excluded_product_ids : []);
+    var eligibleSubtotal = 0;
+    for (var i = 0; i < cart.length; i++) {
+      var item = cart[i];
+      if (!idListContains(excluded, getProductId(item))) {
+        eligibleSubtotal += getLineTotal(item);
+      }
+    }
+    return eligibleSubtotal > 0 ? (eligibleSubtotal * percent) / 100 : 0;
+  }
+
+  function injectCss() {
+    var css =
+      '.cart-drawer-footer .zappy-cart-summary-row{display:flex;justify-content:space-between;align-items:center;font-size:.95rem;margin-bottom:8px}' +
+      '.cart-drawer-footer .cart-drawer-subtotal,.cart-drawer-footer .cart-drawer-subtotal span{color:var(--zappy-cart-drawer-total-color,var(--text-light,#f9fafb))}' +
+      '.cart-drawer-footer .zappy-cart-discount-row{color:var(--primary-color,var(--accent,var(--primary,#059669)));font-weight:500}' +
+      '.cart-drawer-subtotal,.cart-drawer-bundle-discount,.cart-drawer-seasonal-discount,.cart-drawer-customer-discount{display:none}';
+    var style = document.getElementById('zappy-cart-bundle-discount-css');
+    if (style) {
+      style.textContent = css;
+      return;
+    }
+    style = document.createElement('style');
+    style.id = 'zappy-cart-bundle-discount-css';
+    style.textContent = css;
+    (document.head || document.documentElement).appendChild(style);
+  }
+
+  function ensureSummaryRows() {
+    var footer = document.querySelector('#cart-drawer .cart-drawer-footer');
+    if (!footer) return null;
+    var totalRow = footer.querySelector('.cart-drawer-total');
+    if (!totalRow) return null;
+
+    var subtotalRow = footer.querySelector('.cart-drawer-subtotal');
+    if (!subtotalRow) {
+      subtotalRow = document.createElement('div');
+      subtotalRow.className = 'cart-drawer-subtotal zappy-cart-summary-row';
+      subtotalRow.innerHTML = '<span class="cart-drawer-subtotal-label"></span><span id="cart-drawer-subtotal"></span>';
+      footer.insertBefore(subtotalRow, totalRow);
+    }
+
+    var bundleRow = footer.querySelector('.cart-drawer-bundle-discount');
+    if (!bundleRow) {
+      bundleRow = document.createElement('div');
+      bundleRow.className = 'cart-drawer-bundle-discount zappy-cart-summary-row zappy-cart-discount-row';
+      bundleRow.innerHTML = '<span class="cart-drawer-bundle-discount-label"></span><span id="cart-drawer-bundle-discount"></span>';
+      footer.insertBefore(bundleRow, totalRow);
+    }
+
+    var seasonalRow = footer.querySelector('.cart-drawer-seasonal-discount');
+    if (!seasonalRow) {
+      seasonalRow = document.createElement('div');
+      seasonalRow.className = 'cart-drawer-seasonal-discount zappy-cart-summary-row zappy-cart-discount-row';
+      seasonalRow.innerHTML = '<span class="cart-drawer-seasonal-discount-label"></span><span id="cart-drawer-seasonal-discount"></span>';
+      footer.insertBefore(seasonalRow, totalRow);
+    }
+
+    var customerRow = footer.querySelector('.cart-drawer-customer-discount');
+    if (!customerRow) {
+      customerRow = document.createElement('div');
+      customerRow.className = 'cart-drawer-customer-discount zappy-cart-summary-row zappy-cart-discount-row';
+      customerRow.innerHTML = '<span class="cart-drawer-customer-discount-label"></span><span id="cart-drawer-customer-discount"></span>';
+      footer.insertBefore(customerRow, totalRow);
+    }
+
+    return { subtotalRow: subtotalRow, bundleRow: bundleRow, seasonalRow: seasonalRow, customerRow: customerRow, totalRow: totalRow };
+  }
+
+  function getDrawerTotalEl() {
+    var el = document.getElementById('cart-drawer-total');
+    if (el) return el;
+    var legacy = document.querySelector('#cart-drawer .cart-drawer-total');
+    if (!legacy) return null;
+    legacy.innerHTML = '<span>' + getEcomLabel('total', 'Total') + ':</span><span id="cart-drawer-total">' + formatMoney(0) + '</span>';
+    return document.getElementById('cart-drawer-total');
+  }
+
+  var bundlesCache = null;
+  var bundlesLoading = null;
+  var seasonalCache = null;
+  var seasonalLoading = null;
+  var customerLoading = null;
+
+  function loadBundles() {
+    if (bundlesCache) return Promise.resolve(bundlesCache);
+    if (bundlesLoading) return bundlesLoading;
+    var wid = getWebsiteId();
+    if (!wid) return Promise.resolve([]);
+    bundlesLoading = fetch(apiUrl('/api/ecommerce/storefront/quantity-bundles?websiteId=' + encodeURIComponent(wid)))
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        bundlesCache = (data && data.success && Array.isArray(data.data)) ? data.data : [];
+        return bundlesCache;
+      })
+      .catch(function() {
+        bundlesCache = [];
+        return bundlesCache;
+      })
+      .finally(function() { bundlesLoading = null; });
+    return bundlesLoading;
+  }
+
+  function loadSeasonalDiscounts() {
+    if (seasonalCache) return Promise.resolve(seasonalCache);
+    if (seasonalLoading) return seasonalLoading;
+    var wid = getWebsiteId();
+    if (!wid) return Promise.resolve([]);
+    seasonalLoading = fetch(apiUrl('/api/ecommerce/storefront/seasonal-discounts?websiteId=' + encodeURIComponent(wid)))
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        seasonalCache = (data && data.success && Array.isArray(data.data)) ? data.data : [];
+        return seasonalCache;
+      })
+      .catch(function() {
+        seasonalCache = [];
+        return seasonalCache;
+      })
+      .finally(function() { seasonalLoading = null; });
+    return seasonalLoading;
+  }
+
+  function hasActiveCustomerDiscount() {
+    var cfg = window.__zappyCustomerDiscountConfig;
+    var percent = parseFloat(cfg && (cfg.discountPercent || cfg.discount_percent));
+    return Number.isFinite(percent) && percent > 0;
+  }
+
+  function loadCustomerDiscount() {
+    var wid = getWebsiteId();
+    if (!wid) return Promise.resolve(null);
+    var token = null;
+    try { token = localStorage.getItem('zappy_customer_token_' + wid); } catch (e) {}
+    if (!token) {
+      window.__zappyCustomerDiscountConfig = null;
+      return Promise.resolve(null);
+    }
+    if (hasActiveCustomerDiscount()) {
+      return Promise.resolve(window.__zappyCustomerDiscountConfig);
+    }
+    if (customerLoading) return customerLoading;
+
+    if (typeof window.__zappyFetchCustomerDiscount === 'function') {
+      customerLoading = Promise.resolve(window.__zappyFetchCustomerDiscount())
+        .then(function() { return window.__zappyCustomerDiscountConfig || null; })
+        .catch(function() { return null; })
+        .finally(function() { customerLoading = null; });
+      return customerLoading;
+    }
+
+    customerLoading = fetch(apiUrl('/api/ecommerce/storefront/customer-discount?websiteId=' + encodeURIComponent(wid)), {
+      headers: { Authorization: 'Bearer ' + token }
+    })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        window.__zappyCustomerDiscountConfig = (data && data.success && data.data && data.data.discountPercent > 0) ? data.data : null;
+        return window.__zappyCustomerDiscountConfig;
+      })
+      .catch(function() {
+        window.__zappyCustomerDiscountConfig = null;
+        return null;
+      })
+      .finally(function() { customerLoading = null; });
+    return customerLoading;
+  }
+
+  function updateCartDrawerSummary() {
+    injectCss();
+    var drawerTotal = getDrawerTotalEl();
+    var rows = ensureSummaryRows();
+    if (!drawerTotal || !rows) return;
+    try {
+      var totalColor = window.getComputedStyle(rows.totalRow || drawerTotal).color;
+      if (totalColor) {
+        rows.subtotalRow.style.setProperty('--zappy-cart-drawer-total-color', totalColor);
+      }
+    } catch (e) {}
+
+    var cart = readCart();
+    if (!cart.length) {
+      rows.subtotalRow.style.display = 'none';
+      rows.bundleRow.style.display = 'none';
+      rows.seasonalRow.style.display = 'none';
+      rows.customerRow.style.display = 'none';
+      drawerTotal.setAttribute('data-zappy-auto-discount', '0');
+      drawerTotal.textContent = formatMoney(0);
+      return;
+    }
+
+    var subtotal = getCartSubtotal(cart);
+    var bundleDisc = calcBundleDiscount(bundlesCache || [], cart);
+    var seasonalDisc = calcSeasonalDiscount(seasonalCache || [], cart);
+    var customerDisc = calcCustomerDiscount(cart);
+    var autoDiscount = (bundleDisc || 0) + (seasonalDisc || 0) + (customerDisc || 0);
+    if (autoDiscount > subtotal) autoDiscount = subtotal;
+    var finalTotal = subtotal - autoDiscount;
+    var showBreakdown = autoDiscount > 0.005;
+    var remainingDiscount = autoDiscount;
+    var displayBundleDiscount = Math.min(Math.max(bundleDisc || 0, 0), remainingDiscount);
+    remainingDiscount -= displayBundleDiscount;
+    var displaySeasonalDiscount = Math.min(Math.max(seasonalDisc || 0, 0), remainingDiscount);
+    remainingDiscount -= displaySeasonalDiscount;
+    var displayCustomerDiscount = Math.min(Math.max(customerDisc || 0, 0), remainingDiscount);
+
+    rows.subtotalRow.style.display = showBreakdown ? 'flex' : 'none';
+    rows.bundleRow.style.display = displayBundleDiscount > 0.005 ? 'flex' : 'none';
+    rows.seasonalRow.style.display = displaySeasonalDiscount > 0.005 ? 'flex' : 'none';
+    rows.customerRow.style.display = displayCustomerDiscount > 0.005 ? 'flex' : 'none';
+
+    if (showBreakdown) {
+      var subLabel = rows.subtotalRow.querySelector('.cart-drawer-subtotal-label');
+      if (subLabel) subLabel.textContent = getEcomLabel('subtotal', 'Subtotal') + ':';
+      var subEl = document.getElementById('cart-drawer-subtotal');
+      if (subEl) subEl.textContent = formatMoney(subtotal);
+    }
+
+    if (displayBundleDiscount > 0.005) {
+      var bundleLabel = rows.bundleRow.querySelector('.cart-drawer-bundle-discount-label');
+      if (bundleLabel) bundleLabel.textContent = getEcomLabel('bundleDiscount', 'Bundle Discount') + ':';
+      var bundleEl = document.getElementById('cart-drawer-bundle-discount');
+      if (bundleEl) bundleEl.textContent = '-' + formatMoney(displayBundleDiscount);
+    }
+
+    if (displaySeasonalDiscount > 0.005) {
+      var seasonalLabel = rows.seasonalRow.querySelector('.cart-drawer-seasonal-discount-label');
+      if (seasonalLabel) seasonalLabel.textContent = getEcomLabel('seasonalDiscount', 'Seasonal Discount') + ':';
+      var seasonalEl = document.getElementById('cart-drawer-seasonal-discount');
+      if (seasonalEl) seasonalEl.textContent = '-' + formatMoney(displaySeasonalDiscount);
+    }
+
+    if (displayCustomerDiscount > 0.005) {
+      var customerLabel = rows.customerRow.querySelector('.cart-drawer-customer-discount-label');
+      if (customerLabel) customerLabel.textContent = getEcomLabel('customerDiscount', 'Customer Discount') + ':';
+      var customerEl = document.getElementById('cart-drawer-customer-discount');
+      if (customerEl) customerEl.textContent = '-' + formatMoney(displayCustomerDiscount);
+    }
+
+    drawerTotal.setAttribute('data-zappy-auto-discount', String(autoDiscount));
+    drawerTotal.textContent = formatMoney(finalTotal);
+  }
+
+  function refreshSummary() {
+    Promise.all([loadBundles(), loadSeasonalDiscounts(), loadCustomerDiscount()]).then(function() {
+      updateCartDrawerSummary();
+    });
+  }
+
+  function wrapRenderCartDrawer() {
+    var orig = window.zappyRenderCartDrawer;
+    if (typeof orig === 'function' && !orig.__zappyAutomaticDiscountWrappedV3) {
+      window.zappyRenderCartDrawer = function() {
+        var result = orig.apply(this, arguments);
+        refreshSummary();
+        return result;
+      };
+      window.zappyRenderCartDrawer.__zappyAutomaticDiscountWrappedV3 = true;
+    }
+  }
+
+  function wrapFn(name) {
+    var orig = window[name];
+    if (typeof orig !== 'function' || orig.__zappyAutomaticDiscountWrappedV3) return;
+    window[name] = function() {
+      var result = orig.apply(this, arguments);
+      refreshSummary();
+      return result;
+    };
+    window[name].__zappyAutomaticDiscountWrappedV3 = true;
+  }
+
+  function wrapCartMutators() {
+    wrapFn('zappyUpdateQty');
+    wrapFn('zappyRemoveFromCart');
+    wrapRenderCartDrawer();
+  }
+
+  function watchCartDrawer() {
+    var drawer = document.getElementById('cart-drawer');
+    if (!drawer || drawer.__zappyAutomaticDiscountObservedV3) return;
+    drawer.__zappyAutomaticDiscountObservedV3 = true;
+    var obs = new MutationObserver(function() {
+      if (drawer.classList.contains('active')) refreshSummary();
+    });
+    obs.observe(drawer, { attributes: true, attributeFilter: ['class'], subtree: true, childList: true, characterData: true });
+  }
+
+  function boot() {
+    wrapCartMutators();
+    watchCartDrawer();
+    refreshSummary();
+  }
+
+  boot();
+  document.addEventListener('DOMContentLoaded', boot);
+  window.addEventListener('load', function() { setTimeout(boot, 100); });
+  setTimeout(boot, 500);
+  setTimeout(boot, 1500);
+  document.addEventListener('click', function(event) {
+    if (event.target && event.target.closest && event.target.closest('#cart-drawer-toggle, [data-cart-toggle], .cart-link.nav-cart, a.nav-cart')) {
+      setTimeout(refreshSummary, 50);
+      setTimeout(refreshSummary, 400);
+    }
+  }, true);
+})();
+
+/* ZAPPY_CART_BUNDLE_SUMMARY_COLOR_V3 */
+;(function(){var id='zappy-cart-bundle-summary-color-css';var css='.cart-drawer-footer .zappy-cart-summary-row{display:flex;justify-content:space-between;align-items:center;font-size:.95rem;margin-bottom:8px}.cart-drawer-footer .cart-drawer-subtotal,.cart-drawer-footer .cart-drawer-subtotal span{color:var(--zappy-cart-drawer-total-color,var(--text-light,#f9fafb))}.cart-drawer-footer .zappy-cart-discount-row{color:var(--primary-color,var(--accent,var(--primary,#059669)));font-weight:500}';var el=document.getElementById(id);if(el){el.textContent=css;}else{var s=document.createElement('style');s.id=id;s.textContent=css;(document.head||document.documentElement).appendChild(s);}function sync(){var f=document.querySelector('.cart-drawer-footer');var total=document.querySelector('.cart-drawer-footer .cart-drawer-total');if(!f||!total)return;try{var c=getComputedStyle(total).color;if(c)f.style.setProperty('--zappy-cart-drawer-total-color',c);}catch(e){}}sync();document.addEventListener('DOMContentLoaded',sync);window.addEventListener('load',sync);setTimeout(sync,50);setTimeout(sync,500);})();

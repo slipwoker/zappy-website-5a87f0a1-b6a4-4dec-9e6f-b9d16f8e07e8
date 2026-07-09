@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="he" dir="rtl">
-<head>
+<!DOCTYPE html><html lang="he" dir="rtl"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="index, follow">
     <title>מקרי בוחן לדוגמה</title>
-    <meta name="description" content="פרד"ס חקירות - מקרי בוחן לדוגמה">
+    <meta name="description" content="פרד" ס="" חקירות="" -="" מקרי="" בוחן="" לדוגמה"="">
     <meta name="keywords" content="">
     
     <!-- Favicons -->
@@ -161,26 +159,31 @@
       // Track button clicks (counted as actions)
       if (target.tagName === 'BUTTON' || target.closest('button')) {
         var button = target.tagName === 'BUTTON' ? target : target.closest('button');
-        trackEvent('click', {
+        var clickMeta = {
           element: 'button',
           text: button.textContent.trim().substring(0, 100),
           id: button.id || null,
           class: button.className || null
-        });
+        };
+        
+        trackEvent('click', clickMeta);
       }
       
       // Track link clicks (navigation - not counted as actions)
       else if (target.tagName === 'A' || target.closest('a')) {
         var link = target.tagName === 'A' ? target : target.closest('a');
-        trackEvent('navigation', {
+        var navMeta = {
           element: 'link',
           text: link.textContent.trim().substring(0, 100),
           href: link.href,
           external: link.hostname !== window.location.hostname
-        });
+        };
+        
+        trackEvent('navigation', navMeta);
       }
     }, true);
   }
+  
   
   // Track form submissions
   if (config.trackFormSubmissions) {
@@ -219,12 +222,12 @@
 </script>
 <!-- End Zappy Analytics -->
     <meta property="og:title" content="מקרי בוחן לדוגמה">
-    <meta property="og:description" content="פרד"ס חקירות - מקרי בוחן לדוגמה">
+    <meta property="og:description" content="פרד" ס="" חקירות="" -="" מקרי="" בוחן="" לדוגמה"="">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="מקרי בוחן לדוגמה">
-    <meta name="twitter:description" content="פרד"ס חקירות - מקרי בוחן לדוגמה">
+    <meta name="twitter:description" content="פרד" ס="" חקירות="" -="" מקרי="" בוחן="" לדוגמה"="">
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://prdsbi.com#organization","name":"פרד\"ס חקירות","url":"https://prdsbi.com","description":"Pardes Investigations is a licensed private investigation and business intelligence firm owned by Yair Bloom, a fully licensed private investigator authorized by the Israeli Ministry of Justice. The agency operates at a high professional level, emphasizing absolute discretion, strategic thinking, and reliability. The team includes analysts with backgrounds in Israel's security and intelligence establishment. The firm focuses exclusively on business, financial, and legal investigations — including due diligence, economic investigations, internal corporate investigations, digital investigations, and background checks both in Israel and abroad — projecting an image of authority, trustworthiness, and elite professionalism.","contactPoint":[{"@type":"ContactPoint","contactType":"customer service","email":"info@prdsbi.com","telephone":"+972-543975210"}]},{"@type":"WebSite","@id":"https://prdsbi.com#website","url":"https://prdsbi.com","name":"פרד\"ס חקירות","publisher":{"@id":"https://prdsbi.com#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://prdsbi.com"},{"@type":"ListItem","position":2,"name":"Case Examples","item":"https://prdsbi.com/case-examples"}]}]}</script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <style> .skip-link { position: absolute; top: 0; left: 0; transform: translateY(-200%); padding: 12px 18px; background: var(--bg-dark, #1a1a1a); color: var(--text-light, #fff); font-weight: 600; border-radius: 0 0 8px 0; z-index: 10000; } .skip-link:focus { transform: none; outline: 2px solid var(--ring, #fff); outline-offset: 2px; } :focus-visible { outline: 2px solid var(--ring, currentColor); outline-offset: 3px; } </style> <!-- Favicons --> <link rel="icon" type="image/x-icon" href="/assets/favicon.ico"> <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png"> <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png"> <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png"> <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png"> <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png"> <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"> <!-- Cookie Consent --> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css"> <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script> <!-- Mickidum Accessibility Toolbar --> <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script> 
+    <style> .skip-link { position: absolute; top: 0; left: 0; transform: translateY(-200%); padding: 12px 18px; background: var(--bg-dark, #1a1a1a); color: var(--text-light, #fff); font-weight: 600; border-radius: 0 0 8px 0; z-index: 10000; } .skip-link:focus { transform: none; outline: 2px solid var(--ring, #fff); outline-offset: 2px; } :focus-visible { outline: 2px solid var(--ring, currentColor); outline-offset: 3px; } </style> <!-- Favicons --> <link rel="icon" type="image/x-icon" href="/assets/favicon.ico"> <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png"> <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png"> <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png"> <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png"> <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png"> <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png"> <!-- Cookie Consent --> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">  <!-- Mickidum Accessibility Toolbar -->  
     <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:url" content="https://prdsbi.com/case-examples">
     <meta property="og:type" content="article">
@@ -1632,7 +1635,7 @@
   }
 }</style>    <!-- ZAPPY_INTEGRATION_START analytics:add_google_analytics -->
 <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HSQMJZYGPN"></script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-HSQMJZYGPN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -1660,7 +1663,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KGC9BS2L');</script>
 <!-- ZAPPY_INTEGRATION_END analytics:add_google_tag_manager -->
-    <link rel="stylesheet" href="/styles.css">
+    <style id="zappy-critical-above-fold-css">
+html{box-sizing:border-box;-webkit-text-size-adjust:100%}*,*::before,*::after{box-sizing:inherit}body{margin:0;min-width:320px;overflow-x:clip}img,svg,video{max-width:100%;height:auto}main{display:block}.container{width:min(100% - 32px,1200px);margin-inline:auto}.navbar,nav.navbar,header .navbar,header[role="banner"]{position:relative;z-index:1000;width:100%}.nav-container,.navbar .container{display:flex;align-items:center;justify-content:space-between;min-height:64px}.logo,.logo-link img{display:block;width:35px;height:35px;object-fit:contain}.nav-menu,#navMenu{list-style:none}.fa,.fas,.far,.fab,.fa-solid,.fa-regular,.fa-brands{display:inline-block;min-width:1em;text-align:center}html:not(#zappy-noop)[data-zappy-site-type="ecommerce"] .phone-header-btn,html:not(#zappy-noop) .navbar:has(.nav-ecommerce-icons)>.phone-header-btn{display:none!important;visibility:hidden!important;width:0!important;height:0!important;pointer-events:none!important}.hero-section,.index-hero-section,section[class*="hero"]{position:relative;overflow:hidden;min-height:560px}.hero-bg-wrapper,.hero-bg-image,section[class*="hero"] [class*="hero-bg"]{position:absolute;inset:0;width:100%;height:100%}.hero-bg-wrapper img,.hero-bg-image img,section[class*="hero"] [data-hero-bg],section[class*="hero"] img[data-hero-background="true"]{width:100%!important;height:100%!important;object-fit:cover!important;display:block}.hero-content,section[class*="hero"] .container{position:relative;z-index:2}@media(max-width:768px){:root{--header-height:72px;--total-header-height:72px;--zappy-mobile-menu-top:72px}html[data-zappy-site-type="ecommerce"] body{padding-top:var(--total-header-height,72px)}html[data-zappy-site-type="ecommerce"] body>nav.navbar,html[data-zappy-site-type="ecommerce"] body>.navbar:not(.zappy-catalog-menu){position:fixed!important;top:0;left:0;right:0;z-index:100000;width:100%;margin-bottom:0}.zappy-catalog-menu{position:fixed;top:var(--header-height,72px);left:0;right:0;z-index:99999}.nav-container,.navbar .container{min-height:60px}.nav-menu,#navMenu{max-width:100vw;overflow-x:hidden}.hero-section,.index-hero-section,section[class*="hero"]{min-height:100svh}.hero-bg-wrapper,.hero-bg-image,.hero-scrim{min-height:100svh}}
+</style>
+    <link rel="preload" href="/styles.css" as="style">
+    <link rel="stylesheet" href="/styles.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/styles.css"></noscript>
+    
     <script>window.ZAPPY_WEBSITE_ID = "5a87f0a1-b6a4-4dec-9e6f-b9d16f8e07e8"; window.ZAPPY_API_BASE = "https://api.zappy5.com";</script>
 
     <style id="zappy-dropdown-submenu-styles">
@@ -1754,9 +1763,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <!-- ZAPPY_INTEGRATION_START analytics:add_google_tag_manager -->
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KGC9BS2L"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- ZAPPY_INTEGRATION_END analytics:add_google_tag_manager --><a class="skip-link" href="#main">דלג לתוכן הראשי</a> <nav class="navbar" dir="rtl"> <button class="mobile-toggle" id="mobileToggle" aria-label="Menu"> <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"> <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path> </svg> <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;"> <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path> </svg> </button> <button class="phone-header-btn" data-phone="+972543975210" aria-label="Call"> <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"> <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path> </svg> </button> <div class="nav-container"> <div class="nav-right-group"><div class="nav-brand"> <a href="/" class="logo-link"><img class="logo" src="/assets/private-investigation-business-intelligence-logo-1780322133600-qqceul.webp?v=1780322134115-md52b6" alt="פרד" ס="" חקירות"=""></a> </div><ul class="nav-menu" id="navMenu"><li><a href="/">בית</a></li><li><a href="/about">אודות המשרד</a></li><li><a href="/services">שירותים</a></li><li><a href="/case-examples" class="nav-link">מקרים</a></li></ul></div> <div class="nav-cta-container"> <a href="/contact" class="nav-cta-btn">צור קשר</a> </div> </div> </nav> <script> // Navbar Mobile Menu Toggle and Contrast Fix (function() { // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts window.addEventListener('load', function() { // FIX MOBILE BUTTON CONTRAST // Detect navbar background color and apply contrasting color to mobile buttons const navbar = document.querySelector('.navbar, nav, header'); if (!navbar) { console.log('[Navbar] Navbar element not found'); return; } // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors // These are used in multiple places below let mobileToggle = document.getElementById('mobileToggle') || document.querySelector('.mobile-toggle') || document.querySelector('.hamburger') || document.querySelector('.hamburger-menu') || document.querySelector('.menu-toggle') || document.querySelector('.burger-menu') || document.querySelector('[aria-label="Menu"]') || document.querySelector('[aria-label="תפריט"]'); const phoneBtn = document.querySelector('.phone-header-btn'); const computedStyle = window.getComputedStyle(navbar); let bgColor = computedStyle.backgroundColor; console.log('[Navbar] Initial navbar background:', bgColor); // Check if background is transparent or rgba with 0 alpha const isTransparent = bgColor === 'transparent' || bgColor === 'rgba(0, 0, 0, 0)' || (bgColor.startsWith('rgba') && bgColor.includes(', 0)')); if (isTransparent) { // Check for background-image or gradient const bgImage = computedStyle.backgroundImage; if (bgImage && bgImage !== 'none') { console.log('[Navbar] Navbar has background image/gradient, using dark text'); bgColor = 'rgb(240, 240, 240)'; // Assume light background } else { // Transparent navbar - check body background const bodyBg = window.getComputedStyle(document.body).backgroundColor; console.log('[Navbar] Navbar transparent, using body background:', bodyBg); bgColor = bodyBg; } } // Calculate luminance to determine if background is light or dark const rgb = bgColor.match(/\d+/g); if (rgb && rgb.length >= 3) { const r = parseInt(rgb[0]); const g = parseInt(rgb[1]); const b = parseInt(rgb[2]); const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255; // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a) // No dynamic color overrides needed - colors come from the generated navbar CSS console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')'); // FIX ICON SIZES - Ensure SVGs are properly sized and visible // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES const criticalCSS = document.createElement('style'); criticalCSS.id = 'zappy-mobile-nav-fix'; const htmlLang = document.documentElement.lang || 'en'; const htmlDir = document.documentElement.dir || 'ltr'; // Check both dir attribute AND lang for RTL detection // dir="rtl" is the most reliable indicator const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar'; criticalCSS.textContent = ` /* Hide mobile buttons on desktop, show only on mobile */ @media (min-width: 769px) { .mobile-toggle, .phone-header-btn { display: none !important; } } /* Show and position mobile buttons correctly on mobile */ @media (max-width: 768px) { .navbar, nav.navbar { min-height: 70px !important; } .mobile-toggle, .phone-header-btn { position: absolute !important; top: 0 !important; bottom: 0 !important; margin-top: auto !important; margin-bottom: auto !important; transform: none !important; z-index: 1001 !important; display: flex !important; align-items: center !important; justify-content: center !important; width: 36px !important; height: 36px !important; border-radius: 50% !important; border: none !important; cursor: pointer !important; padding: 6px !important; background: none !important; color: var(--nav-text, var(--text-dark)) !important; touch-action: manipulation !important; -webkit-tap-highlight-color: transparent !important; } html[data-zappy-site-type="ecommerce"] .phone-header-btn, body[data-zappy-site-type="ecommerce"] .phone-header-btn, html[data-zappy-site-type="ecommerce"] header .phone-header-btn, html[data-zappy-site-type="ecommerce"] nav .phone-header-btn { display: none !important; visibility: hidden !important; width: 0 !important; height: 0 !important; min-width: 0 !important; overflow: hidden !important; } /* LTR positioning (default): hamburger LEFT, phone RIGHT */ html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle, html[dir="ltr"] .mobile-toggle { left: 12px !important; right: auto !important; } html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn, html[dir="ltr"] .phone-header-btn { right: 12px !important; left: auto !important; } /* RTL positioning: hamburger RIGHT, phone LEFT */ html[dir="rtl"] .mobile-toggle, html[lang="he"] .mobile-toggle, html[lang="ar"] .mobile-toggle { right: 12px !important; left: auto !important; } html[dir="rtl"] .phone-header-btn, html[lang="he"] .phone-header-btn, html[lang="ar"] .phone-header-btn { left: 12px !important; right: auto !important; } /* CRITICAL: Ensure nav-container has min-height on mobile */ /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */ .nav-container { min-height: 70px !important; position: relative !important; } /* Ensure SVG icons are properly sized and inherit color */ .mobile-toggle svg, .phone-header-btn svg { width: 24px !important; height: 24px !important; /* Don't force display - let JavaScript control hamburger/close toggle */ } /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */ /* that creates a visible ghost box when CTA button is hidden */ .nav-cta-container { box-shadow: none !important; padding: 0 !important; } /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */ /* (only the CTA button is inside, and it's hidden on mobile) */ .nav-cta-container:not(:has(.lang-switcher)) { display: none !important; } /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */ /* The .image-fade-gradient has bottom: -30px (extends below parent) */ /* On mobile stacked layout, this overlaps the h1 text below the image */ .hero-image-column { overflow: hidden !important; } .image-fade-gradient { bottom: 0 !important; } /* Hide desktop language switcher on mobile - hamburger menu handles it */ /* High specificity to override stored CSS */ .lang-switcher, .nav-cta-container .lang-switcher, .nav-container .lang-switcher, .navbar .lang-switcher, .navbar .nav-cta-container .lang-switcher { display: none !important; } } `; // Remove existing fix if present and inject new one const existing = document.getElementById('zappy-mobile-nav-fix'); if (existing) existing.remove(); document.head.appendChild(criticalCSS); console.log('[Navbar] Critical CSS injected for mobile nav positioning'); // ONLY apply inline positioning styles on mobile viewport // On desktop, the CSS handles hiding these buttons with display: none // Inline styles were breaking desktop layout by overriding CSS const isMobileViewport = window.innerWidth <= 768; if (mobileToggle) { // Icon sizing applies to all viewports for consistency const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon'); const closeIcon = mobileToggle.querySelector('.close-icon'); if (hamburgerIcon) { hamburgerIcon.style.setProperty('width', '24px', 'important'); hamburgerIcon.style.setProperty('height', '24px', 'important'); hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default } if (closeIcon) { closeIcon.style.setProperty('width', '24px', 'important'); closeIcon.style.setProperty('height', '24px', 'important'); closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default } // ONLY set positioning inline styles on mobile if (isMobileViewport) { mobileToggle.style.setProperty('position', 'absolute', 'important'); mobileToggle.style.setProperty('top', '0', 'important'); mobileToggle.style.setProperty('bottom', '0', 'important'); mobileToggle.style.setProperty('margin-top', 'auto', 'important'); mobileToggle.style.setProperty('margin-bottom', 'auto', 'important'); mobileToggle.style.setProperty('transform', 'none', 'important'); mobileToggle.style.setProperty('z-index', '1001', 'important'); // Clear any inline left/right so CSS can take over based on html[dir] mobileToggle.style.removeProperty('left'); mobileToggle.style.removeProperty('right'); console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)'); } else { // On desktop, clear any positioning styles to let CSS handle it mobileToggle.style.removeProperty('position'); mobileToggle.style.removeProperty('top'); mobileToggle.style.removeProperty('transform'); mobileToggle.style.removeProperty('z-index'); mobileToggle.style.removeProperty('left'); mobileToggle.style.removeProperty('right'); console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning'); } } if (phoneBtn) { // Icon sizing applies to all viewports const phoneIcon = phoneBtn.querySelector('svg'); if (phoneIcon) { phoneIcon.style.width = '24px'; phoneIcon.style.height = '24px'; phoneIcon.setAttribute('width', '24'); phoneIcon.setAttribute('height', '24'); } // ONLY set positioning inline styles on mobile if (isMobileViewport) { phoneBtn.style.setProperty('position', 'absolute', 'important'); phoneBtn.style.setProperty('top', '0', 'important'); phoneBtn.style.setProperty('bottom', '0', 'important'); phoneBtn.style.setProperty('margin-top', 'auto', 'important'); phoneBtn.style.setProperty('margin-bottom', 'auto', 'important'); phoneBtn.style.setProperty('transform', 'none', 'important'); phoneBtn.style.setProperty('z-index', '1001', 'important'); // Clear any inline left/right so CSS can take over based on html[dir] phoneBtn.style.removeProperty('left'); phoneBtn.style.removeProperty('right'); console.log('[Navbar] Phone button positioning applied (mobile viewport)'); } else { // On desktop, clear any positioning styles to let CSS handle it phoneBtn.style.removeProperty('position'); phoneBtn.style.removeProperty('top'); phoneBtn.style.removeProperty('transform'); phoneBtn.style.removeProperty('z-index'); phoneBtn.style.removeProperty('left'); phoneBtn.style.removeProperty('right'); console.log('[Navbar] Desktop viewport - cleared phone button inline positioning'); } } } else { console.log('[Navbar] Could not parse background color:', bgColor); } // MOBILE MENU TOGGLE // Re-query in case DOM changed (mobileToggle already declared at top of function) mobileToggle = document.getElementById('mobileToggle') || document.querySelector('.mobile-toggle') || document.querySelector('.hamburger') || document.querySelector('.hamburger-menu') || document.querySelector('.menu-toggle') || document.querySelector('.burger-menu') || document.querySelector('[aria-label="Menu"]') || document.querySelector('[aria-label="תפריט"]'); // EXPANDED SEARCH: Find nav menu by ID or class const navMenu = document.getElementById('navMenu') || document.querySelector('.nav-menu') || document.querySelector('.nav-links') || document.querySelector('nav ul:not(.submenu)'); if (!mobileToggle || !navMenu) { console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu }); return; } // Ensure navMenu has ID for CSS targeting if (!navMenu.id) { navMenu.id = 'navMenu'; } console.log('[Navbar] Initializing mobile menu...'); // Remove any existing event listeners by cloning the button const newToggle = mobileToggle.cloneNode(true); mobileToggle.parentNode.replaceChild(newToggle, mobileToggle); // Toggle menu handler (shared by click and touchend) function handleToggle(e) { e.preventDefault(); e.stopPropagation(); const hamburgerIcon = newToggle.querySelector('.hamburger-icon'); const closeIcon = newToggle.querySelector('.close-icon'); const isActive = navMenu.classList.contains('active'); if (isActive) { // Close menu navMenu.classList.remove('active'); if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important'); if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important'); document.body.style.overflow = ''; console.log('[Navbar] Menu closed'); } else { // Open menu navMenu.classList.add('active'); if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important'); if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important'); document.body.style.overflow = 'hidden'; console.log('[Navbar] Menu opened'); } } // Use click for desktop/emulation and touchend as iOS Safari fallback. // Prevent double-fire with a timestamp guard. var lastToggleTime = 0; function guardedToggle(e) { var now = Date.now(); if (now - lastToggleTime < 300) return; lastToggleTime = now; handleToggle(e); } newToggle.addEventListener('click', guardedToggle); newToggle.addEventListener('touchend', guardedToggle); // Close menu when clicking nav links (but NOT dropdown toggles) const navLinks = navMenu.querySelectorAll('a'); navLinks.forEach(function(link) { link.addEventListener('click', function() { // Don't close if it's a dropdown child (unless it's a real navigation link) if (this.getAttribute('href') === '#') return; const hamburgerIcon = newToggle.querySelector('.hamburger-icon'); const closeIcon = newToggle.querySelector('.close-icon'); navMenu.classList.remove('active'); if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important'); if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important'); document.body.style.overflow = ''; console.log('[Navbar] Menu closed (link clicked)'); }); }); // DROPDOWN MENU TOGGLE (for mobile and touch devices) var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle'); dropdownToggles.forEach(function(toggle) { toggle.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); var parent = this.closest('.nav-dropdown'); if (!parent) return; // Close other open dropdowns at the same level var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open'); siblings.forEach(function(sib) { if (sib !== parent) sib.classList.remove('open'); }); parent.classList.toggle('open'); console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed'); }); }); // Close dropdowns when clicking outside document.addEventListener('click', function(e) { if (!e.target.closest('.nav-dropdown')) { var openDropdowns = document.querySelectorAll('.nav-dropdown.open'); openDropdowns.forEach(function(dd) { dd.classList.remove('open'); }); } }); console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns'); // Phone button functionality (phoneBtn already declared at top of function) if (phoneBtn) { phoneBtn.addEventListener('click', function() { // Get phone number from placeholder in page or use default const phoneLinks = document.querySelectorAll('a[href^="tel:"]'); const phoneNumber = phoneLinks.length > 0 ? phoneLinks[0].getAttribute('href').replace('tel:', '') : '+972-543975210'; window.location.href = 'tel:' + phoneNumber; console.log('[Navbar] Phone button clicked'); }); } console.log('[Navbar] Mobile menu initialized successfully'); // WhatsApp button visibility is now controlled via CSS (siteSettings). // No JS-based desktop hiding — the button is visible on both mobile and desktop by default. }); })(); </script> <main id="main" class="blog-page ai-generated-page"><section class="case-examples-hero-section" data-layout-spec="מקרי בוחן לדוגמה-hero" dir="rtl" data-hero-type="fullscreen-scrim" id="zappy-section-0">
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KGC9BS2L" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- ZAPPY_INTEGRATION_END analytics:add_google_tag_manager --><a class="skip-link" href="#main">דלג לתוכן הראשי</a> <nav class="navbar" dir="rtl"> <button class="mobile-toggle" id="mobileToggle" aria-label="Menu"> <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"> <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path> </svg> <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;"> <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path> </svg> </button> <button class="phone-header-btn" data-phone="+972543975210" aria-label="Call"> <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"> <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path> </svg> </button> <div class="nav-container"> <div class="nav-right-group"><div class="nav-brand"> <a href="/" class="logo-link"><img class="logo" src="/assets/private-investigation-business-intelligence-logo-1780322133600-qqceul.webp?v=1780322134115-md52b6" alt="פרד" ס="" חקירות"="" decoding="async" width="35" height="35"></a> </div><ul class="nav-menu" id="navMenu"><li><a href="/">בית</a></li><li><a href="/about">אודות המשרד</a></li><li><a href="/services">שירותים</a></li><li><a href="/case-examples" class="nav-link">מקרים</a></li></ul></div> <div class="nav-cta-container"> <a href="/contact" class="nav-cta-btn">צור קשר</a> </div> </div> </nav> <script> // Navbar Mobile Menu Toggle and Contrast Fix (function() { // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts window.addEventListener('load', function() { // FIX MOBILE BUTTON CONTRAST // Detect navbar background color and apply contrasting color to mobile buttons const navbar = document.querySelector('.navbar, nav, header'); if (!navbar) { console.log('[Navbar] Navbar element not found'); return; } // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors // These are used in multiple places below let mobileToggle = document.getElementById('mobileToggle') || document.querySelector('.mobile-toggle') || document.querySelector('.hamburger') || document.querySelector('.hamburger-menu') || document.querySelector('.menu-toggle') || document.querySelector('.burger-menu') || document.querySelector('[aria-label="Menu"]') || document.querySelector('[aria-label="תפריט"]'); const phoneBtn = document.querySelector('.phone-header-btn'); const computedStyle = window.getComputedStyle(navbar); let bgColor = computedStyle.backgroundColor; console.log('[Navbar] Initial navbar background:', bgColor); // Check if background is transparent or rgba with 0 alpha const isTransparent = bgColor === 'transparent' || bgColor === 'rgba(0, 0, 0, 0)' || (bgColor.startsWith('rgba') && bgColor.includes(', 0)')); if (isTransparent) { // Check for background-image or gradient const bgImage = computedStyle.backgroundImage; if (bgImage && bgImage !== 'none') { console.log('[Navbar] Navbar has background image/gradient, using dark text'); bgColor = 'rgb(240, 240, 240)'; // Assume light background } else { // Transparent navbar - check body background const bodyBg = window.getComputedStyle(document.body).backgroundColor; console.log('[Navbar] Navbar transparent, using body background:', bodyBg); bgColor = bodyBg; } } // Calculate luminance to determine if background is light or dark const rgb = bgColor.match(/\d+/g); if (rgb && rgb.length >= 3) { const r = parseInt(rgb[0]); const g = parseInt(rgb[1]); const b = parseInt(rgb[2]); const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255; // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a) // No dynamic color overrides needed - colors come from the generated navbar CSS console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')'); // FIX ICON SIZES - Ensure SVGs are properly sized and visible // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES const criticalCSS = document.createElement('style'); criticalCSS.id = 'zappy-mobile-nav-fix'; const htmlLang = document.documentElement.lang || 'en'; const htmlDir = document.documentElement.dir || 'ltr'; // Check both dir attribute AND lang for RTL detection // dir="rtl" is the most reliable indicator const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar'; criticalCSS.textContent = ` /* Hide mobile buttons on desktop, show only on mobile */ @media (min-width: 769px) { .mobile-toggle, .phone-header-btn { display: none !important; } } /* Show and position mobile buttons correctly on mobile */ @media (max-width: 768px) { .navbar, nav.navbar { min-height: 70px !important; } .mobile-toggle, .phone-header-btn { position: absolute !important; top: 0 !important; bottom: 0 !important; margin-top: auto !important; margin-bottom: auto !important; transform: none !important; z-index: 1001 !important; display: flex !important; align-items: center !important; justify-content: center !important; width: 36px !important; height: 36px !important; border-radius: 50% !important; border: none !important; cursor: pointer !important; padding: 6px !important; background: none !important; color: var(--nav-text, var(--text-dark)) !important; touch-action: manipulation !important; -webkit-tap-highlight-color: transparent !important; } html[data-zappy-site-type="ecommerce"] .phone-header-btn, body[data-zappy-site-type="ecommerce"] .phone-header-btn, html[data-zappy-site-type="ecommerce"] header .phone-header-btn, html[data-zappy-site-type="ecommerce"] nav .phone-header-btn { display: none !important; visibility: hidden !important; width: 0 !important; height: 0 !important; min-width: 0 !important; overflow: hidden !important; } /* LTR positioning (default): hamburger LEFT, phone RIGHT */ html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle, html[dir="ltr"] .mobile-toggle { left: 12px !important; right: auto !important; } html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn, html[dir="ltr"] .phone-header-btn { right: 12px !important; left: auto !important; } /* RTL positioning: hamburger RIGHT, phone LEFT */ html[dir="rtl"] .mobile-toggle, html[lang="he"] .mobile-toggle, html[lang="ar"] .mobile-toggle { right: 12px !important; left: auto !important; } html[dir="rtl"] .phone-header-btn, html[lang="he"] .phone-header-btn, html[lang="ar"] .phone-header-btn { left: 12px !important; right: auto !important; } /* CRITICAL: Ensure nav-container has min-height on mobile */ /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */ .nav-container { min-height: 70px !important; position: relative !important; } /* Ensure SVG icons are properly sized and inherit color */ .mobile-toggle svg, .phone-header-btn svg { width: 24px !important; height: 24px !important; /* Don't force display - let JavaScript control hamburger/close toggle */ } /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */ /* that creates a visible ghost box when CTA button is hidden */ .nav-cta-container { box-shadow: none !important; padding: 0 !important; } /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */ /* (only the CTA button is inside, and it's hidden on mobile) */ .nav-cta-container:not(:has(.lang-switcher)) { display: none !important; } /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */ /* The .image-fade-gradient has bottom: -30px (extends below parent) */ /* On mobile stacked layout, this overlaps the h1 text below the image */ .hero-image-column { overflow: hidden !important; } .image-fade-gradient { bottom: 0 !important; } /* Hide desktop language switcher on mobile - hamburger menu handles it */ /* High specificity to override stored CSS */ .lang-switcher, .nav-cta-container .lang-switcher, .nav-container .lang-switcher, .navbar .lang-switcher, .navbar .nav-cta-container .lang-switcher { display: none !important; } } `; // Remove existing fix if present and inject new one const existing = document.getElementById('zappy-mobile-nav-fix'); if (existing) existing.remove(); document.head.appendChild(criticalCSS); console.log('[Navbar] Critical CSS injected for mobile nav positioning'); // ONLY apply inline positioning styles on mobile viewport // On desktop, the CSS handles hiding these buttons with display: none // Inline styles were breaking desktop layout by overriding CSS const isMobileViewport = window.innerWidth <= 768; if (mobileToggle) { // Icon sizing applies to all viewports for consistency const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon'); const closeIcon = mobileToggle.querySelector('.close-icon'); if (hamburgerIcon) { hamburgerIcon.style.setProperty('width', '24px', 'important'); hamburgerIcon.style.setProperty('height', '24px', 'important'); hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default } if (closeIcon) { closeIcon.style.setProperty('width', '24px', 'important'); closeIcon.style.setProperty('height', '24px', 'important'); closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default } // ONLY set positioning inline styles on mobile if (isMobileViewport) { mobileToggle.style.setProperty('position', 'absolute', 'important'); mobileToggle.style.setProperty('top', '0', 'important'); mobileToggle.style.setProperty('bottom', '0', 'important'); mobileToggle.style.setProperty('margin-top', 'auto', 'important'); mobileToggle.style.setProperty('margin-bottom', 'auto', 'important'); mobileToggle.style.setProperty('transform', 'none', 'important'); mobileToggle.style.setProperty('z-index', '1001', 'important'); // Clear any inline left/right so CSS can take over based on html[dir] mobileToggle.style.removeProperty('left'); mobileToggle.style.removeProperty('right'); console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)'); } else { // On desktop, clear any positioning styles to let CSS handle it mobileToggle.style.removeProperty('position'); mobileToggle.style.removeProperty('top'); mobileToggle.style.removeProperty('transform'); mobileToggle.style.removeProperty('z-index'); mobileToggle.style.removeProperty('left'); mobileToggle.style.removeProperty('right'); console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning'); } } if (phoneBtn) { // Icon sizing applies to all viewports const phoneIcon = phoneBtn.querySelector('svg'); if (phoneIcon) { phoneIcon.style.width = '24px'; phoneIcon.style.height = '24px'; phoneIcon.setAttribute('width', '24'); phoneIcon.setAttribute('height', '24'); } // ONLY set positioning inline styles on mobile if (isMobileViewport) { phoneBtn.style.setProperty('position', 'absolute', 'important'); phoneBtn.style.setProperty('top', '0', 'important'); phoneBtn.style.setProperty('bottom', '0', 'important'); phoneBtn.style.setProperty('margin-top', 'auto', 'important'); phoneBtn.style.setProperty('margin-bottom', 'auto', 'important'); phoneBtn.style.setProperty('transform', 'none', 'important'); phoneBtn.style.setProperty('z-index', '1001', 'important'); // Clear any inline left/right so CSS can take over based on html[dir] phoneBtn.style.removeProperty('left'); phoneBtn.style.removeProperty('right'); console.log('[Navbar] Phone button positioning applied (mobile viewport)'); } else { // On desktop, clear any positioning styles to let CSS handle it phoneBtn.style.removeProperty('position'); phoneBtn.style.removeProperty('top'); phoneBtn.style.removeProperty('transform'); phoneBtn.style.removeProperty('z-index'); phoneBtn.style.removeProperty('left'); phoneBtn.style.removeProperty('right'); console.log('[Navbar] Desktop viewport - cleared phone button inline positioning'); } } } else { console.log('[Navbar] Could not parse background color:', bgColor); } // MOBILE MENU TOGGLE // Re-query in case DOM changed (mobileToggle already declared at top of function) mobileToggle = document.getElementById('mobileToggle') || document.querySelector('.mobile-toggle') || document.querySelector('.hamburger') || document.querySelector('.hamburger-menu') || document.querySelector('.menu-toggle') || document.querySelector('.burger-menu') || document.querySelector('[aria-label="Menu"]') || document.querySelector('[aria-label="תפריט"]'); // EXPANDED SEARCH: Find nav menu by ID or class const navMenu = document.getElementById('navMenu') || document.querySelector('.nav-menu') || document.querySelector('.nav-links') || document.querySelector('nav ul:not(.submenu)'); if (!mobileToggle || !navMenu) { console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu }); return; } // Ensure navMenu has ID for CSS targeting if (!navMenu.id) { navMenu.id = 'navMenu'; } console.log('[Navbar] Initializing mobile menu...'); // Remove any existing event listeners by cloning the button const newToggle = mobileToggle.cloneNode(true); mobileToggle.parentNode.replaceChild(newToggle, mobileToggle); // Toggle menu handler (shared by click and touchend) function handleToggle(e) { e.preventDefault(); e.stopPropagation(); const hamburgerIcon = newToggle.querySelector('.hamburger-icon'); const closeIcon = newToggle.querySelector('.close-icon'); const isActive = navMenu.classList.contains('active'); if (isActive) { // Close menu navMenu.classList.remove('active'); if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important'); if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important'); document.body.style.overflow = ''; console.log('[Navbar] Menu closed'); } else { // Open menu navMenu.classList.add('active'); if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important'); if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important'); document.body.style.overflow = 'hidden'; console.log('[Navbar] Menu opened'); } } // Use click for desktop/emulation and touchend as iOS Safari fallback. // Prevent double-fire with a timestamp guard. var lastToggleTime = 0; function guardedToggle(e) { var now = Date.now(); if (now - lastToggleTime < 300) return; lastToggleTime = now; handleToggle(e); } newToggle.addEventListener('click', guardedToggle); newToggle.addEventListener('touchend', guardedToggle); // Close menu when clicking nav links (but NOT dropdown toggles) const navLinks = navMenu.querySelectorAll('a'); navLinks.forEach(function(link) { link.addEventListener('click', function() { // Don't close if it's a dropdown child (unless it's a real navigation link) if (this.getAttribute('href') === '#') return; const hamburgerIcon = newToggle.querySelector('.hamburger-icon'); const closeIcon = newToggle.querySelector('.close-icon'); navMenu.classList.remove('active'); if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important'); if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important'); document.body.style.overflow = ''; console.log('[Navbar] Menu closed (link clicked)'); }); }); // DROPDOWN MENU TOGGLE (for mobile and touch devices) var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle'); dropdownToggles.forEach(function(toggle) { toggle.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); var parent = this.closest('.nav-dropdown'); if (!parent) return; // Close other open dropdowns at the same level var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open'); siblings.forEach(function(sib) { if (sib !== parent) sib.classList.remove('open'); }); parent.classList.toggle('open'); console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed'); }); }); // Close dropdowns when clicking outside document.addEventListener('click', function(e) { if (!e.target.closest('.nav-dropdown')) { var openDropdowns = document.querySelectorAll('.nav-dropdown.open'); openDropdowns.forEach(function(dd) { dd.classList.remove('open'); }); } }); console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns'); // Phone button functionality (phoneBtn already declared at top of function) if (phoneBtn) { phoneBtn.addEventListener('click', function() { // Get phone number from placeholder in page or use default const phoneLinks = document.querySelectorAll('a[href^="tel:"]'); const phoneNumber = phoneLinks.length > 0 ? phoneLinks[0].getAttribute('href').replace('tel:', '') : '+972-543975210'; window.location.href = 'tel:' + phoneNumber; console.log('[Navbar] Phone button clicked'); }); } console.log('[Navbar] Mobile menu initialized successfully'); // WhatsApp button visibility is now controlled via CSS (siteSettings). // No JS-based desktop hiding — the button is visible on both mobile and desktop by default. }); })(); </script> <main id="main" class="blog-page ai-generated-page"><section class="case-examples-hero-section" data-layout-spec="מקרי בוחן לדוגמה-hero" dir="rtl" data-hero-type="fullscreen-scrim" id="zappy-section-0">
 
   <!-- Decorative gold shield emblem -->
   <div class="ceh-shield-emblem" aria-hidden="true">
@@ -1784,7 +1792,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="ceh-accent-line" aria-hidden="true"></div>
 
-          <h3 class="ceh-subtitle" >מקרים מהשטח: הניתוח, הראיות והשורה התחתונה.</h3>
+          <h3 class="ceh-subtitle">מקרים מהשטח: הניתוח, הראיות והשורה התחתונה.</h3>
 
           <!-- Trust Notes Row -->
           <div class="ceh-trust-row" aria-label="נקודות אמון">
@@ -1811,7 +1819,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <!-- Brass accent line before CTA -->
           <div class="ceh-brass-rule" aria-hidden="true"></div>
 
-          <div class="ceh-cta-row" >
+          <div class="ceh-cta-row">
             <a href="/contact" class="ceh-btn-primary" data-element-type="button" data-element-id="btn-1780318284691-cc8puwgl6" data-native-element="true">
               <span>צרו קשר לייעוץ</span>
               <svg data-element-type="icon" data-icon-type="svg" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="cursor: pointer;">
@@ -1826,7 +1834,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="ceh-image-block">
         <div class="ceh-image-frame">
           <div class="ceh-image-inner">
-            <div data-zappy-zoom-wrapper="true" data-element-id="img-1780318284698-3g3xwy6ak" data-element-type="image" data-zappy-zoom-wrapper-width-mode="full" style="position: absolute !important; top: 0px !important; left: 0px !important; width: 100% !important; height: 100% !important; max-width: none !important; margin-left: 0px !important; margin-right: 0px !important; display: block !important; z-index: 1 !important; overflow: hidden !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true" data-zappy-zoom-wrapper-align="center" data-zappy-zoom-wrapper-width="432px" data-zappy-zoom-wrapper-height="518px"><img data-hero-bg="true" data-context="A sophisticated editorial photograph for an Israeli private investigation and business intelligence firm. Shows a high-end corporate office desk with a closed leather-bound dossier, a fountain pen, reading glasses, and neatly stacked documents. Warm, controlled lighting with deep navy and gold tones. The atmosphere is precise, confidential, and executive — evoking due diligence and legal-grade intelligence work. No people visible. Clean, minimal composition with dark tones." width="600" height="520" src="/assets/private-investigation-business-intelligence-section-hero-case-examples-hero-image-1-1780318651912-ih78dv.webp?v=1780318655270" alt="חקירות עסקיות ומודיעין פיננסי — פרד&quot;ס חקירות" class="ceh-hero-img" data-hero-background="true" data-element-type="image" data-element-id="img-1780318284698-3g3xwy6ak" style="object-position: 50% 50% !important; object-fit: cover !important; width: 100% !important; height: 100% !important; position: absolute !important; margin: 0px !important; left: 0% !important; top: 0% !important; max-width: none !important; max-height: none !important; display: block !important" data-zappy-object-position="50% 50%" data-zappy-zoom="1" data-zappy-original-width="431.7250061035156" data-zappy-original-height="518.3875122070312"></div>
+            <div data-zappy-zoom-wrapper="true" data-element-id="img-1780318284698-3g3xwy6ak" data-element-type="image" data-zappy-zoom-wrapper-width-mode="full" style="position: absolute !important; top: 0px !important; left: 0px !important; width: 100% !important; height: 100% !important; max-width: none !important; margin-left: 0px !important; margin-right: 0px !important; display: block !important; z-index: 1 !important; overflow: hidden !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true" data-zappy-zoom-wrapper-align="center" data-zappy-zoom-wrapper-width="432px" data-zappy-zoom-wrapper-height="518px"><img data-hero-bg="true" data-context="A sophisticated editorial photograph for an Israeli private investigation and business intelligence firm. Shows a high-end corporate office desk with a closed leather-bound dossier, a fountain pen, reading glasses, and neatly stacked documents. Warm, controlled lighting with deep navy and gold tones. The atmosphere is precise, confidential, and executive — evoking due diligence and legal-grade intelligence work. No people visible. Clean, minimal composition with dark tones." width="600" height="520" src="/assets/private-investigation-business-intelligence-section-hero-case-examples-hero-image-1-1780318651912-ih78dv.webp?v=1780318655270" alt="חקירות עסקיות ומודיעין פיננסי — פרד&quot;ס חקירות" class="ceh-hero-img" data-hero-background="true" data-element-type="image" data-element-id="img-1780318284698-3g3xwy6ak" style="object-position: 50% 50% !important; object-fit: cover !important; width: 100% !important; height: 100% !important; position: absolute !important; margin: 0px !important; left: 0% !important; top: 0% !important; max-width: none !important; max-height: none !important; display: block !important" data-zappy-object-position="50% 50%" data-zappy-zoom="1" data-zappy-original-width="431.7250061035156" data-zappy-original-height="518.3875122070312" decoding="async"></div>
           </div>
           <!-- Image overlay gradient -->
           <div class="ceh-img-overlay" aria-hidden="true"></div>
@@ -1867,26 +1875,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <!-- Right column: overview -->
         <aside class="case-overview-col">
-          <p><span class="case-type-badge" >
+          <p><span class="case-type-badge">
 
 אובדן מלאי וסיכונים
 
 </span>
-          </p><h2 class="case-title" >
+          </p><h2 class="case-title">
 
 חקירת אובדן מלאי - חשיפת כשל טכני והסרת חשד
 
 </h2>
-          <p class="case-summary" >
+          <p class="case-summary">
 
 חברה מובילה בתחום המשקאות התמודדה עם היעלמות עקבית של מלאי אלכוהול בהיקף נרחב, ללא עדים או קצוות חוט ברורים. המשרד התבקש לבצע חקירה מקיפה כדי לאתר את מקור הכשל, לספק תמונת מצב מדויקת ולהשיב את השקט המקצועי לארגון.
 
 </p>
           <div class="case-meta-row">
-            <span class="case-meta-item" style="color: rgb(26, 31, 36) !important;"><span class="case-meta-label" style="color: rgb(26, 31, 36) !important;">תחום</span><span class="case-meta-value" >
+            <span class="case-meta-item" style="color: rgb(26, 31, 36) !important;"><span class="case-meta-label" style="color: rgb(26, 31, 36) !important;">תחום</span><span class="case-meta-value">
 
 ניהול סיכונים וחקירות מורכבות</span></span>
-            <span class="case-meta-item" style="color: rgb(26, 31, 36) !important;"><span class="case-meta-label" style="color: rgb(26, 31, 36) !important;">היקף</span><span class="case-meta-value" >
+            <span class="case-meta-item" style="color: rgb(26, 31, 36) !important;"><span class="case-meta-label" style="color: rgb(26, 31, 36) !important;">היקף</span><span class="case-meta-value">
 
 ארצי (מפעל ייצור)
 
@@ -1899,7 +1907,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-content-row">
             <h3 class="case-row-title">רקע המקרה</h3>
-            <p >
+            <p>
 
 חברה מובילה בתחום המשקאות גילתה כי כמות משמעותית של מוצרי אלכוהול נעלמה מחזורי הייצור ללא כל הסבר ברור. מעבר לחשיפה הפיננסית החמורה, אי-הוודאות יצרה נטל כבד וחשד זוחל כלפי צוות העובדים וההנהלה, דבר שאיים לפגוע אנושות במרקם היחסים ובתרבות הארגונית שנבנתה לאורך שנים.
 
@@ -1910,7 +1918,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-content-row">
             <h3 class="case-row-title">מטרת הבדיקה</h3>
-            <p >
+            <p>
 
 לאתר באופן מוחלט ובלתי תלוי את מקור אובדן המלאי, לבחון האם מדובר בגורם אנושי או בכשל מערכתי, ולספק להנהלה ראיות חותכות ומבוססות שיאפשרו לקבל החלטות מתוך שקט נפשי וודאות מלאה.
 
@@ -1921,14 +1929,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-content-row">
             <h3 class="case-row-title">מה נעשה בפועל</h3>
-            <p >ביצענו שחזור שיטתי של האירועים וסקירה מקצה לקצה של כל שלבי הייצור. הפעילות כללה ניתוח נתונים תפעוליים על פני מחזורי ייצור מרובים, בשילוב בדיקות פיזיות טכנולוגיות ומדוקדקות של סביבת העבודה.</p>
+            <p>ביצענו שחזור שיטתי של האירועים וסקירה מקצה לקצה של כל שלבי הייצור. הפעילות כללה ניתוח נתונים תפעוליים על פני מחזורי ייצור מרובים, בשילוב בדיקות פיזיות טכנולוגיות ומדוקדקות של סביבת העבודה.</p>
           </div>
 
           <hr class="case-divider">
 
           <div class="case-content-row">
             <h3 class="case-row-title">ממצאים מרכזיים</h3>
-            <p >
+            <p>
 
 החקירה שללה לחלוטין מעורבות אנושית או פלילית מצד העובדים. בבדיקה הטכנית אותרו שני ראשי מילוי פגומים במכונת הביקבוק שגרמו לדליפה סמויה ועקבית במהלך הפסקות עבודה שגרתיות. בשל מבנה רצפת הייצור, הנוזל שדלף נספג ונוקז ישירות מבלי להשאיר עקבות גלויים לעין, דבר שהצטבר לפער מספרי משמעותי לאורך חודשים.
 
@@ -1939,7 +1947,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-content-row">
             <h3 class="case-row-title">תוצאה</h3>
-            <p >
+            <p>
 
 עם הצגת הממצאים המבוססים, מקור האובדן הפיננסי נחשף וטופל באופן מיידי. התוצאה המשמעותית ביותר עבור הבעלים הייתה הסרת החשד המעיק מעל אנשי הארגון והשבת האמון המלא והשקט המקצועי לחברה - עדות לעיקרון המוביל של המשרד: לא כל חקירה מסתיימת באשמה, ולפעמים ההישג הגדול ביותר הוא הוכחת חפותם של אנשים באופן חד-משמעי.
 
@@ -1949,7 +1957,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <!-- Finding callout -->
           <div class="case-finding-callout">
             <div class="case-finding-accent" aria-hidden="true"></div>
-            <p class="case-finding-text" >
+            <p class="case-finding-text">
 
 "ההקלה הייתה מיידית. דו"ח החקירה לא רק עצר את הדימום הפיננסי, אלא בעיקר הסיר ענן כבד של חשד והחזיר את האמון המלא בצוות העובדים שלי."</p>
             <p><span class="case-finding-attribution">— מסקנת הלקוח לאחר קבלת הדוח</span>
@@ -1967,28 +1975,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="case-panel-inner">
 
         <aside class="case-overview-col">
-          <p><span class="case-type-badge" >
+          <p><span class="case-type-badge">
 
 גניבה פנימית ומהימנות עובדים
 
 </span>
-          </p><h2 class="case-title" >
+          </p><h2 class="case-title">
 
 חקירת גניבה פנימית - חשיפת מעילה שיטתית במערך הלוגיסטי
 
 </h2>
-          <p class="case-summary" >
+          <p class="case-summary">
 
 חברה גדולה המפעילה מועדון מסחר אלקטרוני וצרכנות גילתה כי מכשיר נייד נעלם מהמחסן המרכזי שלה. אירוע שנראה תחילה כנקודתי חשף במהרה חשד לתוכנית שיטתית ומתמשכת. התבקשנו לבצע חקירה מקיפה וממוקדת כדי לאתר את האחראים ולחשוף את מנגנון הפעולה.
 
 </p>
           <div class="case-meta-row">
-            <span class="case-meta-item" style="color: rgb(26, 31, 36) !important;"><span class="case-meta-label" style="color: rgb(26, 31, 36) !important;">תחום</span><span class="case-meta-value" >
+            <span class="case-meta-item" style="color: rgb(26, 31, 36) !important;"><span class="case-meta-label" style="color: rgb(26, 31, 36) !important;">תחום</span><span class="case-meta-value">
 
 מהימנות עובדים וניהול סיכונים
 
 </span></span>
-            <span class="case-meta-item" style="color: rgb(26, 31, 36) !important;"><span class="case-meta-label" style="color: rgb(26, 31, 36) !important;">היקף</span><span class="case-meta-value" >
+            <span class="case-meta-item" style="color: rgb(26, 31, 36) !important;"><span class="case-meta-label" style="color: rgb(26, 31, 36) !important;">היקף</span><span class="case-meta-value">
 
 ארצי (מטה ולוגיסטיקה)
 
@@ -2000,7 +2008,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-content-row">
             <h3 class="case-row-title">רקע המקרה</h3>
-            <p >
+            <p>
 
 היעלמותו של מכשיר נייד בודד מהמחסן המרכזי של חברת מסחר אלקטרוני העלתה את החשד כי לא מדובר באירוע מקרי, אלא בתוכנית פעולה שיטתית שהוסתרה במשך חודשים ארוכים. האתגר המרכזי היה היעדר מוחלט של רישומי מלאי רשמיים עבור הסחורה החסרה, דבר שמנע את האפשרות לאתר את מקור הכשל באמצעים קונבנציונליים.
 
@@ -2011,7 +2019,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-content-row">
             <h3 class="case-row-title">מטרת הבדיקה</h3>
-            <p >
+            <p>
 
 למקד את החשד מתוך רשימה של שמונה עובדים בעלי גישה למחסן, לבצע בירור עומק מקיף, ולגבש ראיות חותכות וחד-משמעיות שיוכיחו מי עומד מאחורי היעלמות המלאי ובאיזו שיטה פעל.
 
@@ -2022,7 +2030,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-content-row">
             <h3 class="case-row-title">מה נעשה בפועל</h3>
-            <p >
+            <p>
 
 צוות המשרד ביצע מחקר מודיעיני וטכנולוגי נרחב (OSINT) על כלל החשודים, תוך הצלבת נתונים ופעילות דיגיטלית. אינדיקטורים אלו אפשרו לצמצם את המיקוד לשני עובדים מרכזיים בלבד. בהמשך לכך, נערכו ראיונות אסטרטגיים ומבניים לכלל המעורבים, אשר נתמכו בבדיקות פוליגרף מקצועיות לאישוש הממצאים.
 
@@ -2033,7 +2041,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-content-row">
             <h3 class="case-row-title">ממצאים מרכזיים</h3>
-            <p >
+            <p>
 
 החקירה העלתה כי ראש צוות הלוגיסטיקה - אשר החזיק בסמכות מלאה ובעמדת אמון רגישה על כניסת ויציאת הסחורות - ניצל את תפקידו כדי ליירט באופן שיטתי מכשירים חדשים מיד עם הגעתם, עוד לפני שנרשמו במערכות המלאי של החברה. המכשירים נמכרו באופן פרטי ללא השארת עקבות ניירת, תוך דיכוי מוחלט של מסמכי הקבלה.
 
@@ -2044,7 +2052,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-content-row">
             <h3 class="case-row-title">תוצאה</h3>
-            <p >
+            <p>
 
 בזכות השילוב בין מודיעין דיגיטלי מתקדם לראיונות פרונטליים ממוקדים, המעילה השיטתית נחשפה במלואה והופסקה לחלוטין. להנהלת החברה הוגש דו"ח ממצאים חותך המאפשר נקיטת צעדים משפטיים ומשמעתיים מלאים, לצד המלצות לתיקון פרצות האבטחה במערך הלוגיסטי.
 
@@ -2053,10 +2061,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-finding-callout">
             <div class="case-finding-accent" aria-hidden="true"></div>
-            <p class="case-finding-text" >
+            <p class="case-finding-text">
 
 "הידיעה שמי שאחראי על מניעת האובדן הוא זה שניהל את המעילה הייתה קשה, אך הדו"ח המדויק שקיבלנו סיפק לנו ראיות חותכות, שקט נפשי ויכולת לפעול משפטית באופן מיידי."</p>
-            <p><span class="case-finding-attribution" >— 
+            <p><span class="case-finding-attribution">— 
 
 מסקנת הלקוח לאחר קבלת הדו"ח
 
@@ -2075,7 +2083,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="case-panel-inner">
 
         <aside class="case-overview-col">
-          <p><span class="case-type-badge" >
+          <p><span class="case-type-badge">
 
 
 
@@ -2084,21 +2092,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 </span>
-          </p><h2 class="case-title" >
+          </p><h2 class="case-title">
 
 חקירת סכסוך עסקי - חשיפת ניגוד עניינים והטיית פרויקטים בשוק הנדל"ן
 
 </h2>
-          <p class="case-summary" >
+          <p class="case-summary">
 
 חברת נדל"ן ויזמות נתקלה בחסמים מתמשכים ובחוסר יכולת לזכות ולבצע פרויקטים ביישוב ספציפי, בעקבות התנגדות של גורם מוניציפלי בעל השפעה. המשרד התבקש לבצע חקירה מקיפה כדי להבין את המניעים מאחורי חסמים אלו ולבחון האם שיקולים זרים או אינטרסים סמויים עומדים מאחורי קבלת ההחלטות.
 
 </p>
           <div class="case-meta-row">
-            <span class="case-meta-item" style="color: rgb(26, 31, 36) !important;"><span class="case-meta-label" style="color: rgb(26, 31, 36) !important;">תחום</span><span class="case-meta-value" >
+            <span class="case-meta-item" style="color: rgb(26, 31, 36) !important;"><span class="case-meta-label" style="color: rgb(26, 31, 36) !important;">תחום</span><span class="case-meta-value">
 
 מודיעין תחרותי וחקירות OSINT</span></span>
-            <span class="case-meta-item" style="color: rgb(26, 31, 36) !important;"><span class="case-meta-label" style="color: rgb(26, 31, 36) !important;">היקף</span><span class="case-meta-value" >
+            <span class="case-meta-item" style="color: rgb(26, 31, 36) !important;"><span class="case-meta-label" style="color: rgb(26, 31, 36) !important;">היקף</span><span class="case-meta-value">
 
 ארצי (מגזר נדל"ן ומוניציפלי)
 
@@ -2110,7 +2118,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-content-row">
             <h3 class="case-row-title">רקע המקרה</h3>
-            <p >
+            <p>
 
 חברת נדל"ן מובילה מצאה את עצמה מודרת שוב ושוב מהזדמנויות עסקיות ומביצוע פרויקטים ביישוב מסוים, בשל מה שנראה כהתנגדות עקבית ומכוונת מצד נבחר ציבור מקומי. החברה נדרשה לגלות את הסיבה האמיתית לחסמים אלו, כדי להבין האם היא מתמודדת עם תחרות הוגנת או עם פעילות בלתי חוקית המונעת ממנה לפעול בשטח.  
 
@@ -2121,7 +2129,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-content-row">
             <h3 class="case-row-title">מטרת הבדיקה</h3>
-            <p >
+            <p>
 
 למפות את מכלול קשריו, זיקותיו ופעילותו העסקית של נשוא החקירה, במטרה לאתר אינטרסים אישיים או מסחריים סמויים שיכולים להסביר את התנגדותו לחברת הנדל"ן ואת חסימת הפרויקטים שלה באזור.  
 
@@ -2132,7 +2140,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-content-row">
             <h3 class="case-row-title">מה נעשה בפועל</h3>
-            <p >
+            <p>
 
 צוות המשרד ביצע חקירת עומק מודיעינית מבוססת מקורות גלויים (OSINT) וסריקה של מאגרי מידע מסחריים ופיננסיים. החקירה כללה הצלבת רישומי עסקים, ניתוח קשרים דיגיטליים, פרוטוקולים של ועדות רשמיות ונוכחות תקשורתית, לצד בחינה מדוקדקת של הגופים והחברות הפועלים ומבצעים פרויקטים ציבוריים באותו מרחב גאוגרפי.  
 
@@ -2143,7 +2151,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-content-row">
             <h3 class="case-row-title">ממצאים מרכזיים</h3>
-            <p >
+            <p>
 
 החקירה חשפה כי נבחר הציבור פועל שלא כדין ובניגוד עניינים חמור: במקביל לתפקידו הציבורי המשפיע על אישור פרויקטים ותשתיות, הוא משמש בפועל כיזם בשירותה של חברה מתחרה הישירה לחברת הנדל"ן (מזמינת העבודה). עוד עלה כי קשריו עם החברה המתחרה אדוקים וכוללים מעורבות ישירה בפרויקטים באזור, בעוד שלא נמצאה כל הצהרת ניגוד עניינים פומבית כנדרש בחוק לגבי פעילות זו.  
 
@@ -2154,7 +2162,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-content-row">
             <h3 class="case-row-title">תוצאה</h3>
-            <p >
+            <p>
 
 הדו"ח של המשרד העניק לחברת הנדל"ן את "האקדח המעשן" - הוכחה חותכת ומבוססת ראיות לכך שהחסמים המקצועיים מולם עמדה נבעו מאינטרס עסקי זר ומפעילות בלתי חוקית של נשוא החקירה לטובת החברה המתחרה. מידע אסטרטגי זה סיפק לחברה יתרון משפטי ועסקי מכריע בסכסוך, ופתח בפניה את הדרך לפעול בערוצים המנהליים והמשפטיים הרלוונטיים כדי להסיר את החסמים ולהגן על זכויותיה.  
 
@@ -2163,12 +2171,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
           <div class="case-finding-callout">
             <div class="case-finding-accent" aria-hidden="true"></div>
-            <p class="case-finding-text" >
+            <p class="case-finding-text">
 
 "בזכות הדו"ח של המשרד הבנו שלא הפסדנו בתחרות הוגנת, אלא נחסמנו על ידי גורם שפעל בניגוד עניינים חמור עבור המתחרים שלנו. הראיות שקיבלנו שינו לחלוטין את מאזן הכוחות בסכסוך."  
 
 </p>
-            <p><span class="case-finding-attribution" >— 
+            <p><span class="case-finding-attribution">— 
 
 מסקנת הלקוח לאחר קבלת הדו"ח
 
@@ -2194,10 +2202,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="case-examples-cta-container">
     <div class="case-examples-cta-inner">
       <div class="case-examples-cta-brass-line" aria-hidden="true"></div>
-      <h2 class="case-examples-cta-heading" >
+      <h2 class="case-examples-cta-heading">
 
 לתיאום פגישת ייעוץ</h2>
-      <p class="case-examples-cta-text" >לשיחת ייעוץ חסויה ובחינת דרכי הפעולה בעניינכם, צרו עמנו קשר.</p>
+      <p class="case-examples-cta-text">לשיחת ייעוץ חסויה ובחינת דרכי הפעולה בעניינכם, צרו עמנו קשר.</p>
       <div class="case-examples-cta-actions">
         <a href="/contact" class="btn-primary case-examples-btn-primary" data-element-type="button" data-element-id="btn-1780318284691-vn040w6g0" data-native-element="true">
           <span>צרו קשר</span>
@@ -2210,12 +2218,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="case-examples-cta-note">כל פנייה מטופלת בסודיות מוחלטת בהתאם לחוק הגנת הפרטיות</p>
     </div>
   </div>
-</section></main> <footer class="site-footer" dir="rtl" aria-label="כותרת תחתית של האתר"><div class="footer-top"><div class="footer-container"><div class="footer-grid"><div class="footer-col footer-col--brand"><div class="footer-logo-wrap"><div data-zappy-zoom-wrapper="true" data-element-id="img-1780320048680-0mnr5v0dg" data-element-type="image" data-zappy-zoom-wrapper-width="137px" data-zappy-zoom-wrapper-height="40px" data-zappy-zoom-wrapper-width-mode="px" data-zappy-zoom-wrapper-align="center" style="position: relative !important; overflow: hidden !important; width: 137px !important; max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; height: 40px !important; display: block !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true"><img src="/assets/private-investigation-business-intelligence-service-1780322230355-9saigx.webp?v=1780322233319" alt="פרד&quot;ס חקירות" class="logo" data-element-type="image" data-element-id="img-1780320048680-0mnr5v0dg" data-zappy-footer-image="true" style="border-radius: 8px; object-fit: cover !important; object-position: 62% 49% !important; width: 100% !important; height: 100% !important; max-width: none !important; display: block !important; margin: 0px !important; left: 0% !important; top: 0% !important; max-height: none !important;" data-zappy-object-position="62% 49%" data-zappy-zoom="1"></div></div><p class="footer-tagline" >
+</section></main> <footer class="site-footer" dir="rtl" aria-label="כותרת תחתית של האתר"><div class="footer-top"><div class="footer-container"><div class="footer-grid"><div class="footer-col footer-col--brand"><div class="footer-logo-wrap"><div data-zappy-zoom-wrapper="true" data-element-id="img-1780320048680-0mnr5v0dg" data-element-type="image" data-zappy-zoom-wrapper-width="137px" data-zappy-zoom-wrapper-height="40px" data-zappy-zoom-wrapper-width-mode="px" data-zappy-zoom-wrapper-align="center" style="position: relative !important; overflow: hidden !important; width: 137px !important; max-width: 100% !important; margin-left: auto !important; margin-right: auto !important; height: 40px !important; display: block !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true"><img src="/assets/private-investigation-business-intelligence-service-1780322230355-9saigx.webp?v=1780322233319" alt="פרד&quot;ס חקירות" class="logo" data-element-type="image" data-element-id="img-1780320048680-0mnr5v0dg" data-zappy-footer-image="true" style="border-radius: 8px; object-fit: cover !important; object-position: 62% 49% !important; width: 100% !important; height: 100% !important; max-width: none !important; display: block !important; margin: 0px !important; left: 0% !important; top: 0% !important; max-height: none !important;" data-zappy-object-position="62% 49%" data-zappy-zoom="1" decoding="async" width="35" height="35"></div></div><p class="footer-tagline">
 
 חקירות פרטיות ומודיעין עסקי.<br>שיקול דעת, דיוק ואמינות בכל תיק.
 
-</p><div class="footer-social" aria-label="רשתות חברתיות"></div></div><div class="footer-col footer-col--links"><h3 class="footer-heading"><span class="footer-heading-accent"></span>ניווט מהיר</h3><ul class="footer-nav" aria-label="קישורים מהירים"><li><a href="/">בית</a></li><li><a href="/about">אודות המשרד</a></li><li><a href="/services">שירותים</a></li><li><a href="/contact">צור קשר</a></li></ul></div><div class="footer-col footer-col--contact"><h3 class="footer-heading"><span class="footer-heading-accent"></span>יצירת קשר</h3><ul class="footer-contact" aria-label="פרטי יצירת קשר" ><li><span class="contact-icon"><i class="fas fa-envelope" data-element-type="icon" data-element-id="icon-1780320048680-k4k17jozz" data-icon-type="fontawesome" style="cursor: pointer;"></i></span><span class="contact-text"><a href="/cdn-cgi/l/email-protection#7f161119103f0f0d1b0c1d16511c1012"><span class="__cf_email__" data-cfemail="6c05020a032c1c1e081f0e05420f0301">[email&nbsp;protected]</span></a></span></li><li><span class="contact-icon"><i class="fas fa-phone" data-element-type="icon" data-element-id="icon-1780320048680-ryezdxptu" data-icon-type="fontawesome" style="cursor: pointer;"></i></span><span class="contact-text"><a href="tel:+972-543975210">+972-543975210</a></span></li></ul></div><div class="footer-col footer-col--hours"><h3 class="footer-heading" style="color: #1A1F24"><span class="footer-heading-accent" style="color: #1A1F24"></span>שעות פעילות</h3><ul class="footer-hours" aria-label="שעות פעילות"><li><span class="day" style="color: #1A1F24">יום ראשון</span>&nbsp;<span class="time" style="color: #1A1F24">24 שעות</span></li><li><span class="day" style="color: #1A1F24">יום שני</span>&nbsp;<span class="time" style="color: #1A1F24">24 שעות</span></li><li><span class="day" style="color: #1A1F24">יום שלישי</span>&nbsp;<span class="time" style="color: #1A1F24">24 שעות</span></li><li><span class="day" style="color: #1A1F24">יום רביעי</span>&nbsp;<span class="time" style="color: #1A1F24">24 שעות</span></li><li><span class="day" style="color: #1A1F24">יום חמישי</span>&nbsp;<span class="time" style="color: #1A1F24">24 שעות</span></li><li><span class="day" style="color: #1A1F24">יום שישי</span>&nbsp;<span class="time" style="color: #1A1F24">24 שעות</span></li><li><span class="day" style="color: #1A1F24">יום שבת</span>&nbsp;<span class="time closed" style="color: #1A1F24">סגור</span></li></ul><div class="footer-badge" style="color: #1A1F24"><i class="fas fa-shield-alt" data-element-type="icon" data-element-id="icon-1780320048680-vf2eva00w" data-icon-type="fontawesome"></i><span style="color: #1A1F24">סודיות מוחלטת מובטחת</span></div></div></div></div></div><div class="footer-bottom"><div class="footer-container"><div class="footer-bottom-inner"><p class="footer-copyright">© 2026 פרד"ס חקירות. כל הזכויות שמורות.</p><div class="footer-legal-links"><a href="/privacy">מדיניות פרטיות</a><span class="footer-divider" aria-hidden="true"></span><a href="/terms">תנאי שימוש</a><span class="footer-divider" aria-hidden="true"></span><a href="/accessibility">נגישות</a><span class="footer-divider" aria-hidden="true"></span><a href="https://zappy5.com" target="_blank" class="zappy-attribution">נוצר באמצעות Zappy</a></div></div></div></div></footer> <a href="https://wa.me/972543975210" class="whatsapp-float" aria-label="WhatsApp"> <i class="fab fa-whatsapp"></i> </a> <div data-integration="accessibility:toolbar"></div> 
+</p><div class="footer-social" aria-label="רשתות חברתיות"></div></div><div class="footer-col footer-col--links"><h3 class="footer-heading"><span class="footer-heading-accent"></span>ניווט מהיר</h3><ul class="footer-nav" aria-label="קישורים מהירים"><li><a href="/">בית</a></li><li><a href="/about">אודות המשרד</a></li><li><a href="/services">שירותים</a></li><li><a href="/contact">צור קשר</a></li></ul></div><div class="footer-col footer-col--contact"><h3 class="footer-heading"><span class="footer-heading-accent"></span>יצירת קשר</h3><ul class="footer-contact" aria-label="פרטי יצירת קשר"><li><span class="contact-icon"><i class="fas fa-envelope" data-element-type="icon" data-element-id="icon-1780320048680-k4k17jozz" data-icon-type="fontawesome" style="cursor: pointer;"></i></span><span class="contact-text"><a href="mailto:info@prdsbi.com"><span>info@prdsbi.com</span></a></span></li><li><span class="contact-icon"><i class="fas fa-phone" data-element-type="icon" data-element-id="icon-1780320048680-ryezdxptu" data-icon-type="fontawesome" style="cursor: pointer;"></i></span><span class="contact-text"><a href="tel:+972-543975210">+972-543975210</a></span></li></ul></div><div class="footer-col footer-col--hours"><h3 class="footer-heading" style="color: #1A1F24"><span class="footer-heading-accent" style="color: #1A1F24"></span>שעות פעילות</h3><ul class="footer-hours" aria-label="שעות פעילות"><li><span class="day" style="color: #1A1F24">יום ראשון</span>&nbsp;<span class="time" style="color: #1A1F24">24 שעות</span></li><li><span class="day" style="color: #1A1F24">יום שני</span>&nbsp;<span class="time" style="color: #1A1F24">24 שעות</span></li><li><span class="day" style="color: #1A1F24">יום שלישי</span>&nbsp;<span class="time" style="color: #1A1F24">24 שעות</span></li><li><span class="day" style="color: #1A1F24">יום רביעי</span>&nbsp;<span class="time" style="color: #1A1F24">24 שעות</span></li><li><span class="day" style="color: #1A1F24">יום חמישי</span>&nbsp;<span class="time" style="color: #1A1F24">24 שעות</span></li><li><span class="day" style="color: #1A1F24">יום שישי</span>&nbsp;<span class="time" style="color: #1A1F24">24 שעות</span></li><li><span class="day" style="color: #1A1F24">יום שבת</span>&nbsp;<span class="time closed" style="color: #1A1F24">סגור</span></li></ul><div class="footer-badge" style="color: #1A1F24"><i class="fas fa-shield-alt" data-element-type="icon" data-element-id="icon-1780320048680-vf2eva00w" data-icon-type="fontawesome"></i><span style="color: #1A1F24">סודיות מוחלטת מובטחת</span></div></div></div></div></div><div class="footer-bottom"><div class="footer-container"><div class="footer-bottom-inner"><p class="footer-copyright">© 2026 פרד"ס חקירות. כל הזכויות שמורות.</p><div class="footer-legal-links"><a href="/privacy">מדיניות פרטיות</a><span class="footer-divider" aria-hidden="true"></span><a href="/terms">תנאי שימוש</a><span class="footer-divider" aria-hidden="true"></span><a href="/accessibility">נגישות</a><span class="footer-divider" aria-hidden="true"></span><a href="https://zappy5.com" target="_blank" class="zappy-attribution">נוצר באמצעות Zappy</a></div></div></div></div></footer> <a href="https://wa.me/972543975210" class="whatsapp-float" aria-label="WhatsApp"> <i class="fab fa-whatsapp"></i> </a> <div data-integration="accessibility:toolbar"></div> 
     <script src="/script.js"></script>
+
+    <script id="zappy-font-awesome-loader">
+(function(){if(window.__zappyFontAwesomeLoader)return;window.__zappyFontAwesomeLoader=true;var href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';function load(){if(document.querySelector('link[href*="font-awesome"][href*="all.min.css"]'))return;var l=document.createElement('link');l.rel='stylesheet';l.href=href;l.crossOrigin='anonymous';l.referrerPolicy='no-referrer';document.head.appendChild(l);}function schedule(){if('requestIdleCallback'in window){requestIdleCallback(load,{timeout:5000});}else{setTimeout(load,3500);}}['pointerdown','keydown','touchstart','mouseover'].forEach(function(evt){window.addEventListener(evt,load,{once:true,passive:true});});schedule();})();
+</script>
 
     <script id="zappy-mobile-submenu-script">
     (function() {
@@ -2409,5 +2421,4 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       else setTimeout(init,50);
     })();
     </script>
-</body>
-</html>
+</body></html>
