@@ -9252,6 +9252,410 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
   border-radius: 8px !important;
   box-shadow: 0 8px 32px rgba(0,0,0,0.15) !important;
 }
+
+/* AI-generated section */
+/* ===== CASES SECTION ===== */
+.cases-section {
+  background: #162435;
+  padding: 90px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cases-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(200, 169, 107, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(200, 169, 107, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.cases-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== HEADER ===== */
+.cases-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.cases-brass-line {
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #C8A96B, transparent);
+  margin: 0 auto 24px;
+  border-radius: 2px;
+}
+
+.cases-heading {
+  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-size: 2.75rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0 0 16px;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.cases-subtitle {
+  font-family: 'Assistant', 'Inter', system-ui, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ===== GRID ===== */
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-bottom: 50px;
+}
+
+/* ===== CARD ===== */
+.case-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(200, 169, 107, 0.18);
+  border-radius: 14px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.case-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(200, 169, 107, 0.5), transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.case-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(200, 169, 107, 0.25);
+  border-color: rgba(200, 169, 107, 0.35);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.case-card:hover::after {
+  opacity: 1;
+}
+
+/* ===== CARD HEADER ===== */
+.case-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px 0;
+  gap: 12px;
+}
+
+.case-number {
+  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: rgba(200, 169, 107, 0.5);
+  line-height: 1;
+  letter-spacing: 1px;
+  transition: color 0.35s ease;
+}
+
+.case-card:hover .case-number {
+  color: rgba(200, 169, 107, 0.9);
+}
+
+.case-badge {
+  font-family: 'Assistant', 'Inter', system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 1px solid;
+}
+
+.badge-economic {
+  background: rgba(200, 169, 107, 0.1);
+  color: #C8A96B;
+  border-color: rgba(200, 169, 107, 0.3);
+}
+
+.badge-theft {
+  background: rgba(231, 76, 60, 0.1);
+  color: #E74C3C;
+  border-color: rgba(231, 76, 60, 0.3);
+}
+
+.badge-intel {
+  background: rgba(52, 152, 219, 0.1);
+  color: #3498DB;
+  border-color: rgba(52, 152, 219, 0.3);
+}
+
+/* ===== CARD BODY ===== */
+.case-card-body {
+  padding: 20px 28px 28px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.case-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  background: rgba(200, 169, 107, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  border: 1px solid rgba(200, 169, 107, 0.15);
+  transition: background 0.35s ease, border-color 0.35s ease;
+  overflow: hidden;
+}
+
+.case-card:hover .case-icon-wrapper {
+  background: rgba(200, 169, 107, 0.14);
+  border-color: rgba(200, 169, 107, 0.3);
+}
+
+.case-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  max-width: 100%;
+  height: auto;
+}
+
+.case-title {
+  font-family: 'Assistant', 'Inter', system-ui, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 14px;
+  line-height: 1.45;
+  letter-spacing: 0.2px;
+}
+
+.case-summary {
+  font-family: 'Assistant', 'Inter', system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+  line-height: 1.7;
+  flex: 1;
+}
+
+/* ===== CARD FOOTER ===== */
+.case-card-footer {
+  padding: 0 28px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: auto;
+}
+
+.case-read-more {
+  display: inline-block;
+  font-family: 'Assistant', 'Inter', system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #C8A96B;
+  padding-top: 16px;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  letter-spacing: 0.3px;
+}
+
+.case-card:hover .case-read-more {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ===== CTA ===== */
+.cases-cta {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.cases-cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Assistant', 'Inter', system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: transparent;
+  border: 2px solid rgba(200, 169, 107, 0.4);
+  padding: 14px 36px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.35s ease;
+  letter-spacing: 0.3px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cases-cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(200, 169, 107, 0.15), rgba(200, 169, 107, 0.05));
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  border-radius: 50px;
+}
+
+.cases-cta-button:hover {
+  border-color: #C8A96B;
+  box-shadow: 0 8px 30px rgba(200, 169, 107, 0.2);
+  transform: translateY(-2px);
+}
+
+.cases-cta-button:hover::before {
+  opacity: 1;
+}
+
+.cases-cta-arrow {
+  display: inline-block;
+  transition: transform 0.35s ease;
+  font-size: 1.1rem;
+}
+
+.cases-cta-button:hover .cases-cta-arrow {
+  transform: translateX(-4px);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .cases-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .cases-heading {
+    font-size: 2.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .cases-section {
+    padding: 60px 16px;
+  }
+
+  .cases-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cases-header {
+    margin-bottom: 40px;
+  }
+
+  .cases-heading {
+    font-size: 2rem;
+  }
+
+  .cases-subtitle {
+    font-size: 1rem;
+  }
+
+  .case-card-header {
+    padding: 20px 22px 0;
+  }
+
+  .case-card-body {
+    padding: 16px 22px 22px;
+  }
+
+  .case-card-footer {
+    padding: 0 22px 20px;
+  }
+
+  .case-number {
+    font-size: 2rem;
+  }
+
+  .case-title {
+    font-size: 1.05rem;
+  }
+
+  .case-summary {
+    font-size: 0.9rem;
+  }
+
+  .case-read-more {
+    opacity: 0.7;
+    transform: translateX(0);
+  }
+
+  .cases-cta-button {
+    padding: 12px 28px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cases-heading {
+    font-size: 1.65rem;
+  }
+
+  .case-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .case-number {
+    font-size: 1.75rem;
+  }
+
+  .case-badge {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+  }
+
+  .case-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+  }
+
+  .case-icon {
+    width: 26px;
+    height: 26px;
+  }
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
