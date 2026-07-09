@@ -49,16 +49,15 @@ Information about WCAG compliance and accessibility features.
 - Phone (tel): tel:+972543975210
 
 ### Contact form
-- URL: https://prdsbi.com/contact
+- URL: https://prdsbi.com
 - Endpoint: https://prdsbi.com/api/email/contact-form
 - Method: POST
 - Content-Type: application/json
 - Fields:
   - `name` (text, required)
+  - `phone` (tel, required)
   - `email` (email, required)
-  - `phone` (tel)
-  - `message` (textarea, required)
-  - `privacy_consent` (checkbox, required)
+  - `message` (textarea)
 
 ---
 
