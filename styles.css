@@ -10345,6 +10345,10 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
 .site-footer .footer-hours li {
   flex-direction: row !important;
 }
+
+.site-footer .footer-badge {
+  flex-direction: row !important;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
