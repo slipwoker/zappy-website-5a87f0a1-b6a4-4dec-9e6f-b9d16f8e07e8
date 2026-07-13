@@ -10330,6 +10330,10 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
     font-size: 1rem;
   }
 }
+
+#contact-section .form-submit-btn .btn-icon svg {
+  transform: scaleX(-1);
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
