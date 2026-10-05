@@ -668,6 +668,47 @@ window.onload = function() {
 })();
 /* ZAPPY_CUSTOM_JS_END:dbb2fbcd8c01 */
 
+/* ZAPPY_CUSTOM_JS_START:8fab2b779f1a */
+(function () {
+  function __zappyCustomInit() {
+    try {
+(function () {
+  function bindContactCards() {
+    var cards = document.querySelectorAll('#contact-contact-details-section article.contact-card');
+    if (!cards.length) return;
+    cards.forEach(function (card) {
+      if (card.__contactBound) return;
+      card.__contactBound = true;
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function (e) {
+        var link = card.querySelector('a.contact-card-link');
+        if (!link) return;
+        var href = link.getAttribute('href');
+        if (!href) return;
+        if (link.getAttribute('target') === '_blank') {
+          return;
+        }
+        window.location.href = href;
+      });
+    });
+  }
+  bindContactCards();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindContactCards);
+  }
+})();
+    } catch (e) {
+      if (typeof console !== 'undefined' && console.warn) { console.warn('[zappy-custom-js]', e); }
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', __zappyCustomInit);
+  } else {
+    __zappyCustomInit();
+  }
+})();
+/* ZAPPY_CUSTOM_JS_END:8fab2b779f1a */
+
 
 /* ZAPPY_PUBLISHED_LIGHTBOX_RUNTIME */
 (function(){
