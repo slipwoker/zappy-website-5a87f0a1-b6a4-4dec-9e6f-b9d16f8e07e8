@@ -10408,6 +10408,20 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
 /* zappy-self-heal */
 .contact-contact-details-section .contact-card > * { pointer-events: none !important; }
 
+
+#contact-contact-details-section .contact-card-link,
+#contact-contact-details-section .contact-card {
+  position: relative;
+  z-index: 5;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  pointer-events: auto !important;
+}
+
+#contact-contact-details-section .contact-card-link * {
+  pointer-events: auto !important;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
