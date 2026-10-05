@@ -709,6 +709,45 @@ window.onload = function() {
 })();
 /* ZAPPY_CUSTOM_JS_END:8fab2b779f1a */
 
+/* ZAPPY_CUSTOM_JS_START:4a70f879f420 */
+(function () {
+  function __zappyCustomInit() {
+    try {
+(function () {
+  function bindLeadTracking() {
+    var forms = document.querySelectorAll('form.contact-form, form.ccf-form, form[class*="contact-form"]');
+    if (!forms.length) return;
+    forms.forEach(function (form) {
+      if (form.__leadTracked) return;
+      form.__leadTracked = true;
+      form.addEventListener('submit', function () {
+        try {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ 'event': 'generate_lead' });
+          if (typeof gtag === 'function') {
+            gtag('event', 'generate_lead');
+          }
+        } catch (err) {}
+      });
+    });
+  }
+  bindLeadTracking();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindLeadTracking);
+  }
+})();
+    } catch (e) {
+      if (typeof console !== 'undefined' && console.warn) { console.warn('[zappy-custom-js]', e); }
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', __zappyCustomInit);
+  } else {
+    __zappyCustomInit();
+  }
+})();
+/* ZAPPY_CUSTOM_JS_END:4a70f879f420 */
+
 
 /* ZAPPY_PUBLISHED_LIGHTBOX_RUNTIME */
 (function(){
