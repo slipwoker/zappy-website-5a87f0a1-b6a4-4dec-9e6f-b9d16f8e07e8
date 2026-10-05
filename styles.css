@@ -10349,6 +10349,22 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
 .site-footer .footer-badge {
   flex-direction: row !important;
 }
+
+.contact-contact-details-section .contact-card {
+  position: relative !important;
+  cursor: pointer !important;
+}
+
+.contact-contact-details-section .contact-card-value a {
+  position: static !important;
+}
+
+.contact-contact-details-section .contact-card-value a::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 5 !important;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
