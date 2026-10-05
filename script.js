@@ -613,6 +613,61 @@ window.onload = function() {
     }
 })();
 
+/* ZAPPY_CUSTOM_JS_START:dbb2fbcd8c01 */
+(function () {
+  function __zappyCustomInit() {
+    try {
+(function () {
+  function fireGenerateLead(form) {
+    var leadData = {
+      event: 'generate_lead',
+      form_id: form.id || form.className || 'contact-form',
+      page_path: window.location.pathname,
+      timestamp: new Date().toISOString()
+    };
+    // GTM dataLayer push (custom variable/event for GTM)
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(leadData);
+    // GA4 direct event
+    if (typeof gtag === 'function') {
+      gtag('event', 'generate_lead', {
+        send_to: 'G-HSQMJZYGPN',
+        event_category: 'lead',
+        event_label: leadData.page_path
+      });
+    }
+  }
+
+  function attach() {
+    var forms = document.querySelectorAll('form.contact-form, form.ccf-form');
+    forms.forEach(function (form) {
+      if (form.getAttribute('data-lead-tracked')) return;
+      form.setAttribute('data-lead-tracked', 'true');
+      form.addEventListener('submit', function () {
+        // fire regardless of validation outcome — validation is browser-native via required
+        fireGenerateLead(form);
+      }, false);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', attach);
+  } else {
+    attach();
+  }
+})();
+    } catch (e) {
+      if (typeof console !== 'undefined' && console.warn) { console.warn('[zappy-custom-js]', e); }
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', __zappyCustomInit);
+  } else {
+    __zappyCustomInit();
+  }
+})();
+/* ZAPPY_CUSTOM_JS_END:dbb2fbcd8c01 */
+
 
 /* ZAPPY_PUBLISHED_LIGHTBOX_RUNTIME */
 (function(){
