@@ -10388,6 +10388,26 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
 /* zappy-self-heal */
 .contact-contact-details-section .contact-card-link { display: flex !important; }
 
+
+.contact-contact-details-section .contact-card-link {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.contact-contact-details-section .contact-card > * {
+  pointer-events: none;
+}
+
+.contact-contact-details-section .contact-card-link, .contact-contact-details-section .contact-card-link * {
+  pointer-events: auto;
+}
+/* zappy-self-heal */
+.contact-contact-details-section .contact-card > * { pointer-events: none !important; }
+
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
