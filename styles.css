@@ -10422,6 +10422,160 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
 #contact-contact-details-section .contact-card-link * {
   pointer-events: auto !important;
 }
+
+.index-hero-section .index-hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(200,169,107,0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,169,107,0.14) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 90% 90% at 75% 50%, #000 0%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 75% 50%, #000 0%, transparent 78%);
+  opacity: 0.5;
+}
+
+.index-hero-section .index-hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 20%, rgba(200,169,107,0.20) 0%, transparent 45%),
+    radial-gradient(circle at 85% 70%, rgba(31,58,95,0.55) 0%, transparent 50%),
+    radial-gradient(circle at 60% 30%, rgba(91,101,115,0.25) 0%, transparent 40%);
+  mix-blend-mode: screen;
+  animation: heroPulse 9s ease-in-out infinite;
+}
+
+@keyframes heroPulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.85; }
+}
+
+.index-hero-section .index-hero-scrim::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(200,169,107,0.6), transparent);
+  animation: scanSweep 7s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scanSweep {
+  0% { top: 8%; opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { top: 92%; opacity: 0; }
+}
+
+.index-hero-section::before,
+.index-hero-section::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.index-hero-section::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--accent-color, var(--accent, #C8A96B));
+  box-shadow: 0 0 12px rgba(200,169,107,0.9);
+  top: 28%;
+  right: 18%;
+  animation: floatParticle 8s ease-in-out infinite;
+}
+
+.index-hero-section::after {
+  content: '';
+  width: 4px;
+  height: 4px;
+  background: #6f8fb5;
+  box-shadow: 0 0 10px rgba(111,143,181,0.9);
+  top: 62%;
+  right: 8%;
+  animation: floatParticle 11s ease-in-out infinite;
+}
+
+@keyframes floatParticle {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(-28px); opacity: 1; }
+}
+
+.index-capabilities-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(31,58,95,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(31,58,95,0.06) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 75% 70% at 50% 12%, #000 0%, transparent 76%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 12%, #000 0%, transparent 76%);
+}
+
+.index-capabilities-section::after {
+  content: '';
+  position: absolute;
+  top: -120px;
+  width: 560px;
+  height: 560px;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(200,169,107,0.10) 0%, transparent 65%);
+}
+
+.index-capabilities-section .index-capabilities-container {
+  position: relative;
+  z-index: 1;
+}
+
+.index-trust-signals-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(200,169,107,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,169,107,0.08) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 90% 90% at 50% 0%, #000 0%, transparent 82%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 0%, #000 0%, transparent 82%);
+  animation: itsGlow 10s ease-in-out infinite;
+}
+
+.index-trust-signals-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 55%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 80% 25%, rgba(31,58,95,0.6) 0%, transparent 55%),
+    radial-gradient(circle at 30% 80%, rgba(200,169,107,0.12) 0%, transparent 50%);
+  mix-blend-mode: screen;
+}
+
+@keyframes itsGlow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.9; }
+}
+
+.index-trust-signals-section .its-container {
+  z-index: 2;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
