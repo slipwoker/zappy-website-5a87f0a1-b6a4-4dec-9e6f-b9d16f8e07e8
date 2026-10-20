@@ -10646,6 +10646,55 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
   position: relative !important;
   z-index: 2 !important;
 }
+
+.index-hero-section .zappy-3d-particles,
+.index-capabilities-section .zappy-3d-particles,
+.index-trust-signals-section .zappy-3d-particles {
+  z-index: 2 !important;
+  opacity: 1 !important;
+}
+
+.index-hero-section .zappy-3d-particles {
+  z-index: 3 !important;
+}
+
+#index-hero-section .zappy-hero-particles .zp, .index-capabilities-section .zappy-3d-particles .zp, .index-trust-signals-section .zappy-3d-particles .zp {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,169,107,0.95) 0%, rgba(200,169,107,0.0) 70%);
+  box-shadow: 0 0 18px 6px rgba(200,169,107,0.45);
+  opacity: calc(0.35 + var(--d,0.5) * 0.6);
+  filter: blur(calc((1 - var(--d,0.5)) * 2.2px));
+  animation: zpFloat 6s ease-in-out infinite;
+}
+
+@keyframes zpFloat {
+  0%,100% { transform: translateY(0) translateX(0); }
+  25% { transform: translateY(-26px) translateX(12px); }
+  50% { transform: translateY(-48px) translateX(-6px); }
+  75% { transform: translateY(-22px) translateX(-16px); }
+}
+
+#index-hero-section .zappy-hero-particles .zp,
+.index-capabilities-section .zappy-hero-particles .zp,
+.index-trust-signals-section .zappy-hero-particles .zp,
+.index-capabilities-section .index-capabilities-container .zappy-hero-particles .zp,
+.index-trust-signals-section .its-container .zappy-hero-particles .zp {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,224,150,1) 0%, rgba(200,169,107,0.9) 40%, rgba(200,169,107,0) 72%);
+  box-shadow: 0 0 40px 14px rgba(200,169,107,0.65), 0 0 80px 30px rgba(200,169,107,0.28);
+  opacity: 0.9 !important;
+  filter: none;
+  animation: zpFloat 6s ease-in-out infinite;
+}
+
+@keyframes zpFloat {
+  0%,100% { transform: translateY(0) translateX(0); }
+  25% { transform: translateY(-30px) translateX(14px); }
+  50% { transform: translateY(-56px) translateX(-8px); }
+  75% { transform: translateY(-26px) translateX(-18px); }
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,

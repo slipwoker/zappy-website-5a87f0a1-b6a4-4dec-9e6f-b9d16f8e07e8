@@ -748,6 +748,81 @@ window.onload = function() {
 })();
 /* ZAPPY_CUSTOM_JS_END:4a70f879f420 */
 
+/* ZAPPY_CUSTOM_JS_START:00a35557c54b */
+(function () {
+  function __zappyCustomInit() {
+    try {
+(function () {
+  // 3D floating particles layer — injected over each section's background
+  function createParticles(root) {
+    if (!root) return;
+    if (root.querySelector('.zappy-3d-particles')) return;
+
+    var layer = document.createElement('div');
+    layer.className = 'zappy-3d-particles';
+    layer.setAttribute('aria-hidden', 'true');
+    layer.style.cssText = 'position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1;';
+    root.insertBefore(layer, root.firstChild);
+
+    var count = 22;
+    for (var i = 0; i < count; i++) {
+      var p = document.createElement('span');
+      // random depth 0..1 → size/alpha/blur vary for 3D feel
+      var depth = Math.random();
+      var size = 2 + depth * 7;               // 2..9 px
+      var blur = (1 - depth) * 3;             // far = blurry
+      var alpha = 0.25 + depth * 0.55;        // far = faint, near = bright
+      var dur = 9 + Math.random() * 14;       // 9..23 s
+      var delay = -Math.random() * 20;
+      var x = Math.random() * 100;
+      var drift = -40 + Math.random() * 80;   // horizontal drift
+
+      p.style.cssText =
+        'position:absolute;left:' + x.toFixed(1) + '%;bottom:-20px;' +
+        'width:' + size.toFixed(1) + 'px;height:' + size.toFixed(1) + 'px;' +
+        'border-radius:50%;' +
+        'background:radial-gradient(circle,rgba(200,169,107,' + alpha.toFixed(2) + ') 0%,rgba(200,169,107,0) 70%);' +
+        'box-shadow:0 0 ' + (size * 2.5).toFixed(1) + 'px '+ (size * 1.2).toFixed(1) + 'px rgba(200,169,107,' + (alpha*0.6).toFixed(2) + ');' +
+        'filter:blur(' + blur.toFixed(1) + 'px);' +
+        'animation:zappyFloat3d ' + dur.toFixed(1) + 's linear ' + delay.toFixed(1) + 's infinite;';
+
+      p.setAttribute('data-drift', drift.toFixed(1));
+      layer.appendChild(p);
+    }
+  }
+
+  var roots = [
+    document.querySelector('.index-hero-section .index-hero-bg'),
+    document.querySelector('.index-capabilities-section'),
+    document.querySelector('.index-trust-signals-section')
+  ];
+  roots.forEach(createParticles);
+
+  // keyframes (injected once)
+  if (!document.getElementById('zappy-3d-keyframes')) {
+    var st = document.createElement('style');
+    st.id = 'zappy-3d-keyframes';
+    st.textContent =
+      '@keyframes zappyFloat3d {' +
+      '  0%   { transform: translate3d(0,0,0) scale(1); }' +
+      '  50%  { transform: translate3d(var(--drift,20px), -70vh, 0) scale(1.4); }' +
+      '  100% { transform: translate3d(0,-140vh,0) scale(0.8); }' +
+      '}';
+    document.head.appendChild(st);
+  }
+})();
+    } catch (e) {
+      if (typeof console !== 'undefined' && console.warn) { console.warn('[zappy-custom-js]', e); }
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', __zappyCustomInit);
+  } else {
+    __zappyCustomInit();
+  }
+})();
+/* ZAPPY_CUSTOM_JS_END:00a35557c54b */
+
 
 /* ZAPPY_PUBLISHED_LIGHTBOX_RUNTIME */
 (function(){
