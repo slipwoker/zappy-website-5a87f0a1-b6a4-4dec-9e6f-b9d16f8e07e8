@@ -10707,6 +10707,11 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
 .index-trust-signals-section .zappy-hero-particles {
   display: none !important;
 }
+
+.index-hero-section .index-hero-divider-wrapper,
+.index-capabilities-section .index-capabilities-divider-wrapper {
+  display: none !important;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
