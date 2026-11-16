@@ -10712,6 +10712,15 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
 .index-capabilities-section .index-capabilities-divider-wrapper {
   display: none !important;
 }
+
+.index-hero-section .zappy-3d-particles,
+.index-hero-section .zappy-3d-particles span,
+.index-capabilities-section .zappy-3d-particles,
+.index-capabilities-section .zappy-3d-particles span,
+.index-trust-signals-section .zappy-3d-particles,
+.index-trust-signals-section .zappy-3d-particles span {
+  display: none !important;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
