@@ -10695,6 +10695,18 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
   50% { transform: translateY(-56px) translateX(-8px); }
   75% { transform: translateY(-26px) translateX(-18px); }
 }
+
+.index-hero-section .zappy-hero-particles,
+.index-hero-section .hero-particle,
+.index-hero-section .hero-tech-glow,
+.index-hero-section .index-hero-emblem,
+.index-capabilities-section .cap-tech-glow,
+.index-capabilities-section .zappy-hero-particles,
+.index-trust-signals-section .its-tech-glow,
+.index-trust-signals-section .its-bg-shield,
+.index-trust-signals-section .zappy-hero-particles {
+  display: none !important;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
