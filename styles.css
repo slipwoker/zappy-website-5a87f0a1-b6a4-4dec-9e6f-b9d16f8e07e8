@@ -10233,6 +10233,13 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
 .index-trust-signals-section .zappy-3d-particles span {
   display: none !important;
 }
+
+.index-hero-section div.index-hero-scrim::after {
+  content: none !important;
+  animation: none !important;
+  display: none !important;
+  height: 0 !important;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
