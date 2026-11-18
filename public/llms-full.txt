@@ -825,76 +825,80 @@ Description: שירותים | פרד&quot;ס חקירות. חקירות כלכל
 English
 
 
-צור קשר                     מקרים לדוגמה
-## הגישה שלנו בפועל — מקרים לדוגמה
+צור קשר
 
-כל מקרה הוא ייחודי. להלן דוגמאות אנונימיות לאופן שבו פרד"ס חקירות מטפל בתיקים מורכבים — תוך שמירה מוחלטת על פרטיות הלקוח.
-01   שירות מוביל
-## מודיעין עסקי
+Case Studies
 
-שירות מקיף ומעמיק הכולל איסוף, ניתוח ועיבוד מידע עסקי, כלכלי ואסטרטגי. אנו מספקים תמונת מצב מלאה על שותפים עסקיים פוטנציאליים, מתחרים, שווקים ומגמות — כדי שתוכלו לקבל החלטות מבוססות עובדות בביטחון מלא.
-- מיפוי עסקי ואסטרטגי
-- ניתוח מתחרים ושוק
-- מודיעין על גורמים עסקיים
+
+## Our Approach in Practice — Case Studies
+
+Every case is unique. Below are anonymous examples of how Pardes Investigations handles complex cases — while maintaining absolute client confidentiality.
+01 Leading Service
+## Business Intelligence
+
+A comprehensive and in-depth service encompassing the collection, analysis, and processing of business, financial, and strategic intelligence. We provide a complete picture of potential business partners, competitors, markets, and trends — so you can make fact-based decisions with full confidence.
+- Business and strategic mapping
+- Competitor and market analysis
+- Intelligence on business entities
 02
-### חקירות כלכליות
+### Economic Investigations
 
-בדיקת יכולת כלכלית, חשיפת הונאות ומעילות, ואיתור נכסים מוסתרים. אנו מתמחים בחשיפת מציאות פיננסית אמיתית מאחורי חזיתות עסקיות.
+Assessing financial capability, uncovering fraud and embezzlement, and locating hidden assets. We specialize in revealing the true financial reality behind business facades.
 03
-### בדיקת נאותות — Due Diligence
+### Due Diligence
 
-בדיקת נאותות לחברות בישראל ובחו"ל לפני שותפויות, השקעות, מיזוגים ורכישות. מסמך מקצועי ומפורט המאפשר קבלת החלטות מושכלת ומבוטחת.
+Due diligence for companies in Israel and abroad prior to partnerships, investments, mergers, and acquisitions. A professional and detailed report enabling informed and secure decision-making.
 04
-### סקר סיכונים עסקי
+### Business Risk Assessment
 
-זיהוי נקודות תורפה ארגוניות, הערכת חשיפות וסיכונים פנימיים וחיצוניים, ובניית תמונת סיכון כוללת לצורך קבלת החלטות ניהוליות מושכלות.
+Identifying organizational vulnerabilities, evaluating internal and external exposures and risks, and building a comprehensive risk profile to support informed management decisions.
 05
-### חקירות פנימיות לחברות
+### Internal Corporate Investigations
 
-חשיפת גניבות, מעילות, הדלפות מידע וריגול תעשייתי בתוך הארגון. חקירות פנים-ארגוניות מקצועיות המבוצעות בדיסקרטיות מוחלטת ובהתאם לחוק.
+Uncovering theft, embezzlement, information leaks, and industrial espionage within the organization. Professional internal investigations conducted with absolute discretion and in full compliance with the law.
 06
-### מעקבים — אנליסטים ועבודת שטח
+### Surveillance — Analysts & Field Work
 
-מעקב פיזי וטכנולוגי המשלב אנליסטים מנוסים עם חוקרי שטח מומחים — לתמונה מלאה ומאומתת. שימוש בכלים מתקדמים לאיסוף ראיות, בהתאם לכל דרישות החוק הישראלי.
+Physical and technological surveillance combining experienced analysts with expert field investigators — for a complete and verified picture. Use of advanced evidence-gathering tools, in full compliance with all Israeli legal requirements.
 07
-### חקירות אינטרנט ודיגיטל
+### Internet & Digital Investigations
 
-זיהוי השמצות, בריונות רשת וחשיפת זהויות אנונימיות ברשת. מיפוי נוכחות דיגיטלית, חשיפת פעילות מקוונת חשודה ואיסוף ראיות דיגיטליות.
+Identifying defamation, cyberbullying, and exposing anonymous online identities. Mapping digital presence, uncovering suspicious online activity, and collecting digital evidence.
 08
-### איתור נכסים וחייבים
+### Asset & Debtor Tracing
 
-שירות איתור מוביל
+Leading Tracing Service
 
-מיפוי ואיתור נכסים מוסתרים, חשבונות בנק, נדל"ן, חברות וזכויות בישראל ובחו"ל. שירות ייעודי לעורכי דין, נושים ובעלי דין המבקשים לממש פסקי דין.
+Mapping and locating hidden assets, bank accounts, real estate, companies, and rights in Israel and abroad. A dedicated service for attorneys, creditors, and litigants seeking to enforce court judgments.
 09
-### חקירות נדל"ן
+### Real Estate Investigations
 
-בדיקות רקע, בעלות ומחלוקות בתחום הנדל"ן. חשיפת היסטוריית נכסים, זיהוי בעלי עניין נסתרים ואיתור מידע קריטי לפני עסקאות נדל"ן משמעותיות.
+Background checks, ownership verification, and dispute investigation in the real estate sector. Uncovering property history, identifying hidden stakeholders, and locating critical information prior to significant real estate transactions.
 10
-### שירותים לעורכי דין
+### Legal Support Services
 
-איסוף ראיות, עדויות ומסמכים לתמיכה בהליכים משפטיים. שיתוף פעולה צמוד עם עורכי דין לאורך כל שלבי ההליך — מהכנת התיק ועד לסיומו.
+Collecting evidence, testimonies, and documents to support legal proceedings. Close collaboration with attorneys throughout all stages of the process — from case preparation through to conclusion.
 11
-### בדיקות רקע מקיפות
+### Comprehensive Background Checks
 
-בדיקות רקע על אנשי עסקים ועל חברות — בישראל ובחו"ל. חשיפת עבר פלילי, הליכים משפטיים, קשרים עסקיים ומידע רלוונטי נוסף לפני כניסה לשותפות עסקית.
+Background checks on individuals and companies — in Israel and abroad. Uncovering criminal history, legal proceedings, business connections, and other relevant information before entering into a business partnership.
 12
-### איתור אנשים
+### People Tracing
 
 
-שירות איתור מוביל
+Leading Tracing Service
 
 
-איתור מקצועי של אנשים שאבד קשר עמם — חייבים, יורשים, עדים, שותפים לשעבר ועוד. שימוש בשיטות OSINT מתקדמות ובעבודת שטח לאיתור מהיר ומדויק.
+Professional tracing of individuals who have lost contact — debtors, heirs, witnesses, former partners, and more. Use of advanced OSINT methods and field operations for fast and accurate tracing.
 13
-### חקירות בזמן סכסוכים עסקיים
+### Investigations During Business Disputes
 
-תמיכה חקירתית מלאה בעת סכסוכים בין שותפים עסקיים, תביעות מסחריות ומחלוקות ניהוליות. איסוף ראיות, חשיפת פעולות נסתרות ותיעוד מוסמך לשימוש בהליכים משפטיים.
+Full investigative support during disputes between business partners, commercial claims, and management conflicts. Evidence collection, uncovering concealed actions, and certified documentation for use in legal proceedings.
 14
-### בדיקת בני זוג לפני חתונה
+### Pre-Marital Partner Screening
 
-בדיקת רקע מקיפה ודיסקרטית לפני נישואים — כולל עבר פלילי, מצב אישי ומשפחתי, חובות ומצב כלכלי, ואמינות כללית. מתבצעת בסודיות מוחלטת ובמהירות.
-לפנייה ראשונית דיסקרטית   כל פנייה מטופלת בסודיות מלאה                               מודיעין עסקי
+A comprehensive and discreet pre-marriage background check — including criminal history, personal and family status, debts and financial standing, and overall credibility. Conducted in complete confidentiality and with speed.
+For a discreet initial inquiry   Every inquiry is handled in complete confidentiality                               מודיעין עסקי
 ## מודיעין עסקי —ידע שמוביל להחלטות נכונות
 
 בעידן שבו מידע הוא הנכס האסטרטגי החשוב ביותר, פרד"ס חקירות מספקת ללקוחותיה יתרון תחרותי מהותי. אנו מבצעים איסוף, ניתוח ועיבוד מידע עסקי ברמה מקצועית גבוהה — הן בישראל והן בחו"ל — תוך שמירה על דיסקרטיות מוחלטת ועמידה בכל דרישות הדין.
