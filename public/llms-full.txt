@@ -830,26 +830,26 @@ Description: שירותים | פרד&quot;ס חקירות. חקירות כלכל
 English
 
 
-צור קשר                   שירותים
-## שירותי חקירות ומודיעין לעסקים, עורכי דין וללקוחות פרטיים
+צור קשר                   Services
+## Investigation and Intelligence Services for Businesses, Attorneys, and Private Clients
 
-פרד"ס חקירות מספקת שירותי חקירה ומודיעין מקצועיים ללקוחות פרטייםו עיסקיים. כל בירור — בין אם אישי, פיננסי או תאגידי — מטופל בדיסקרטיות מוחלטת, תוך עמידה קפדנית בדרישות החוק, והוא מוגש כדוח מאומת וקביל בבית המשפט.
-
-
-01 השירות המוביל
-
-## בירורים פרטיים ובדיקות רקע אישיות
+P.R.D.S Investigations provides professional investigation and intelligence services to private and business clients. Every inquiry — whether personal, financial, or corporate — is handled with absolute discretion, in strict compliance with legal requirements, and is delivered as a verified report admissible in court.
 
 
+01 Leading Service
 
-בדיקות רקע דיסקרטיות, בירורים אישיים ואימות מידע לעניינים פרטיים ואזרחיים. אנו מספקים תשובות ברורות וחסויות ליחידים שזקוקים לדעת את האמת לפני קבלת החלטות אישיות.
+## Private Inquiries & Personal Background Checks
 
 
-- בדיקת נאמנות ואימות אישי של בני זוג
 
-- בדיקות רקע מקיפות על יחידים
+Discreet background checks, personal inquiries, and information verification for private and civil matters. We provide clear, confidential answers to individuals who need to know the truth before making personal decisions.
 
-- איתור אנשים ויצירת קשר מחדש עם מכרים
+
+- Loyalty checks and personal verification of partners
+
+- Comprehensive background checks on individuals
+
+- Locating people and reconnecting with acquaintances
 
 
 
@@ -858,11 +858,11 @@ English
 
 02
 
-### דיני משפחה ותמיכה בהליכים משפטיים
+### Family Law & Legal Proceedings Support
 
 
 
-שירותי חקירה ואיסוף ראיות התומכים בהליכים משפטיים, דיני משפחה וסכסוכים אזרחיים. ראיות קבילות בבית המשפט שנאספו תוך עמידה מלאה בכל דרישות החוק.
+Investigation and evidence-gathering services supporting legal proceedings, family law, and civil disputes. Court-admissible evidence collected in full compliance with all legal requirements.
 
 
 
@@ -870,11 +870,11 @@ English
 
 03
 
-### חקירות כלכליות ואיתור נכסים
+### Financial Investigations & Asset Tracing
 
 
 
-איתור נכסים מוסתרים, הערכת יכולת פיננסית וחשיפת הונאות — הן ליחידים והן לתאגידים. אנו חושפים את המציאות הפיננסית האמיתית שמאחורי חזות עסקית ואישית.
+Locating hidden assets, assessing financial capacity, and uncovering fraud — for both individuals and corporations. We reveal the true financial reality behind business and personal appearances.
 
 
 
@@ -882,11 +882,11 @@ English
 
 04
 
-### מודיעין עסקי ובדיקת נאותות
+### Business Intelligence & Due Diligence
 
 
 
-בחינה מקיפה לפני שותפויות עסקיות, השקעות ועסקאות תאגידיות — בישראל ובחו"ל. החלטות מבוססות עובדות המגובות בדיווח מקצועי ומפורט.
+Comprehensive examination prior to business partnerships, investments, and corporate transactions — in Israel and abroad. Fact-based decisions backed by professional and detailed reporting.
 
 
 
@@ -894,33 +894,33 @@ English
 
 05
 
-### חקירות סייבר ודיגיטל
+### Cyber & Digital Investigations
 
 
 
-חשיפת הונאות פנימיות, הדלפות מידע ועקבות דיגיטליות באמצעות כלי OSINT מתקדמים. זיהוי השמצות, בריונות ברשת וזהויות אנונימיות ברשת עם ראיות דיגיטליות קבילות.
+Exposing internal fraud, data leaks, and digital footprints using advanced OSINT tools. Identifying defamation, cyberbullying, and anonymous online identities with admissible digital evidence.
 
 
-לפנייה ראשונית דיסקרטית   כל פנייה מטופלת בסודיות מלאה                               מודיעין עסקי
-## מודיעין עסקי —ידע שמוביל להחלטות נכונות
+For a discreet initial inquiry   Every inquiry is handled in complete confidentiality                          Business Intelligence
+## Business Intelligence — Knowledge That Drives the Right Decisions
 
-בעידן שבו מידע הוא הנכס האסטרטגי החשוב ביותר, פרד"ס חקירות מספקת ללקוחותיה יתרון תחרותי מהותי. אנו מבצעים איסוף, ניתוח ועיבוד מידע עסקי ברמה מקצועית גבוהה — הן בישראל והן בחו"ל — תוך שמירה על דיסקרטיות מוחלטת ועמידה בכל דרישות הדין.
+In an era where information is the most important strategic asset, P.R.D.S Investigations provides its clients with a meaningful competitive advantage. We perform business intelligence collection, analysis, and processing at a high professional level — both in Israel and abroad — while maintaining absolute discretion and full compliance with all legal requirements.
 
-שירות המודיעין העסקי שלנו מיועד למנהלים בכירים, משקיעים, עורכי דין ותאגידים הנדרשים לתמונת מצב אמינה לפני קבלת החלטות קריטיות. הצוות שלנו, הכולל אנליסטים יוצאי מערכת הביטחון, מביא עמו מתודולוגיה מודיעינית מוכחת לעולם העסקי.
-- ### איסוף מידע עסקי וכלכלי מיפוי מקיף של פעילות עסקית, מבנה בעלות, מצב פיננסי, היסטוריית תאגידית ויחסי גומלין בין גורמים עסקיים — בישראל ובמדינות רבות בעולם.
-- ### מודיעין אסטרטגי ותחרותי ניתוח מתחרים, שותפים פוטנציאליים ושחקנים בשוק — לצורך קבלת החלטות השקעה, כניסה לשוק חדש, או הערכת סיכונים בעסקאות אסטרטגיות.
-- ### בדיקת נאותות לחברות בישראל ובחו"ל Due Diligence מקיף לפני שותפויות, מיזוגים, רכישות והשקעות — כולל בדיקת רקע פיננסי, משפטי ותדמיתי של הצד השני לעסקה.
-- ### מיפוי רפוטציה ויחסים בדיקת מוניטין, זיהוי קשרים עסקיים ואישיים, חשיפת ניגודי עניינים וסיכונים תדמיתיים — לפני כניסה לכל שותפות עסקית משמעותית.
-- ### מודיעין טרום-עסקה איסוף מידע ממוקד לתמיכה בהחלטות מורכבות — כולל זיהוי נכסים, בעלי עניין נסתרים, תביעות משפטיות תלויות ועומדות, ועוד.
-ניתוח מידע ברמה מודיעינית
-### מתודולוגיה מודיעינית
+Our business intelligence service is designed for senior executives, investors, attorneys, and corporations requiring a reliable situational picture before making critical decisions. Our team, which includes analysts with backgrounds in the defense establishment, brings a proven intelligence methodology to the business world.
+- ### Business & Financial Intelligence Gathering Comprehensive mapping of business activity, ownership structure, financial status, corporate history, and the interrelationships between business entities — in Israel and in many countries worldwide.
+- ### Strategic & Competitive Intelligence Analysis of competitors, potential partners, and market players — for investment decision-making, entering a new market, or risk assessment in strategic transactions.
+- ### Due Diligence for Companies in Israel and Abroad Comprehensive Due Diligence prior to partnerships, mergers, acquisitions, and investments — including financial, legal, and reputational background checks on the counterparty.
+- ### Reputation & Relationship Mapping Reputation assessment, identification of business and personal connections, exposure of conflicts of interest and reputational risks — before entering into any significant business partnership.
+- ### Pre-Transaction Intelligence Targeted intelligence gathering to support complex decisions — including identification of assets, hidden stakeholders, pending legal claims, and more.
+Intelligence-grade information analysis
+### Intelligence Methodology
 
-הצוות שלנו מיישם גישות מודיעיניות מוכחות שפותחו בשדה — OSINT, HUMINT ומקורות מסחריים — לאיסוף תמונת מצב מלאה ואמינה.
-OSINT   ניתוח פיננסי   מיפוי רשתות
-### זמינות ודיסקרטיות
+Our team applies proven intelligence approaches developed in the field — OSINT, HUMINT, and commercial sources — to gather a complete and reliable situational picture.
+OSINT Financial Analysis Network Mapping
+### Availability & Discretion
 
-כל חקירת מודיעין עסקי מתבצעת בסודיות מוחלטת. הדוחות מועברים ישירות ללקוח בלבד, ללא שמירת עותקים חיצוניים.
-100%   דיסקרטיות          בינ"ל   כיסוי גלובלי          רשוי   משרד המשפטים
+Every business intelligence investigation is conducted in absolute confidentiality. Reports are delivered directly to the client only, with no external copies retained.
+100% Discretion      Int'l Global Coverage      Licensed by the Ministry of Justice
 ## תחומי החקירה והמודיעין העסקי
 
 פרד"ס חקירות מציע שירותי חקירה פרטית ומודיעין עסקי ללקוחות פרטיים ועסקיים כאחד — בישראל ובחו"ל. כל שירות מותאם לצורך הספציפי ומבוצע בדיסקרטיות מלאה.
