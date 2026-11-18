@@ -2139,41 +2139,41 @@ English
 
 
 
+P.R.D.S Investigations · Case Studies
 
-פרד"ס חקירות · מקרי בוחן
 
+# Investigations That Speak For Themselves
 
 
-# חקירות שמדברותבעצמן
 
 
+### Cases from the Field: The Analysis, the Evidence, and the Bottom Line.
 
 
-### מקרים מהשטח: הניתוח, הראיות והשורה התחתונה.
 
 
 
 
 
+Ministry of Justice License
 
 
-רישיון משרד המשפטים
 
 
 
 
+Absolute Confidentiality Guaranteed
 
 
-סודיות מוחלטת מובטחת
 
 
 
 
 
+Contact us for a consultation
 
 
 
-צרו קשר לייעוץ
 
 
 
@@ -2203,14 +2203,9 @@ English
 
 
 
+Case Studies
 
-
-
-
-
-מקרי בוחן
-
-## תיקים נבחרים
+## Selected Cases
 
 
 
@@ -2227,89 +2222,85 @@ English
 
 
 
-אובדן מלאי וסיכונים
+Inventory Loss and Risks
 
-## חקירת אובדן מלאי - חשיפת כשל טכני והסרת חשד
+## Inventory Loss Investigation - Uncovering a Technical Failure and Clearing Suspicion
 
 
-חברה מובילה בתחום המשקאות התמודדה עם היעלמות עקבית של מלאי אלכוהול בהיקף נרחב, ללא עדים או קצוות חוט ברורים. המשרד התבקש לבצע חקירה מקיפה כדי לאתר את מקור הכשל, לספק תמונת מצב מדויקת ולהשיב את השקט המקצועי לארגון.
+A leading beverage company faced the consistent disappearance of alcohol inventory on a large scale, with no witnesses or clear leads. The firm was asked to conduct a comprehensive investigation to identify the source of the failure, provide an accurate picture of the situation, and restore professional peace of mind to the organization.
 
+Field
 
-תחום
+Risk Management & Complex Investigations
+Scope
 
-ניהול סיכונים וחקירות מורכבות
-היקף
+Nationwide (Manufacturing Plant)
 
-ארצי (מפעל ייצור)
 
 
 
 
 
 
+### Case Background
 
 
+A leading beverage company discovered that a significant quantity of alcohol products had vanished from production cycles without any clear explanation. Beyond the severe financial exposure, the uncertainty created a heavy burden and a creeping suspicion toward the staff and management, threatening to gravely damage the fabric of relationships and the organizational culture built over many years.
 
 
-### רקע המקרה
 
 
-חברה מובילה בתחום המשקאות גילתה כי כמות משמעותית של מוצרי אלכוהול נעלמה מחזורי הייצור ללא כל הסבר ברור. מעבר לחשיפה הפיננסית החמורה, אי-הוודאות יצרה נטל כבד וחשד זוחל כלפי צוות העובדים וההנהלה, דבר שאיים לפגוע אנושות במרקם היחסים ובתרבות הארגונית שנבנתה לאורך שנים.
 
 
 
+### Investigation Objective
 
 
+To conclusively and independently identify the source of the inventory loss, determine whether it stemmed from human involvement or a systemic failure, and provide management with decisive, evidence-based findings that would enable informed decisions with complete peace of mind and certainty.
 
 
-### מטרת הבדיקה
 
 
-לאתר באופן מוחלט ובלתי תלוי את מקור אובדן המלאי, לבחון האם מדובר בגורם אנושי או בכשל מערכתי, ולספק להנהלה ראיות חותכות ומבוססות שיאפשרו לקבל החלטות מתוך שקט נפשי וודאות מלאה.
 
 
 
+### What Was Done in Practice
 
 
+We conducted a systematic reconstruction of events and an end-to-end review of all production stages. The process included operational data analysis across multiple production cycles, combined with meticulous physical and technological inspections of the work environment.
 
 
-### מה נעשה בפועל
 
 
-ביצענו שחזור שיטתי של האירועים וסקירה מקצה לקצה של כל שלבי הייצור. הפעילות כללה ניתוח נתונים תפעוליים על פני מחזורי ייצור מרובים, בשילוב בדיקות פיזיות טכנולוגיות ומדוקדקות של סביבת העבודה.
 
 
 
+### Key Findings
 
 
+The investigation completely ruled out any human or criminal involvement on the part of the employees. The technical examination identified two defective filling heads in the bottling machine that caused a concealed and consistent leak during routine work breaks. Due to the structure of the production floor, the leaked liquid was absorbed and drained directly without leaving any visible traces, resulting in a significant numerical discrepancy that accumulated over several months.
 
 
-### ממצאים מרכזיים
 
 
-החקירה שללה לחלוטין מעורבות אנושית או פלילית מצד העובדים. בבדיקה הטכנית אותרו שני ראשי מילוי פגומים במכונת הביקבוק שגרמו לדליפה סמויה ועקבית במהלך הפסקות עבודה שגרתיות. בשל מבנה רצפת הייצור, הנוזל שדלף נספג ונוקז ישירות מבלי להשאיר עקבות גלויים לעין, דבר שהצטבר לפער מספרי משמעותי לאורך חודשים.
 
 
 
+### Outcome
 
 
+Upon presentation of the evidence-based findings, the source of the financial loss was identified and addressed immediately. The most significant outcome for the owner was the removal of the oppressive suspicion from the organization's staff and the full restoration of trust and professional peace of mind within the company — a testament to the firm's guiding principle: not every investigation ends in guilt, and sometimes the greatest achievement is unequivocally proving people's innocence.
 
 
-### תוצאה
 
 
-עם הצגת הממצאים המבוססים, מקור האובדן הפיננסי נחשף וטופל באופן מיידי. התוצאה המשמעותית ביותר עבור הבעלים הייתה הסרת החשד המעיק מעל אנשי הארגון והשבת האמון המלא והשקט המקצועי לחברה - עדות לעיקרון המוביל של המשרד: לא כל חקירה מסתיימת באשמה, ולפעמים ההישג הגדול ביותר הוא הוכחת חפותם של אנשים באופן חד-משמעי.
 
 
 
+"The relief was immediate. The investigation report not only stopped the financial bleeding, but above all lifted a heavy cloud of suspicion and fully restored my trust in my team."
 
 
-
-
-"ההקלה הייתה מיידית. דו"ח החקירה לא רק עצר את הדימום הפיננסי, אלא בעיקר הסיר ענן כבד של חשד והחזיר את האמון המלא בצוות העובדים שלי."
-
-
-— מסקנת הלקוח לאחר קבלת הדוח
+— Client's conclusion upon receiving the report
 
 
 
@@ -2325,89 +2316,84 @@ English
 
 
 
-גניבה פנימית ומהימנות עובדים
+Internal Theft & Employee Integrity
 
-## חקירת גניבה פנימית - חשיפת מעילה שיטתית במערך הלוגיסטי
+## Internal Theft Investigation - Exposing Systematic Embezzlement in the Logistics Network
 
 
-חברה גדולה המפעילה מועדון מסחר אלקטרוני וצרכנות גילתה כי מכשיר נייד נעלם מהמחסן המרכזי שלה. אירוע שנראה תחילה כנקודתי חשף במהרה חשד לתוכנית שיטתית ומתמשכת. התבקשנו לבצע חקירה מקיפה וממוקדת כדי לאתר את האחראים ולחשוף את מנגנון הפעולה.
+A large company operating an e-commerce and consumer club discovered that a mobile device had gone missing from its central warehouse. What initially appeared to be an isolated incident quickly revealed suspicions of a systematic and ongoing scheme. We were engaged to conduct a comprehensive and focused investigation to identify those responsible and uncover the method of operation.
 
+Field
 
-תחום
+Employee Reliability & Risk Management
 
-מהימנות עובדים וניהול סיכונים
+Scope
 
+Nationwide (Headquarters & Logistics)
 
-היקף
 
-ארצי (מטה ולוגיסטיקה)
 
 
 
 
+### Case Background
 
 
+The disappearance of a single mobile device from the central warehouse of an e-commerce company raised suspicions that this was not a random incident, but rather a systematic scheme that had been concealed for many months. The primary challenge was the complete absence of official inventory records for the missing merchandise, which prevented the possibility of tracing the source of the failure through conventional means.
 
 
 
-### רקע המקרה
 
 
-היעלמותו של מכשיר נייד בודד מהמחסן המרכזי של חברת מסחר אלקטרוני העלתה את החשד כי לא מדובר באירוע מקרי, אלא בתוכנית פעולה שיטתית שהוסתרה במשך חודשים ארוכים. האתגר המרכזי היה היעדר מוחלט של רישומי מלאי רשמיים עבור הסחורה החסרה, דבר שמנע את האפשרות לאתר את מקור הכשל באמצעים קונבנציונליים.
 
 
+### Investigation Objective
 
 
+To narrow suspicion from a list of eight employees with warehouse access, conduct a comprehensive in-depth investigation, and compile decisive and unambiguous evidence proving who was behind the inventory disappearance and the method they used.
 
 
 
-### מטרת הבדיקה
 
 
-למקד את החשד מתוך רשימה של שמונה עובדים בעלי גישה למחסן, לבצע בירור עומק מקיף, ולגבש ראיות חותכות וחד-משמעיות שיוכיחו מי עומד מאחורי היעלמות המלאי ובאיזו שיטה פעל.
 
 
+### What Was Done in Practice
 
 
+The firm's team conducted extensive intelligence and technological research (OSINT) on all suspects, cross-referencing data and digital activity. These indicators allowed the focus to be narrowed to just two key employees. Subsequently, strategic and structured interviews were conducted with all those involved, supported by professional polygraph examinations to corroborate the findings.
 
 
 
-### מה נעשה בפועל
 
 
-צוות המשרד ביצע מחקר מודיעיני וטכנולוגי נרחב (OSINT) על כלל החשודים, תוך הצלבת נתונים ופעילות דיגיטלית. אינדיקטורים אלו אפשרו לצמצם את המיקוד לשני עובדים מרכזיים בלבד. בהמשך לכך, נערכו ראיונות אסטרטגיים ומבניים לכלל המעורבים, אשר נתמכו בבדיקות פוליגרף מקצועיות לאישוש הממצאים.
 
 
+### Key Findings
 
 
+The investigation revealed that the logistics team leader — who held full authority and a sensitive position of trust over the entry and exit of goods — exploited his role to systematically intercept new devices immediately upon arrival, before they were recorded in the company's inventory systems. The devices were sold privately without leaving any paper trail, while completely suppressing receiving documentation.
 
 
 
-### ממצאים מרכזיים
 
 
-החקירה העלתה כי ראש צוות הלוגיסטיקה - אשר החזיק בסמכות מלאה ובעמדת אמון רגישה על כניסת ויציאת הסחורות - ניצל את תפקידו כדי ליירט באופן שיטתי מכשירים חדשים מיד עם הגעתם, עוד לפני שנרשמו במערכות המלאי של החברה. המכשירים נמכרו באופן פרטי ללא השארת עקבות ניירת, תוך דיכוי מוחלט של מסמכי הקבלה.
 
 
+### Outcome
 
 
+Through the combination of advanced digital intelligence and targeted frontal interviews, the systematic embezzlement was fully exposed and completely halted. A decisive findings report was submitted to company management, enabling full legal and disciplinary action, along with recommendations for remedying the security vulnerabilities in the logistics system.
 
 
 
-### תוצאה
 
 
-בזכות השילוב בין מודיעין דיגיטלי מתקדם לראיונות פרונטליים ממוקדים, המעילה השיטתית נחשפה במלואה והופסקה לחלוטין. להנהלת החברה הוגש דו"ח ממצאים חותך המאפשר נקיטת צעדים משפטיים ומשמעתיים מלאים, לצד המלצות לתיקון פרצות האבטחה במערך הלוגיסטי.
 
+"Knowing that the person responsible for preventing losses was the one running the embezzlement was difficult, but the precise report we received provided us with conclusive evidence, peace of mind, and the ability to take immediate legal action."
 
 
-
-
-
-"הידיעה שמי שאחראי על מניעת האובדן הוא זה שניהל את המעילה הייתה קשה, אך הדו"ח המדויק שקיבלנו סיפק לנו ראיות חותכות, שקט נפשי ויכולת לפעול משפטית באופן מיידי."
-
-
-— מסקנת הלקוח לאחר קבלת הדו"ח
+— Client's conclusion upon receiving the report
 
 
 
@@ -2423,100 +2409,96 @@ English
 
 
 
-סכסוכים עסקיים ומודיעין תחרותי
+Business Disputes & Competitive Intelligence
 
-## חקירת סכסוך עסקי - חשיפת ניגוד עניינים והטיית פרויקטים בשוק הנדל"ן
+## Business Dispute Investigation - Exposing Conflicts of Interest and Project Manipulation in the Real Estate Market
 
 
-חברת נדל"ן ויזמות נתקלה בחסמים מתמשכים ובחוסר יכולת לזכות ולבצע פרויקטים ביישוב ספציפי, בעקבות התנגדות של גורם מוניציפלי בעל השפעה. המשרד התבקש לבצע חקירה מקיפה כדי להבין את המניעים מאחורי חסמים אלו ולבחון האם שיקולים זרים או אינטרסים סמויים עומדים מאחורי קבלת ההחלטות.
+A real estate and development company encountered persistent obstacles and an inability to win and execute projects in a specific locality, following opposition from an influential municipal figure. The firm was engaged to conduct a comprehensive investigation to understand the motives behind these obstacles and examine whether foreign considerations or hidden interests were driving the decision-making.
 
+Field
 
-תחום
+Competitive Intelligence & OSINT Investigations
+Scope
 
-מודיעין תחרותי וחקירות OSINT
-היקף
+Nationwide (Real Estate & Municipal Sector)
 
-ארצי (מגזר נדל"ן ומוניציפלי)
 
 
 
 
 
+### Case Background
 
 
+A leading real estate company found itself repeatedly excluded from business opportunities and project execution in a particular locality, due to what appeared to be consistent and deliberate opposition from a local elected official. The company needed to uncover the true reason behind these obstacles, to determine whether it was facing fair competition or unlawful activity preventing it from operating in the field.
 
 
-### רקע המקרה
 
 
-חברת נדל"ן מובילה מצאה את עצמה מודרת שוב ושוב מהזדמנויות עסקיות ומביצוע פרויקטים ביישוב מסוים, בשל מה שנראה כהתנגדות עקבית ומכוונת מצד נבחר ציבור מקומי. החברה נדרשה לגלות את הסיבה האמיתית לחסמים אלו, כדי להבין האם היא מתמודדת עם תחרות הוגנת או עם פעילות בלתי חוקית המונעת ממנה לפעול בשטח.
 
 
 
+### Investigation Objective
 
 
+To map the full scope of the subject's connections, affiliations, and business activity, with the aim of identifying hidden personal or commercial interests that could explain his opposition to the real estate company and his blocking of its projects in the area.
 
 
-### מטרת הבדיקה
 
 
-למפות את מכלול קשריו, זיקותיו ופעילותו העסקית של נשוא החקירה, במטרה לאתר אינטרסים אישיים או מסחריים סמויים שיכולים להסביר את התנגדותו לחברת הנדל"ן ואת חסימת הפרויקטים שלה באזור.
 
 
 
+### What Was Done in Practice
 
 
+The firm's team conducted an in-depth intelligence investigation based on open sources (OSINT) and a scan of commercial and financial databases. The investigation included cross-referencing business registrations, analysis of digital connections, official committee protocols and media presence, alongside a meticulous examination of the entities and companies operating and executing public projects in the same geographic area.
 
 
-### מה נעשה בפועל
 
 
-צוות המשרד ביצע חקירת עומק מודיעינית מבוססת מקורות גלויים (OSINT) וסריקה של מאגרי מידע מסחריים ופיננסיים. החקירה כללה הצלבת רישומי עסקים, ניתוח קשרים דיגיטליים, פרוטוקולים של ועדות רשמיות ונוכחות תקשורתית, לצד בחינה מדוקדקת של הגופים והחברות הפועלים ומבצעים פרויקטים ציבוריים באותו מרחב גאוגרפי.
 
 
 
+### Key Findings
 
 
+The investigation revealed that the elected official was acting unlawfully and in serious conflict of interest: alongside his public role influencing the approval of projects and infrastructure, he was effectively serving as a developer in the employ of a company in direct competition with the real estate firm (the client). It further emerged that his ties with the competing company were deep and included direct involvement in projects in the area, while no public conflict of interest declaration — as required by law — was found regarding this activity.
 
 
-### ממצאים מרכזיים
 
 
-החקירה חשפה כי נבחר הציבור פועל שלא כדין ובניגוד עניינים חמור: במקביל לתפקידו הציבורי המשפיע על אישור פרויקטים ותשתיות, הוא משמש בפועל כיזם בשירותה של חברה מתחרה הישירה לחברת הנדל"ן (מזמינת העבודה). עוד עלה כי קשריו עם החברה המתחרה אדוקים וכוללים מעורבות ישירה בפרויקטים באזור, בעוד שלא נמצאה כל הצהרת ניגוד עניינים פומבית כנדרש בחוק לגבי פעילות זו.
 
 
 
+### Outcome
 
 
+The firm's report provided the real estate company with the "smoking gun" — conclusive, evidence-based proof that the professional obstacles it faced stemmed from a foreign business interest and unlawful activity by the subject of the investigation on behalf of the competing company. This strategic intelligence gave the company a decisive legal and business advantage in the dispute, and opened the path for it to act through the relevant administrative and legal channels to remove the obstacles and protect its rights.
 
 
-### תוצאה
 
 
-הדו"ח של המשרד העניק לחברת הנדל"ן את "האקדח המעשן" - הוכחה חותכת ומבוססת ראיות לכך שהחסמים המקצועיים מולם עמדה נבעו מאינטרס עסקי זר ומפעילות בלתי חוקית של נשוא החקירה לטובת החברה המתחרה. מידע אסטרטגי זה סיפק לחברה יתרון משפטי ועסקי מכריע בסכסוך, ופתח בפניה את הדרך לפעול בערוצים המנהליים והמשפטיים הרלוונטיים כדי להסיר את החסמים ולהגן על זכויותיה.
 
 
+"Thanks to the firm's report, we understood that we hadn't lost in fair competition, but had been blocked by a party acting in serious conflict of interest on behalf of our competitors. The evidence we received completely shifted the balance of power in the dispute."
 
 
+— Client's conclusion upon receiving the report
 
 
-"בזכות הדו"ח של המשרד הבנו שלא הפסדנו בתחרות הוגנת, אלא נחסמנו על ידי גורם שפעל בניגוד עניינים חמור עבור המתחרים שלנו. הראיות שקיבלנו שינו לחלוטין את מאזן הכוחות בסכסוך."
 
 
-— מסקנת הלקוח לאחר קבלת הדו"ח
 
 
 
 
 
+Every case is handled with absolute confidentiality, focused on the objective, and backed by proven experience.
 
 
-
-
-כל תיק מטופל בסודיות מוחלטת, ממוקד במטרה, ומגובה בניסיון מוכח.
-
-
-לפגישת ייעוץ ראשונית
+For an Initial Consultation Meeting
 
 
 
