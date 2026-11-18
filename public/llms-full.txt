@@ -832,23 +832,23 @@ Case Studies
 
 ## Our Approach in Practice — Case Studies
 
-Pardes Investigations provides professional investigative and intelligence services for private clients, businesses, law firms, and accountants. Every inquiry—whether personal, financial, or corporate—is handled with absolute discretion, rigorous legal compliance, and delivered as a verified, court-admissible report.
+פרד"ס חקירות מספקת שירותי חקירה ומודיעין מקצועיים ללקוחות פרטיים, עסקים, משרדי עורכי דין ורואי חשבון. כל בירור — בין אם אישי, פיננסי או תאגידי — מטופל בדיסקרטיות מוחלטת, תוך עמידה קפדנית בדרישות החוק, והוא מוגש כדוח מאומת וקביל בבית המשפט.
 
 
-01 Leading Service
+01 השירות המוביל
 
-## Private Inquiries & Personal Background Checks
-
-
-
-Discreet background vetting, personal inquiries, and verification for private and civil matters. We provide clear, confidential answers for individuals who need to know the truth before making personal decisions.
+## בירורים פרטיים ובדיקות רקע אישיות
 
 
-- Partner loyalty and personal verification
 
-- Comprehensive background checks on individuals
+בדיקות רקע דיסקרטיות, בירורים אישיים ואימות מידע לעניינים פרטיים ואזרחיים. אנו מספקים תשובות ברורות וחסויות ליחידים שזקוקים לדעת את האמת לפני קבלת החלטות אישיות.
 
-- People tracing and locating lost contacts
+
+- בדיקת נאמנות ואימות אישי של בני זוג
+
+- בדיקות רקע מקיפות על יחידים
+
+- איתור אנשים ויצירת קשר מחדש עם מכרים
 
 
 
@@ -857,11 +857,11 @@ Discreet background vetting, personal inquiries, and verification for private an
 
 02
 
-### Family Law & Litigation Support
+### דיני משפחה ותמיכה בהליכים משפטיים
 
 
 
-Investigation services and evidence collection supporting legal proceedings, family law, and civil disputes. Court-admissible evidence gathered in full compliance with every legal requirement.
+שירותי חקירה ואיסוף ראיות התומכים בהליכים משפטיים, דיני משפחה וסכסוכים אזרחיים. ראיות קבילות בבית המשפט שנאספו תוך עמידה מלאה בכל דרישות החוק.
 
 
 
@@ -869,11 +869,11 @@ Investigation services and evidence collection supporting legal proceedings, fam
 
 03
 
-### Financial Investigations & Asset Tracing
+### חקירות כלכליות ואיתור נכסים
 
 
 
-Tracing hidden assets, assessing financial capability, and exposing fraud for both individuals and corporations. We reveal the true financial reality behind business and personal facades.
+איתור נכסים מוסתרים, הערכת יכולת פיננסית וחשיפת הונאות — הן ליחידים והן לתאגידים. אנו חושפים את המציאות הפיננסית האמיתית שמאחורי חזות עסקית ואישית.
 
 
 
@@ -881,11 +881,11 @@ Tracing hidden assets, assessing financial capability, and exposing fraud for bo
 
 04
 
-### Business Intelligence & Due Diligence
+### מודיעין עסקי ובדיקת נאותות
 
 
 
-Comprehensive vetting prior to business partnerships, investments, and corporate transactions, in Israel and abroad. Fact-based decisions backed by professional, detailed reporting.
+בחינה מקיפה לפני שותפויות עסקיות, השקעות ועסקאות תאגידיות — בישראל ובחו"ל. החלטות מבוססות עובדות המגובות בדיווח מקצועי ומפורט.
 
 
 
@@ -893,11 +893,11 @@ Comprehensive vetting prior to business partnerships, investments, and corporate
 
 05
 
-### Cyber & Digital Investigations
+### חקירות סייבר ודיגיטל
 
 
 
-Exposing internal fraud, information leaks, and digital footprints using advanced OSINT tools. Identifying defamation, cyberbullying, and anonymous online identities with admissible digital evidence.
+חשיפת הונאות פנימיות, הדלפות מידע ועקבות דיגיטליות באמצעות כלי OSINT מתקדמים. זיהוי השמצות, בריונות ברשת וזהויות אנונימיות ברשת עם ראיות דיגיטליות קבילות.
 
 
 For a discreet initial inquiry   Every inquiry is handled in complete confidentiality                               מודיעין עסקי
