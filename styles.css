@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+Hebrew:wght@500;600;700&display=swap');
+
 
 
 /* Self-hosted fonts (Inter + Rubik for multi-language support) */
@@ -10239,6 +10241,12 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
   animation: none !important;
   display: none !important;
   height: 0 !important;
+}
+
+.case-examples-hero-section .ceh-h1,
+.case-examples-hero-section .ceh-h1 *,
+.case-examples-section .ceh-h1 {
+  font-family: 'Cormorant Garamond', 'Noto Serif Hebrew', Georgia, serif !important;
 }
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
